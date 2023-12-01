@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory = ly.post.dinar.\
+    config.SqlTestContainersSpringContextCustomizerFactory

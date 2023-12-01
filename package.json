@@ -60,6 +60,7 @@
     "webapp:build": "npm run clean-www && npm run webapp:build:dev --",
     "webapp:build:dev": "npm run vite-build",
     "webapp:build:prod": "npm run vite-build",
+    "webapp:dev": "npm run vite-serve",
     "webapp:prod": "npm run clean-www && npm run webapp:build:prod --",
     "webapp:serve": "npm run vite-serve",
     "webapp:test": "npm run test --"

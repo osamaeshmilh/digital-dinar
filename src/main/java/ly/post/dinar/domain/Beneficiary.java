@@ -1,6 +1,7 @@
 package ly.post.dinar.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import ly.post.dinar.domain.enumeration.IdType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -11,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("beneficiary")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Beneficiary implements Serializable {
+public class Beneficiary extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,6 +55,11 @@ public class Beneficiary implements Serializable {
 
     @Column("has_transferred")
     private Boolean hasTransferred;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -226,6 +232,30 @@ public class Beneficiary implements Serializable {
         this.hasTransferred = hasTransferred;
     }
 
+    // Inherited createdBy methods
+    public Beneficiary createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Beneficiary createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Beneficiary lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Beneficiary lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -262,6 +292,10 @@ public class Beneficiary implements Serializable {
             ", createdByUserId=" + getCreatedByUserId() +
             ", isVerified='" + getIsVerified() + "'" +
             ", hasTransferred='" + getHasTransferred() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

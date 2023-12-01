@@ -124,6 +124,22 @@
               <span v-text="t$('digitalDinarApp.transaction.createdByUserId')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdByUserId'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.transaction.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.transaction.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -155,6 +171,10 @@
             <td>{{ transaction.receiverId }}</td>
             <td>{{ transaction.receiverIdNo }}</td>
             <td>{{ transaction.createdByUserId }}</td>
+            <td>{{ transaction.createdBy }}</td>
+            <td>{{ formatDateShort(transaction.createdDate) || '' }}</td>
+            <td>{{ transaction.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(transaction.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'TransactionView', params: { transactionId: transaction.id } }" custom v-slot="{ navigate }">

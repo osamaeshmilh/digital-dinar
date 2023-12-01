@@ -55,6 +55,14 @@ public class WalletProfileCriteria implements Serializable, Criteria {
 
     private BooleanFilter buyVouchersFees;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdDate;
+
+    private StringFilter lastModifiedBy;
+
+    private InstantFilter lastModifiedDate;
+
     private Boolean distinct;
 
     public WalletProfileCriteria() {}
@@ -79,6 +87,10 @@ public class WalletProfileCriteria implements Serializable, Criteria {
         this.transferToConsumerFees = other.transferToConsumerFees == null ? null : other.transferToConsumerFees.copy();
         this.transferToBankFees = other.transferToBankFees == null ? null : other.transferToBankFees.copy();
         this.buyVouchersFees = other.buyVouchersFees == null ? null : other.buyVouchersFees.copy();
+        this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
+        this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
+        this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.lastModifiedDate = other.lastModifiedDate == null ? null : other.lastModifiedDate.copy();
         this.distinct = other.distinct;
     }
 
@@ -342,6 +354,66 @@ public class WalletProfileCriteria implements Serializable, Criteria {
         this.buyVouchersFees = buyVouchersFees;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public StringFilter createdBy() {
+        if (createdBy == null) {
+            createdBy = new StringFilter();
+        }
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public InstantFilter createdDate() {
+        if (createdDate == null) {
+            createdDate = new InstantFilter();
+        }
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public StringFilter getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public StringFilter lastModifiedBy() {
+        if (lastModifiedBy == null) {
+            lastModifiedBy = new StringFilter();
+        }
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(StringFilter lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public InstantFilter getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public InstantFilter lastModifiedDate() {
+        if (lastModifiedDate == null) {
+            lastModifiedDate = new InstantFilter();
+        }
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(InstantFilter lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -377,6 +449,10 @@ public class WalletProfileCriteria implements Serializable, Criteria {
             Objects.equals(transferToConsumerFees, that.transferToConsumerFees) &&
             Objects.equals(transferToBankFees, that.transferToBankFees) &&
             Objects.equals(buyVouchersFees, that.buyVouchersFees) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdDate, that.createdDate) &&
+            Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -401,6 +477,10 @@ public class WalletProfileCriteria implements Serializable, Criteria {
             transferToConsumerFees,
             transferToBankFees,
             buyVouchersFees,
+            createdBy,
+            createdDate,
+            lastModifiedBy,
+            lastModifiedDate,
             distinct
         );
     }
@@ -426,6 +506,10 @@ public class WalletProfileCriteria implements Serializable, Criteria {
             (transferToConsumerFees != null ? "transferToConsumerFees=" + transferToConsumerFees + ", " : "") +
             (transferToBankFees != null ? "transferToBankFees=" + transferToBankFees + ", " : "") +
             (buyVouchersFees != null ? "buyVouchersFees=" + buyVouchersFees + ", " : "") +
+            (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+            (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+            (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (lastModifiedDate != null ? "lastModifiedDate=" + lastModifiedDate + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

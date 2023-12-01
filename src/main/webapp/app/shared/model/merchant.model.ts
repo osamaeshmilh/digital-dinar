@@ -39,6 +39,10 @@ export interface IMerchant {
   lat?: number | null;
   lng?: number | null;
   notes?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   user?: IUser | null;
   category?: ICategory | null;
   city?: ICity | null;
@@ -79,6 +83,10 @@ export class Merchant implements IMerchant {
     public lat?: number | null,
     public lng?: number | null,
     public notes?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public user?: IUser | null,
     public category?: ICategory | null,
     public city?: ICity | null,

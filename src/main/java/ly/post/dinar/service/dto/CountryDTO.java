@@ -1,6 +1,7 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -20,6 +21,14 @@ public class CountryDTO implements Serializable {
     private String iso3;
 
     private Integer isoNo;
+
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     public Long getId() {
         return id;
@@ -69,6 +78,38 @@ public class CountryDTO implements Serializable {
         this.isoNo = isoNo;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -100,6 +141,10 @@ public class CountryDTO implements Serializable {
             ", iso2='" + getIso2() + "'" +
             ", iso3='" + getIso3() + "'" +
             ", isoNo=" + getIsoNo() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

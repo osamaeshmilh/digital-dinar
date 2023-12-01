@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.Beneficiary;
 import ly.post.dinar.domain.enumeration.IdType;
@@ -38,6 +39,10 @@ public class BeneficiaryRowMapper implements BiFunction<Row, String, Beneficiary
         entity.setCreatedByUserId(converter.fromRow(row, prefix + "_created_by_user_id", Long.class));
         entity.setIsVerified(converter.fromRow(row, prefix + "_is_verified", Boolean.class));
         entity.setHasTransferred(converter.fromRow(row, prefix + "_has_transferred", Boolean.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         return entity;
     }
 }

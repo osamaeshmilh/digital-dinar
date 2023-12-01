@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import dayjs from 'dayjs';
 
 import MerchantService from './merchant.service';
-import { DATE_FORMAT } from '@/shared/composables/date-format';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/shared/composables/date-format';
 import { Merchant } from '@/shared/model/merchant.model';
 
 const error = {
@@ -66,6 +66,10 @@ describe('Service Tests', () => {
         0,
         0,
         'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        currentDate,
       );
     });
 
@@ -74,6 +78,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             birthDate: dayjs(currentDate).format(DATE_FORMAT),
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -99,12 +105,16 @@ describe('Service Tests', () => {
           {
             id: 123,
             birthDate: dayjs(currentDate).format(DATE_FORMAT),
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -159,6 +169,10 @@ describe('Service Tests', () => {
             lat: 1,
             lng: 1,
             notes: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -166,6 +180,8 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -190,19 +206,22 @@ describe('Service Tests', () => {
       it('should partial update a Merchant', async () => {
         const patchObject = Object.assign(
           {
+            arabicMiddleName: 'BBBBBB',
             englishFirstName: 'BBBBBB',
-            englishMiddleName: 'BBBBBB',
-            registerNo: 'BBBBBB',
-            gender: 'BBBBBB',
+            commercialRegistryNo: 'BBBBBB',
+            birthPlace: 'BBBBBB',
+            nationalNo: 'BBBBBB',
+            idType: 'BBBBBB',
+            idNo: 'BBBBBB',
             mobileNo: 'BBBBBB',
             verifiedByEmailOtp: true,
             email: 'BBBBBB',
             nidStatus: 'BBBBBB',
-            isForeign: true,
-            postCode: 'BBBBBB',
-            address: 'BBBBBB',
-            lat: 1,
+            walletOwnerStatus: 'BBBBBB',
+            imageUrlFile: 'BBBBBB',
             lng: 1,
+            notes: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new Merchant(),
         );
@@ -211,6 +230,8 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -265,12 +286,18 @@ describe('Service Tests', () => {
             lat: 1,
             lng: 1,
             notes: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );

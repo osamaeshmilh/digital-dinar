@@ -29,6 +29,10 @@
       "notes": "Notes",
       "ownerId": "Owner Id",
       "walletOwnerType": "Wallet Owner Type",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "transaction": "Transaction"
     }
   }

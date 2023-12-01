@@ -1,6 +1,7 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,14 @@ public class ViewLogDTO implements Serializable {
     private String entityName;
 
     private Long entityId;
+
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     public Long getId() {
         return id;
@@ -37,6 +46,38 @@ public class ViewLogDTO implements Serializable {
 
     public void setEntityId(Long entityId) {
         this.entityId = entityId;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     @Override
@@ -67,6 +108,10 @@ public class ViewLogDTO implements Serializable {
             "id=" + getId() +
             ", entityName='" + getEntityName() + "'" +
             ", entityId=" + getEntityId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

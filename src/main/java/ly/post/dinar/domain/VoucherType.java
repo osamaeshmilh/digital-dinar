@@ -2,6 +2,7 @@ package ly.post.dinar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
@@ -12,7 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("voucher_type")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VoucherType implements Serializable {
+public class VoucherType extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +35,11 @@ public class VoucherType implements Serializable {
 
     @Column("menu_order")
     private Integer menuOrder;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @Transient
     @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
@@ -122,6 +128,30 @@ public class VoucherType implements Serializable {
         this.menuOrder = menuOrder;
     }
 
+    // Inherited createdBy methods
+    public VoucherType createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public VoucherType createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public VoucherType lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public VoucherType lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public VoucherCompany getVoucherCompany() {
         return this.voucherCompany;
     }
@@ -173,6 +203,10 @@ public class VoucherType implements Serializable {
             ", slug='" + getSlug() + "'" +
             ", amount=" + getAmount() +
             ", menuOrder=" + getMenuOrder() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

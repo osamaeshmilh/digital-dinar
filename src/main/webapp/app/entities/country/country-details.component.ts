@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import CountryService from './country.service';
+import { useDateFormat } from '@/shared/composables';
 import { type ICountry } from '@/shared/model/country.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'CountryDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const countryService = inject('countryService', () => new CountryService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       country,
 

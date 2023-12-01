@@ -150,6 +150,18 @@ class CityRepositoryInternalImpl extends SimpleR2dbcRepository<City, Long> imple
             if (criteria.getNameEn() != null) {
                 builder.buildFilterConditionForField(criteria.getNameEn(), entityTable.column("name_en"));
             }
+            if (criteria.getCreatedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedBy(), entityTable.column("created_by"));
+            }
+            if (criteria.getCreatedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedDate(), entityTable.column("created_date"));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedBy(), entityTable.column("last_modified_by"));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedDate(), entityTable.column("last_modified_date"));
+            }
             if (criteria.getCountryId() != null) {
                 builder.buildFilterConditionForField(criteria.getCountryId(), countryTable.column("id"));
             }

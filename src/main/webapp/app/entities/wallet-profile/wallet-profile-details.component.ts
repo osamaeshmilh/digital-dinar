@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import WalletProfileService from './wallet-profile.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IWalletProfile } from '@/shared/model/wallet-profile.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'WalletProfileDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const walletProfileService = inject('walletProfileService', () => new WalletProfileService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       walletProfile,
 

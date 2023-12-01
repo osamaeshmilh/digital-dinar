@@ -196,6 +196,30 @@
             <span>{{ merchant.notes }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.merchant.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ merchant.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.merchant.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="merchant.createdDate">{{ formatDateLong(merchant.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.merchant.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ merchant.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.merchant.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="merchant.lastModifiedDate">{{ formatDateLong(merchant.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.merchant.user')"></span>
           </dt>
           <dd>

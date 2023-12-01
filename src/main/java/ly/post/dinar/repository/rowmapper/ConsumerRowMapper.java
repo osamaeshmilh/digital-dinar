@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.Consumer;
@@ -58,6 +59,10 @@ public class ConsumerRowMapper implements BiFunction<Row, String, Consumer> {
         entity.setLat(converter.fromRow(row, prefix + "_lat", Float.class));
         entity.setLng(converter.fromRow(row, prefix + "_lng", Float.class));
         entity.setNotes(converter.fromRow(row, prefix + "_notes", String.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         entity.setUserId(converter.fromRow(row, prefix + "_user_id", Long.class));
         entity.setWalletProfileId(converter.fromRow(row, prefix + "_wallet_profile_id", Long.class));
         return entity;

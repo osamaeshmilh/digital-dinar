@@ -52,6 +52,22 @@
               <span v-text="t$('digitalDinarApp.country.isoNo')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'isoNo'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.country.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.country.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.country.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.country.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -65,6 +81,10 @@
             <td>{{ country.iso2 }}</td>
             <td>{{ country.iso3 }}</td>
             <td>{{ country.isoNo }}</td>
+            <td>{{ country.createdBy }}</td>
+            <td>{{ formatDateShort(country.createdDate) || '' }}</td>
+            <td>{{ country.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(country.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'CountryView', params: { countryId: country.id } }" custom v-slot="{ navigate }">

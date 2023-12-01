@@ -36,6 +36,30 @@
           <dd>
             <span>{{ country.isoNo }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.country.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ country.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.country.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="country.createdDate">{{ formatDateLong(country.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.country.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ country.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.country.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="country.lastModifiedDate">{{ formatDateLong(country.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

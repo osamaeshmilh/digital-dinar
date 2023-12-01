@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import MerchantService from './merchant.service';
 import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IMerchant } from '@/shared/model/merchant.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -11,6 +12,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'MerchantDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const merchantService = inject('merchantService', () => new MerchantService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -36,6 +38,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       merchant,
 

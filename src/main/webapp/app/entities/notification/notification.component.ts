@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import NotificationService from './notification.service';
 import { type INotification } from '@/shared/model/notification.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'Notification',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const notificationService = inject('notificationService', () => new NotificationService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveNotifications,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

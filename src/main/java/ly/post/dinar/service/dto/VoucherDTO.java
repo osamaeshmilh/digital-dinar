@@ -1,6 +1,7 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -20,6 +21,14 @@ public class VoucherDTO implements Serializable {
     private Boolean isSold;
 
     private Long sellTransactionId;
+
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     private VoucherTypeDTO voucherType;
 
@@ -73,6 +82,38 @@ public class VoucherDTO implements Serializable {
         this.sellTransactionId = sellTransactionId;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public VoucherTypeDTO getVoucherType() {
         return voucherType;
     }
@@ -120,6 +161,10 @@ public class VoucherDTO implements Serializable {
             ", serialNumber='" + getSerialNumber() + "'" +
             ", isSold='" + getIsSold() + "'" +
             ", sellTransactionId=" + getSellTransactionId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", voucherType=" + getVoucherType() +
             ", voucherCompany=" + getVoucherCompany() +
             "}";

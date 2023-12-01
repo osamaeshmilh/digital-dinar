@@ -17,6 +17,10 @@ public class ActivationSqlHelper {
         columns.add(Column.aliased("sent_on", table, columnPrefix + "_sent_on"));
         columns.add(Column.aliased("valid_until", table, columnPrefix + "_valid_until"));
         columns.add(Column.aliased("is_used", table, columnPrefix + "_is_used"));
+        columns.add(Column.aliased("created_by", table, columnPrefix + "_created_by"));
+        columns.add(Column.aliased("created_date", table, columnPrefix + "_created_date"));
+        columns.add(Column.aliased("last_modified_by", table, columnPrefix + "_last_modified_by"));
+        columns.add(Column.aliased("last_modified_date", table, columnPrefix + "_last_modified_date"));
 
         return columns;
     }

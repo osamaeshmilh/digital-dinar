@@ -72,6 +72,22 @@
               <span v-text="t$('digitalDinarApp.paymentMethod.notes')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'notes'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.paymentMethod.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.paymentMethod.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.paymentMethod.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.paymentMethod.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -101,6 +117,10 @@
             <td>{{ paymentMethod.feePercentage }}</td>
             <td v-text="t$('digitalDinarApp.PaymentType.' + paymentMethod.paymentType)"></td>
             <td>{{ paymentMethod.notes }}</td>
+            <td>{{ paymentMethod.createdBy }}</td>
+            <td>{{ formatDateShort(paymentMethod.createdDate) || '' }}</td>
+            <td>{{ paymentMethod.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(paymentMethod.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link

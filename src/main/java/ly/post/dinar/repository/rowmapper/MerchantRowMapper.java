@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.Merchant;
@@ -60,6 +61,10 @@ public class MerchantRowMapper implements BiFunction<Row, String, Merchant> {
         entity.setLat(converter.fromRow(row, prefix + "_lat", Float.class));
         entity.setLng(converter.fromRow(row, prefix + "_lng", Float.class));
         entity.setNotes(converter.fromRow(row, prefix + "_notes", String.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         entity.setUserId(converter.fromRow(row, prefix + "_user_id", Long.class));
         entity.setCategoryId(converter.fromRow(row, prefix + "_category_id", Long.class));
         entity.setCityId(converter.fromRow(row, prefix + "_city_id", Long.class));

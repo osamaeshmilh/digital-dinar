@@ -24,6 +24,30 @@
           <dd>
             <span>{{ notification.userId }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.notification.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ notification.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.notification.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="notification.createdDate">{{ formatDateLong(notification.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.notification.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ notification.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.notification.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="notification.lastModifiedDate">{{ formatDateLong(notification.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

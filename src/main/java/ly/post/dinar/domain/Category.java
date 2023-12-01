@@ -1,6 +1,7 @@
 package ly.post.dinar.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -10,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("category")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Category implements Serializable {
+public class Category extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +27,11 @@ public class Category implements Serializable {
 
     @Column("code")
     private String code;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -81,6 +87,30 @@ public class Category implements Serializable {
         this.code = code;
     }
 
+    // Inherited createdBy methods
+    public Category createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Category createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Category lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Category lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -108,6 +138,10 @@ public class Category implements Serializable {
             ", nameAr='" + getNameAr() + "'" +
             ", nameEn='" + getNameEn() + "'" +
             ", code='" + getCode() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

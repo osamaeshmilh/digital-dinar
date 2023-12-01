@@ -23,6 +23,10 @@
       "serialNumber": "Serial Number",
       "isSold": "Is Sold",
       "sellTransactionId": "Sell Transaction Id",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "voucherType": "Voucher Type",
       "voucherCompany": "Voucher Company"
     }

@@ -25,7 +25,11 @@
       "file": "File",
       "fileUrl": "File Url",
       "referenceType": "Reference Type",
-      "referenceId": "Reference Id"
+      "referenceId": "Reference Id",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
     }
   }
 }

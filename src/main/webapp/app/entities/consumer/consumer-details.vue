@@ -184,6 +184,30 @@
             <span>{{ consumer.notes }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.consumer.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ consumer.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.consumer.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="consumer.createdDate">{{ formatDateLong(consumer.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.consumer.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ consumer.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.consumer.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="consumer.lastModifiedDate">{{ formatDateLong(consumer.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.consumer.user')"></span>
           </dt>
           <dd>

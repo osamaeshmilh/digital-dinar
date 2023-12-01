@@ -33,7 +33,19 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new ActivationService();
       currentDate = new Date();
-      elemDefault = new Activation(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, false);
+      elemDefault = new Activation(
+        123,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        currentDate,
+        false,
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        currentDate,
+      );
     });
 
     describe('Service methods', () => {
@@ -42,6 +54,8 @@ describe('Service Tests', () => {
           {
             sentOn: dayjs(currentDate).format(DATE_TIME_FORMAT),
             validUntil: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -68,6 +82,8 @@ describe('Service Tests', () => {
             id: 123,
             sentOn: dayjs(currentDate).format(DATE_TIME_FORMAT),
             validUntil: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -75,6 +91,8 @@ describe('Service Tests', () => {
           {
             sentOn: currentDate,
             validUntil: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -105,6 +123,10 @@ describe('Service Tests', () => {
             sentOn: dayjs(currentDate).format(DATE_TIME_FORMAT),
             validUntil: dayjs(currentDate).format(DATE_TIME_FORMAT),
             isUsed: true,
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -113,6 +135,8 @@ describe('Service Tests', () => {
           {
             sentOn: currentDate,
             validUntil: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -137,9 +161,10 @@ describe('Service Tests', () => {
       it('should partial update a Activation', async () => {
         const patchObject = Object.assign(
           {
-            mobileNo: 'BBBBBB',
+            code: 'BBBBBB',
             sentOn: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            isUsed: true,
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new Activation(),
         );
@@ -149,6 +174,8 @@ describe('Service Tests', () => {
           {
             sentOn: currentDate,
             validUntil: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -179,6 +206,10 @@ describe('Service Tests', () => {
             sentOn: dayjs(currentDate).format(DATE_TIME_FORMAT),
             validUntil: dayjs(currentDate).format(DATE_TIME_FORMAT),
             isUsed: true,
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -186,6 +217,8 @@ describe('Service Tests', () => {
           {
             sentOn: currentDate,
             validUntil: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );

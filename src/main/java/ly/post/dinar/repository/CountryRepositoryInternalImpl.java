@@ -130,6 +130,18 @@ class CountryRepositoryInternalImpl extends SimpleR2dbcRepository<Country, Long>
             if (criteria.getIsoNo() != null) {
                 builder.buildFilterConditionForField(criteria.getIsoNo(), entityTable.column("iso_no"));
             }
+            if (criteria.getCreatedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedBy(), entityTable.column("created_by"));
+            }
+            if (criteria.getCreatedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedDate(), entityTable.column("created_date"));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedBy(), entityTable.column("last_modified_by"));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedDate(), entityTable.column("last_modified_date"));
+            }
         }
         return builder.buildConditions();
     }

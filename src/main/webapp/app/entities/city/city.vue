@@ -35,6 +35,22 @@
               <span v-text="t$('digitalDinarApp.city.nameEn')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'nameEn'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.city.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.city.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.city.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.city.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('country.nameAr')">
               <span v-text="t$('digitalDinarApp.city.country')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'country.nameAr'"></jhi-sort-indicator>
@@ -49,6 +65,10 @@
             </td>
             <td>{{ city.nameAr }}</td>
             <td>{{ city.nameEn }}</td>
+            <td>{{ city.createdBy }}</td>
+            <td>{{ formatDateShort(city.createdDate) || '' }}</td>
+            <td>{{ city.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(city.lastModifiedDate) || '' }}</td>
             <td>
               <div v-if="city.country">
                 <router-link :to="{ name: 'CountryView', params: { countryId: city.country.id } }">{{ city.country.nameAr }}</router-link>

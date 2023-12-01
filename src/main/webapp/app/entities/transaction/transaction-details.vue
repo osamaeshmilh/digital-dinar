@@ -144,6 +144,30 @@
           <dd>
             <span>{{ transaction.createdByUserId }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ transaction.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="transaction.createdDate">{{ formatDateLong(transaction.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ transaction.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="transaction.lastModifiedDate">{{ formatDateLong(transaction.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

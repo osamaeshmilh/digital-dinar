@@ -2,6 +2,7 @@ package ly.post.dinar.domain;
 
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import ly.post.dinar.domain.enumeration.Gender;
 import ly.post.dinar.domain.enumeration.IdType;
@@ -16,7 +17,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("consumer")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Consumer implements Serializable {
+public class Consumer extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -111,6 +112,11 @@ public class Consumer implements Serializable {
 
     @Column("notes")
     private String notes;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @Transient
     private User user;
@@ -516,6 +522,30 @@ public class Consumer implements Serializable {
         this.notes = notes;
     }
 
+    // Inherited createdBy methods
+    public Consumer createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Consumer createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Consumer lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Consumer lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -613,6 +643,10 @@ public class Consumer implements Serializable {
             ", lat=" + getLat() +
             ", lng=" + getLng() +
             ", notes='" + getNotes() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

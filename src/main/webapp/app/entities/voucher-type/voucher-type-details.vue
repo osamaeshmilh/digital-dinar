@@ -37,6 +37,30 @@
             <span>{{ voucherType.menuOrder }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.voucherType.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ voucherType.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.voucherType.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="voucherType.createdDate">{{ formatDateLong(voucherType.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.voucherType.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ voucherType.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.voucherType.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="voucherType.lastModifiedDate">{{ formatDateLong(voucherType.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.voucherType.voucherCompany')"></span>
           </dt>
           <dd>

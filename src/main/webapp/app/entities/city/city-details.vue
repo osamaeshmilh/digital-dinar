@@ -19,6 +19,30 @@
             <span>{{ city.nameEn }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.city.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ city.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.city.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="city.createdDate">{{ formatDateLong(city.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.city.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ city.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.city.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="city.lastModifiedDate">{{ formatDateLong(city.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.city.country')"></span>
           </dt>
           <dd>

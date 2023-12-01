@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.VoucherType;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class VoucherTypeRowMapper implements BiFunction<Row, String, VoucherType
         entity.setSlug(converter.fromRow(row, prefix + "_slug", String.class));
         entity.setAmount(converter.fromRow(row, prefix + "_amount", Float.class));
         entity.setMenuOrder(converter.fromRow(row, prefix + "_menu_order", Integer.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         entity.setVoucherCompanyId(converter.fromRow(row, prefix + "_voucher_company_id", Long.class));
         return entity;
     }

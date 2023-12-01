@@ -12,6 +12,10 @@ export interface IPaymentMethod {
   feePercentage?: number | null;
   paymentType?: keyof typeof PaymentType | null;
   notes?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
 }
 
 export class PaymentMethod implements IPaymentMethod {
@@ -28,5 +32,9 @@ export class PaymentMethod implements IPaymentMethod {
     public feePercentage?: number | null,
     public paymentType?: keyof typeof PaymentType | null,
     public notes?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
   ) {}
 }

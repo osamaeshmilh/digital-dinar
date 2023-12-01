@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import ConsumerService from './consumer.service';
 import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IConsumer } from '@/shared/model/consumer.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -11,6 +12,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'ConsumerDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const consumerService = inject('consumerService', () => new ConsumerService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -36,6 +38,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       consumer,
 

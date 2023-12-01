@@ -14,6 +14,10 @@ public class CategorySqlHelper {
         columns.add(Column.aliased("name_ar", table, columnPrefix + "_name_ar"));
         columns.add(Column.aliased("name_en", table, columnPrefix + "_name_en"));
         columns.add(Column.aliased("code", table, columnPrefix + "_code"));
+        columns.add(Column.aliased("created_by", table, columnPrefix + "_created_by"));
+        columns.add(Column.aliased("created_date", table, columnPrefix + "_created_date"));
+        columns.add(Column.aliased("last_modified_by", table, columnPrefix + "_last_modified_by"));
+        columns.add(Column.aliased("last_modified_date", table, columnPrefix + "_last_modified_date"));
 
         return columns;
     }

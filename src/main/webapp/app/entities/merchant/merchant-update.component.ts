@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 
 import MerchantService from './merchant.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import UserService from '@/entities/user/user.service';
@@ -56,6 +56,8 @@ export default defineComponent({
     const retrieveMerchant = async merchantId => {
       try {
         const res = await merchantService().find(merchantId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         merchant.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -128,6 +130,10 @@ export default defineComponent({
       lat: {},
       lng: {},
       notes: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
       user: {},
       category: {},
       city: {},
@@ -152,6 +158,7 @@ export default defineComponent({
       walletProfiles,
       ...dataUtils,
       v$,
+      ...useDateFormat({ entityRef: merchant }),
       t$,
     };
   },

@@ -30,6 +30,8 @@ export default defineComponent({
         const res = await activationService().find(activationId);
         res.sentOn = new Date(res.sentOn);
         res.validUntil = new Date(res.validUntil);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         activation.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -49,6 +51,10 @@ export default defineComponent({
       sentOn: {},
       validUntil: {},
       isUsed: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, activation as any);
     v$.value.$validate();

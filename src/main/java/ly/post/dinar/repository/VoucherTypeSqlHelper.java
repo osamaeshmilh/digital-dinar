@@ -16,6 +16,10 @@ public class VoucherTypeSqlHelper {
         columns.add(Column.aliased("slug", table, columnPrefix + "_slug"));
         columns.add(Column.aliased("amount", table, columnPrefix + "_amount"));
         columns.add(Column.aliased("menu_order", table, columnPrefix + "_menu_order"));
+        columns.add(Column.aliased("created_by", table, columnPrefix + "_created_by"));
+        columns.add(Column.aliased("created_date", table, columnPrefix + "_created_date"));
+        columns.add(Column.aliased("last_modified_by", table, columnPrefix + "_last_modified_by"));
+        columns.add(Column.aliased("last_modified_date", table, columnPrefix + "_last_modified_date"));
 
         columns.add(Column.aliased("voucher_company_id", table, columnPrefix + "_voucher_company_id"));
         return columns;

@@ -78,6 +78,30 @@
           <dd>
             <span>{{ beneficiary.hasTransferred }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.beneficiary.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ beneficiary.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.beneficiary.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="beneficiary.createdDate">{{ formatDateLong(beneficiary.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.beneficiary.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ beneficiary.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.beneficiary.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="beneficiary.lastModifiedDate">{{ formatDateLong(beneficiary.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

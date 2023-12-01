@@ -156,6 +156,22 @@
               <span v-text="t$('digitalDinarApp.merchant.notes')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'notes'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.merchant.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.merchant.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.merchant.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.merchant.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('user.id')">
               <span v-text="t$('digitalDinarApp.merchant.user')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'user.id'"></jhi-sort-indicator>
@@ -219,6 +235,10 @@
             <td>{{ merchant.lat }}</td>
             <td>{{ merchant.lng }}</td>
             <td>{{ merchant.notes }}</td>
+            <td>{{ merchant.createdBy }}</td>
+            <td>{{ formatDateShort(merchant.createdDate) || '' }}</td>
+            <td>{{ merchant.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(merchant.lastModifiedDate) || '' }}</td>
             <td>
               {{ merchant.user ? merchant.user.id : '' }}
             </td>

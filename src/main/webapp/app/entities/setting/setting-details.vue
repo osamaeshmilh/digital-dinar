@@ -18,6 +18,30 @@
           <dd>
             <span>{{ setting.value }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.setting.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ setting.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.setting.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="setting.createdDate">{{ formatDateLong(setting.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.setting.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ setting.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.setting.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="setting.lastModifiedDate">{{ formatDateLong(setting.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

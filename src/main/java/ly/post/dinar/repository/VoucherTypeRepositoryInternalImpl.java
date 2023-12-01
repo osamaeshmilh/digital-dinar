@@ -159,6 +159,18 @@ class VoucherTypeRepositoryInternalImpl extends SimpleR2dbcRepository<VoucherTyp
             if (criteria.getMenuOrder() != null) {
                 builder.buildFilterConditionForField(criteria.getMenuOrder(), entityTable.column("menu_order"));
             }
+            if (criteria.getCreatedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedBy(), entityTable.column("created_by"));
+            }
+            if (criteria.getCreatedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedDate(), entityTable.column("created_date"));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedBy(), entityTable.column("last_modified_by"));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedDate(), entityTable.column("last_modified_date"));
+            }
             if (criteria.getVoucherCompanyId() != null) {
                 builder.buildFilterConditionForField(criteria.getVoucherCompanyId(), voucherCompanyTable.column("id"));
             }

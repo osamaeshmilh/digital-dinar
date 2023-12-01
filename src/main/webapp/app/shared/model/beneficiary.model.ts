@@ -13,6 +13,10 @@ export interface IBeneficiary {
   createdByUserId?: number | null;
   isVerified?: boolean | null;
   hasTransferred?: boolean | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
 }
 
 export class Beneficiary implements IBeneficiary {
@@ -30,6 +34,10 @@ export class Beneficiary implements IBeneficiary {
     public createdByUserId?: number | null,
     public isVerified?: boolean | null,
     public hasTransferred?: boolean | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
   ) {
     this.isVerified = this.isVerified ?? false;
     this.hasTransferred = this.hasTransferred ?? false;

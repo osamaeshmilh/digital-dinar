@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import VoucherCompanyService from './voucher-company.service';
 import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IVoucherCompany } from '@/shared/model/voucher-company.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -11,6 +12,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'VoucherCompanyDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const voucherCompanyService = inject('voucherCompanyService', () => new VoucherCompanyService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -36,6 +38,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       voucherCompany,
 

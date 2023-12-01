@@ -2,6 +2,7 @@ package ly.post.dinar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.WalletAction;
 import ly.post.dinar.domain.enumeration.WalletOwnerType;
@@ -15,7 +16,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("wallet_transaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WalletTransaction implements Serializable {
+public class WalletTransaction extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,6 +56,11 @@ public class WalletTransaction implements Serializable {
 
     @Column("wallet_owner_type")
     private WalletOwnerType walletOwnerType;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @Transient
     @JsonIgnoreProperties(value = { "walletTransactions" }, allowSetters = true)
@@ -221,6 +227,30 @@ public class WalletTransaction implements Serializable {
         this.walletOwnerType = walletOwnerType;
     }
 
+    // Inherited createdBy methods
+    public WalletTransaction createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public WalletTransaction createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public WalletTransaction lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public WalletTransaction lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public Transaction getTransaction() {
         return this.transaction;
     }
@@ -278,6 +308,10 @@ public class WalletTransaction implements Serializable {
             ", notes='" + getNotes() + "'" +
             ", ownerId=" + getOwnerId() +
             ", walletOwnerType='" + getWalletOwnerType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

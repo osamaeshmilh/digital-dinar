@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import WalletProfileService from './wallet-profile.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type IWalletProfile, WalletProfile } from '@/shared/model/wallet-profile.model';
@@ -28,6 +28,8 @@ export default defineComponent({
     const retrieveWalletProfile = async walletProfileId => {
       try {
         const res = await walletProfileService().find(walletProfileId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         walletProfile.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -57,6 +59,10 @@ export default defineComponent({
       transferToConsumerFees: {},
       transferToBankFees: {},
       buyVouchersFees: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, walletProfile as any);
     v$.value.$validate();
@@ -69,6 +75,7 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       v$,
+      ...useDateFormat({ entityRef: walletProfile }),
       t$,
     };
   },

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import SliderService from './slider.service';
 import { type ISlider } from '@/shared/model/slider.model';
 import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,6 +12,7 @@ export default defineComponent({
   name: 'Slider',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
     const sliderService = inject('sliderService', () => new SliderService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -118,6 +120,7 @@ export default defineComponent({
       isFetching,
       retrieveSliders,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

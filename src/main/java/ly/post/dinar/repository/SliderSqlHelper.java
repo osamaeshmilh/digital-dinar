@@ -17,6 +17,10 @@ public class SliderSqlHelper {
         columns.add(Column.aliased("image_file", table, columnPrefix + "_image_file"));
         columns.add(Column.aliased("image_file_content_type", table, columnPrefix + "_image_file_content_type"));
         columns.add(Column.aliased("url", table, columnPrefix + "_url"));
+        columns.add(Column.aliased("created_by", table, columnPrefix + "_created_by"));
+        columns.add(Column.aliased("created_date", table, columnPrefix + "_created_date"));
+        columns.add(Column.aliased("last_modified_by", table, columnPrefix + "_last_modified_by"));
+        columns.add(Column.aliased("last_modified_date", table, columnPrefix + "_last_modified_date"));
 
         return columns;
     }

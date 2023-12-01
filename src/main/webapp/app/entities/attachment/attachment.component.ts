@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import AttachmentService from './attachment.service';
 import { type IAttachment } from '@/shared/model/attachment.model';
 import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,6 +12,7 @@ export default defineComponent({
   name: 'Attachment',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
     const attachmentService = inject('attachmentService', () => new AttachmentService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -118,6 +120,7 @@ export default defineComponent({
       isFetching,
       retrieveAttachments,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

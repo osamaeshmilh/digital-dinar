@@ -21,6 +21,10 @@ public class VoucherCompanySqlHelper {
         columns.add(Column.aliased("post_code", table, columnPrefix + "_post_code"));
         columns.add(Column.aliased("address", table, columnPrefix + "_address"));
         columns.add(Column.aliased("notes", table, columnPrefix + "_notes"));
+        columns.add(Column.aliased("created_by", table, columnPrefix + "_created_by"));
+        columns.add(Column.aliased("created_date", table, columnPrefix + "_created_date"));
+        columns.add(Column.aliased("last_modified_by", table, columnPrefix + "_last_modified_by"));
+        columns.add(Column.aliased("last_modified_date", table, columnPrefix + "_last_modified_date"));
 
         columns.add(Column.aliased("user_id", table, columnPrefix + "_user_id"));
         return columns;

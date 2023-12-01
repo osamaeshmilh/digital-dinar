@@ -64,6 +64,22 @@
               <span v-text="t$('digitalDinarApp.attachment.referenceId')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'referenceId'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.attachment.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.attachment.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.attachment.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.attachment.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -87,6 +103,10 @@
             <td>{{ attachment.fileUrl }}</td>
             <td v-text="t$('digitalDinarApp.ReferenceType.' + attachment.referenceType)"></td>
             <td>{{ attachment.referenceId }}</td>
+            <td>{{ attachment.createdBy }}</td>
+            <td>{{ formatDateShort(attachment.createdDate) || '' }}</td>
+            <td>{{ attachment.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(attachment.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'AttachmentView', params: { attachmentId: attachment.id } }" custom v-slot="{ navigate }">

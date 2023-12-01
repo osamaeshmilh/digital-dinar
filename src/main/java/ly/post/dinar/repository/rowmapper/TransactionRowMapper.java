@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.Transaction;
 import ly.post.dinar.domain.enumeration.PaymentType;
@@ -52,6 +53,10 @@ public class TransactionRowMapper implements BiFunction<Row, String, Transaction
         entity.setReceiverId(converter.fromRow(row, prefix + "_receiver_id", Long.class));
         entity.setReceiverIdNo(converter.fromRow(row, prefix + "_receiver_id_no", String.class));
         entity.setCreatedByUserId(converter.fromRow(row, prefix + "_created_by_user_id", Long.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         return entity;
     }
 }

@@ -11,6 +11,10 @@ export interface IAttachment {
   fileUrl?: string | null;
   referenceType?: keyof typeof ReferenceType | null;
   referenceId?: number | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
 }
 
 export class Attachment implements IAttachment {
@@ -25,5 +29,9 @@ export class Attachment implements IAttachment {
     public fileUrl?: string | null,
     public referenceType?: keyof typeof ReferenceType | null,
     public referenceId?: number | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
   ) {}
 }

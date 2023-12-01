@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.WalletProfile;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,10 @@ public class WalletProfileRowMapper implements BiFunction<Row, String, WalletPro
         entity.setTransferToConsumerFees(converter.fromRow(row, prefix + "_transfer_to_consumer_fees", Boolean.class));
         entity.setTransferToBankFees(converter.fromRow(row, prefix + "_transfer_to_bank_fees", Boolean.class));
         entity.setBuyVouchersFees(converter.fromRow(row, prefix + "_buy_vouchers_fees", Boolean.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         return entity;
     }
 }

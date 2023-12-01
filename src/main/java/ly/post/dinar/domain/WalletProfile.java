@@ -1,6 +1,7 @@
 package ly.post.dinar.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -10,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("wallet_profile")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WalletProfile implements Serializable {
+public class WalletProfile extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +66,11 @@ public class WalletProfile implements Serializable {
 
     @Column("buy_vouchers_fees")
     private Boolean buyVouchersFees;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -289,6 +295,30 @@ public class WalletProfile implements Serializable {
         this.buyVouchersFees = buyVouchersFees;
     }
 
+    // Inherited createdBy methods
+    public WalletProfile createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public WalletProfile createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public WalletProfile lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public WalletProfile lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -329,6 +359,10 @@ public class WalletProfile implements Serializable {
             ", transferToConsumerFees='" + getTransferToConsumerFees() + "'" +
             ", transferToBankFees='" + getTransferToBankFees() + "'" +
             ", buyVouchersFees='" + getBuyVouchersFees() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

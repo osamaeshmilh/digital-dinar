@@ -59,6 +59,14 @@ public class PaymentMethodCriteria implements Serializable, Criteria {
 
     private StringFilter notes;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdDate;
+
+    private StringFilter lastModifiedBy;
+
+    private InstantFilter lastModifiedDate;
+
     private Boolean distinct;
 
     public PaymentMethodCriteria() {}
@@ -74,6 +82,10 @@ public class PaymentMethodCriteria implements Serializable, Criteria {
         this.feePercentage = other.feePercentage == null ? null : other.feePercentage.copy();
         this.paymentType = other.paymentType == null ? null : other.paymentType.copy();
         this.notes = other.notes == null ? null : other.notes.copy();
+        this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
+        this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
+        this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.lastModifiedDate = other.lastModifiedDate == null ? null : other.lastModifiedDate.copy();
         this.distinct = other.distinct;
     }
 
@@ -232,6 +244,66 @@ public class PaymentMethodCriteria implements Serializable, Criteria {
         this.notes = notes;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public StringFilter createdBy() {
+        if (createdBy == null) {
+            createdBy = new StringFilter();
+        }
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public InstantFilter createdDate() {
+        if (createdDate == null) {
+            createdDate = new InstantFilter();
+        }
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public StringFilter getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public StringFilter lastModifiedBy() {
+        if (lastModifiedBy == null) {
+            lastModifiedBy = new StringFilter();
+        }
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(StringFilter lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public InstantFilter getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public InstantFilter lastModifiedDate() {
+        if (lastModifiedDate == null) {
+            lastModifiedDate = new InstantFilter();
+        }
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(InstantFilter lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -260,13 +332,33 @@ public class PaymentMethodCriteria implements Serializable, Criteria {
             Objects.equals(feePercentage, that.feePercentage) &&
             Objects.equals(paymentType, that.paymentType) &&
             Objects.equals(notes, that.notes) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdDate, that.createdDate) &&
+            Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, nameAr, nameEn, menuOrder, imageFileUrl, details, feePercentage, paymentType, notes, distinct);
+        return Objects.hash(
+            id,
+            name,
+            nameAr,
+            nameEn,
+            menuOrder,
+            imageFileUrl,
+            details,
+            feePercentage,
+            paymentType,
+            notes,
+            createdBy,
+            createdDate,
+            lastModifiedBy,
+            lastModifiedDate,
+            distinct
+        );
     }
 
     // prettier-ignore
@@ -283,6 +375,10 @@ public class PaymentMethodCriteria implements Serializable, Criteria {
             (feePercentage != null ? "feePercentage=" + feePercentage + ", " : "") +
             (paymentType != null ? "paymentType=" + paymentType + ", " : "") +
             (notes != null ? "notes=" + notes + ", " : "") +
+            (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+            (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+            (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (lastModifiedDate != null ? "lastModifiedDate=" + lastModifiedDate + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

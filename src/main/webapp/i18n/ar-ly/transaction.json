@@ -41,6 +41,10 @@
       "receiverId": "Receiver Id",
       "receiverIdNo": "Receiver Id No",
       "createdByUserId": "Created By User Id",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "walletTransaction": "Wallet Transaction"
     }
   }

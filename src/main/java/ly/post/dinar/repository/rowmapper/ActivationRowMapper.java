@@ -32,6 +32,10 @@ public class ActivationRowMapper implements BiFunction<Row, String, Activation> 
         entity.setSentOn(converter.fromRow(row, prefix + "_sent_on", Instant.class));
         entity.setValidUntil(converter.fromRow(row, prefix + "_valid_until", Instant.class));
         entity.setIsUsed(converter.fromRow(row, prefix + "_is_used", Boolean.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         return entity;
     }
 }

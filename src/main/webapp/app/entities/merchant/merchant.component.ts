@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import MerchantService from './merchant.service';
 import { type IMerchant } from '@/shared/model/merchant.model';
 import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,6 +12,7 @@ export default defineComponent({
   name: 'Merchant',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
     const merchantService = inject('merchantService', () => new MerchantService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -118,6 +120,7 @@ export default defineComponent({
       isFetching,
       retrieveMerchants,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

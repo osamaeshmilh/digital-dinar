@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 
 import VoucherCompanyService from './voucher-company.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import UserService from '@/entities/user/user.service';
@@ -32,6 +32,8 @@ export default defineComponent({
     const retrieveVoucherCompany = async voucherCompanyId => {
       try {
         const res = await voucherCompanyService().find(voucherCompanyId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         voucherCompany.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -66,6 +68,10 @@ export default defineComponent({
       postCode: {},
       address: {},
       notes: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
       user: {},
     };
     const v$ = useVuelidate(validationRules, voucherCompany as any);
@@ -81,6 +87,7 @@ export default defineComponent({
       users,
       ...dataUtils,
       v$,
+      ...useDateFormat({ entityRef: voucherCompany }),
       t$,
     };
   },

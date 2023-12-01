@@ -2,6 +2,7 @@ package ly.post.dinar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import ly.post.dinar.domain.enumeration.PaymentType;
@@ -18,7 +19,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("transaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Transaction implements Serializable {
+public class Transaction extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -94,6 +95,11 @@ public class Transaction implements Serializable {
 
     @Column("created_by_user_id")
     private Long createdByUserId;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @Transient
     @JsonIgnoreProperties(value = { "transaction" }, allowSetters = true)
@@ -413,6 +419,30 @@ public class Transaction implements Serializable {
         this.createdByUserId = createdByUserId;
     }
 
+    // Inherited createdBy methods
+    public Transaction createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Transaction createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Transaction lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Transaction lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public Set<WalletTransaction> getWalletTransactions() {
         return this.walletTransactions;
     }
@@ -491,6 +521,10 @@ public class Transaction implements Serializable {
             ", receiverId=" + getReceiverId() +
             ", receiverIdNo='" + getReceiverIdNo() + "'" +
             ", createdByUserId=" + getCreatedByUserId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

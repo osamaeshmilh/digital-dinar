@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import TransactionService from './transaction.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type ITransaction, Transaction } from '@/shared/model/transaction.model';
@@ -36,6 +36,8 @@ export default defineComponent({
     const retrieveTransaction = async transactionId => {
       try {
         const res = await transactionService().find(transactionId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         transaction.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -76,6 +78,10 @@ export default defineComponent({
       receiverId: {},
       receiverIdNo: {},
       createdByUserId: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
       walletTransactions: {},
     };
     const v$ = useVuelidate(validationRules, transaction as any);
@@ -93,6 +99,7 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       v$,
+      ...useDateFormat({ entityRef: transaction }),
       t$,
     };
   },

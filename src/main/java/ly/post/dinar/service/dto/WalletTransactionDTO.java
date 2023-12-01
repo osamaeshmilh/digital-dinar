@@ -1,6 +1,7 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.WalletAction;
@@ -35,6 +36,14 @@ public class WalletTransactionDTO implements Serializable {
     private Long ownerId;
 
     private WalletOwnerType walletOwnerType;
+
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     private TransactionDTO transaction;
 
@@ -134,6 +143,38 @@ public class WalletTransactionDTO implements Serializable {
         this.walletOwnerType = walletOwnerType;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public TransactionDTO getTransaction() {
         return transaction;
     }
@@ -179,6 +220,10 @@ public class WalletTransactionDTO implements Serializable {
             ", notes='" + getNotes() + "'" +
             ", ownerId=" + getOwnerId() +
             ", walletOwnerType='" + getWalletOwnerType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", transaction=" + getTransaction() +
             "}";
     }

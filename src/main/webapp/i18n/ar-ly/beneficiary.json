@@ -29,7 +29,11 @@
       "notes": "Notes",
       "createdByUserId": "Created By User Id",
       "isVerified": "Is Verified",
-      "hasTransferred": "Has Transferred"
+      "hasTransferred": "Has Transferred",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
     }
   }
 }

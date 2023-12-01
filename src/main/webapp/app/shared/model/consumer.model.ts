@@ -35,6 +35,10 @@ export interface IConsumer {
   lat?: number | null;
   lng?: number | null;
   notes?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   user?: IUser | null;
   walletProfile?: IWalletProfile | null;
 }
@@ -71,6 +75,10 @@ export class Consumer implements IConsumer {
     public lat?: number | null,
     public lng?: number | null,
     public notes?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public user?: IUser | null,
     public walletProfile?: IWalletProfile | null,
   ) {

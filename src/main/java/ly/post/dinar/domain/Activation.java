@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("activation")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Activation implements Serializable {
+public class Activation extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,6 +36,11 @@ public class Activation implements Serializable {
 
     @Column("is_used")
     private Boolean isUsed;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -130,6 +135,30 @@ public class Activation implements Serializable {
         this.isUsed = isUsed;
     }
 
+    // Inherited createdBy methods
+    public Activation createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Activation createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Activation lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Activation lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -160,6 +189,10 @@ public class Activation implements Serializable {
             ", sentOn='" + getSentOn() + "'" +
             ", validUntil='" + getValidUntil() + "'" +
             ", isUsed='" + getIsUsed() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

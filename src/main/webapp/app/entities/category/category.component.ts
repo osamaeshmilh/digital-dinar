@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import CategoryService from './category.service';
 import { type ICategory } from '@/shared/model/category.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'Category',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const categoryService = inject('categoryService', () => new CategoryService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveCategorys,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

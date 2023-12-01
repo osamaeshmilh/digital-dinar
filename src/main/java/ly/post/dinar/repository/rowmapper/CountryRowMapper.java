@@ -1,6 +1,7 @@
 package ly.post.dinar.repository.rowmapper;
 
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.util.function.BiFunction;
 import ly.post.dinar.domain.Country;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class CountryRowMapper implements BiFunction<Row, String, Country> {
         entity.setIso2(converter.fromRow(row, prefix + "_iso_2", String.class));
         entity.setIso3(converter.fromRow(row, prefix + "_iso_3", String.class));
         entity.setIsoNo(converter.fromRow(row, prefix + "_iso_no", Integer.class));
+        entity.setCreatedBy(converter.fromRow(row, prefix + "_created_by", String.class));
+        entity.setCreatedDate(converter.fromRow(row, prefix + "_created_date", Instant.class));
+        entity.setLastModifiedBy(converter.fromRow(row, prefix + "_last_modified_by", String.class));
+        entity.setLastModifiedDate(converter.fromRow(row, prefix + "_last_modified_date", Instant.class));
         return entity;
     }
 }

@@ -12,6 +12,10 @@ export interface IVoucherCompany {
   postCode?: string | null;
   address?: string | null;
   notes?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   user?: IUser | null;
 }
 
@@ -28,6 +32,10 @@ export class VoucherCompany implements IVoucherCompany {
     public postCode?: string | null,
     public address?: string | null,
     public notes?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public user?: IUser | null,
   ) {}
 }

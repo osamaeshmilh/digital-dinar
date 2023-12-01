@@ -184,6 +184,18 @@ class TransactionRepositoryInternalImpl extends SimpleR2dbcRepository<Transactio
             if (criteria.getCreatedByUserId() != null) {
                 builder.buildFilterConditionForField(criteria.getCreatedByUserId(), entityTable.column("created_by_user_id"));
             }
+            if (criteria.getCreatedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedBy(), entityTable.column("created_by"));
+            }
+            if (criteria.getCreatedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedDate(), entityTable.column("created_date"));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedBy(), entityTable.column("last_modified_by"));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedDate(), entityTable.column("last_modified_date"));
+            }
         }
         return builder.buildConditions();
     }

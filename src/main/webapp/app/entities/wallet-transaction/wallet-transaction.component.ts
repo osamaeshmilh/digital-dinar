@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import WalletTransactionService from './wallet-transaction.service';
 import { type IWalletTransaction } from '@/shared/model/wallet-transaction.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'WalletTransaction',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const walletTransactionService = inject('walletTransactionService', () => new WalletTransactionService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveWalletTransactions,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

@@ -121,6 +121,18 @@ class SettingRepositoryInternalImpl extends SimpleR2dbcRepository<Setting, Long>
             if (criteria.getValue() != null) {
                 builder.buildFilterConditionForField(criteria.getValue(), entityTable.column("value"));
             }
+            if (criteria.getCreatedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedBy(), entityTable.column("created_by"));
+            }
+            if (criteria.getCreatedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getCreatedDate(), entityTable.column("created_date"));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedBy(), entityTable.column("last_modified_by"));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                builder.buildFilterConditionForField(criteria.getLastModifiedDate(), entityTable.column("last_modified_date"));
+            }
         }
         return builder.buildConditions();
     }

@@ -1,6 +1,7 @@
 package ly.post.dinar.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
@@ -11,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("voucher_company")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VoucherCompany implements Serializable {
+public class VoucherCompany extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,6 +49,11 @@ public class VoucherCompany implements Serializable {
 
     @Column("notes")
     private String notes;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @Transient
     private User user;
@@ -200,6 +206,30 @@ public class VoucherCompany implements Serializable {
         this.notes = notes;
     }
 
+    // Inherited createdBy methods
+    public VoucherCompany createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public VoucherCompany createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public VoucherCompany lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public VoucherCompany lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -256,6 +286,10 @@ public class VoucherCompany implements Serializable {
             ", postCode='" + getPostCode() + "'" +
             ", address='" + getAddress() + "'" +
             ", notes='" + getNotes() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

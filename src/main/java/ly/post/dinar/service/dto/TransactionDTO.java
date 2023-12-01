@@ -1,6 +1,7 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.TransactionStatus;
@@ -60,6 +61,14 @@ public class TransactionDTO implements Serializable {
     private String receiverIdNo;
 
     private Long createdByUserId;
+
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     public Long getId() {
         return id;
@@ -253,6 +262,38 @@ public class TransactionDTO implements Serializable {
         this.createdByUserId = createdByUserId;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -302,6 +343,10 @@ public class TransactionDTO implements Serializable {
             ", receiverId=" + getReceiverId() +
             ", receiverIdNo='" + getReceiverIdNo() + "'" +
             ", createdByUserId=" + getCreatedByUserId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

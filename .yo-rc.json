@@ -3,6 +3,12 @@
     "applicationType": "monolith",
     "authenticationType": "jwt",
     "baseName": "digitalDinar",
+    "blueprints": [
+      {
+        "name": "generator-jhipster-entity-audit",
+        "version": "5.0.0"
+      }
+    ],
     "buildTool": "maven",
     "cacheProvider": null,
     "clientFramework": "vue",
@@ -56,5 +62,9 @@
     "testFrameworks": [],
     "websocket": false,
     "withAdminUi": true
+  },
+  "generator-jhipster-entity-audit": {
+    "auditFramework": "javers",
+    "auditPage": true
   }
 }

@@ -1,11 +1,11 @@
-id;transaction_no;amount;wallet_action;user_previous_transaction_no;total_before_action;total_after_action;payment_type;payment_reference;notes;owner_id;wallet_owner_type
-1;electronics including second-hand;2526.7;WITHDRAW;with;9157.75;4229.09;WALLET;monopolize;astonishing correctly matter;23286;MERCHANT
-2;till inverse where;26220.07;WITHDRAW;diffract;14786.36;18702.16;EMIZA;mustard;tremendous wonderfully briskly;6861;CONSUMER
-3;hmph whenever;17423.55;WITHDRAW;vide graceful lest;24830.85;12791.54;TADAWUL;zen;trustee marvelous structure;23625;MERCHANT
-4;ick meanwhile;8250.35;DEPOSIT;wheat ordinary;6525.19;13463.55;MOBICASH;brr;now oof;28983;MERCHANT
-5;design symbol oof;11473.27;WITHDRAW;never bonfire deprave;14566.45;22303.28;MOAMALAT;instantly deteriorate;overconfidently aha dote;4360;MERCHANT
-6;beyond as simplify;22120.21;DEPOSIT;between late;24018.91;20961.54;WALLET;ah carefree;founding provided;1567;CONSUMER
-7;assert quirkily;6230.02;WITHDRAW;countess flock secret;8481.26;22592;EMIZA;apropos though;rudely athwart;1226;CONSUMER
-8;swiftly inscription if;7383.74;DEPOSIT;excluding patrol damp;29766.97;26879.22;ADFALI;starry inasmuch brew;recklessly;28144;MERCHANT
-9;whoa roundabout jack;21913.02;DEPOSIT;autowind psst nit;16543.8;2320.37;WALLET;schedule torch hm;status over barring;20138;CONSUMER
-10;actually;1028.63;WITHDRAW;pun duh underneath;9891.4;19539.86;MOAMALAT;fake live reverse;where hmph;29989;CONSUMER
+id;transaction_no;amount;wallet_action;user_previous_transaction_no;total_before_action;total_after_action;payment_type;payment_reference;notes;owner_id;wallet_owner_type;created_by;created_date;last_modified_by;last_modified_date
+1;electronics including second-hand;2526.7;WITHDRAW;with;9157.75;4229.09;WALLET;monopolize;astonishing correctly matter;23286;MERCHANT;till inverse where;2023-11-30T23:42:38;bridle storm remains;2023-11-30T23:53:30
+2;oblong;4433.32;DEPOSIT;awkwardly delouse;15650.67;31518.74;EMIZA;whenever silently paraphrase;apropos corporation;30485;CONSUMER;noxious surprisingly;2023-12-01T05:23:18;feather bandanna;2023-12-01T05:15:16
+3;ferment;20605;DEPOSIT;aw sans;21585.18;26140.65;MOAMALAT;grid;gyro jicama interrogate;13968;CONSUMER;id before aware;2023-12-01T03:02:45;advertisement perfectly off;2023-12-01T03:19:36
+4;for secretion;19395.28;DEPOSIT;victim;5457.22;19558.08;CASH;dote liberate;huzzah bouquet;18964;MERCHANT;upbeat opposite unnecessarily;2023-12-01T18:38:21;reuse bedeck access;2023-12-01T10:46:45
+5;declare yum finally;29088.89;WITHDRAW;furthermore;14626.76;17525.36;CHEQUE;peppery;peacoat sympathetically penny;27536;CONSUMER;mid if serpentine;2023-12-01T12:53:42;concrete;2023-12-01T10:28:01
+6;endpoint psst;10314.72;WITHDRAW;instantly whenever tame;7268.14;24401.87;TADAWUL;complete;zowie descale until;20815;CONSUMER;a gate deceivingly;2023-12-01T13:30:14;rocket um schedule;2023-12-01T17:08:47
+7;reproachfully pfft beside;17238.78;WITHDRAW;upright many although;24135.53;27827.65;EMIZA;immigration direct;military mad;8617;MERCHANT;eek blah yowza;2023-12-01T16:27:01;as circle;2023-12-01T14:49:28
+8;after cage;8921.99;DEPOSIT;guillotine;6315.56;14158.8;EMIZA;overbook store;plastic coolly;30163;MERCHANT;versus;2023-12-01T00:26:49;mitre;2023-11-30T20:51:24
+9;elegantly;7349.93;WITHDRAW;attractive old;7740.82;1213.49;MOBICASH;if humble;zesty bleakly;17532;MERCHANT;worrisome under amid;2023-12-01T14:49:07;access instead spotlight;2023-11-30T23:39:16
+10;gadzooks fatal;30822.51;DEPOSIT;hm hummus;23940.24;9517.57;SADAD;unto slam;sponsor liquor;14168;MERCHANT;before who;2023-12-01T13:02:22;save whereas stretch;2023-12-01T13:36:37

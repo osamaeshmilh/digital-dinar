@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import CityService from './city.service';
+import { useDateFormat } from '@/shared/composables';
 import { type ICity } from '@/shared/model/city.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'CityDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const cityService = inject('cityService', () => new CityService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       city,
 

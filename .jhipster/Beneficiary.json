@@ -1,0 +1,63 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185556",
+  "dto": "mapstruct",
+  "entityTableName": "beneficiary",
+  "fields": [
+    {
+      "fieldName": "arabicFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arabicLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "idType",
+      "fieldType": "IdType",
+      "fieldValues": "PASSPORT,ID,DRIVING_LICENCE"
+    },
+    {
+      "fieldName": "idNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdByUserId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "isVerified",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "hasTransferred",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Beneficiary",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

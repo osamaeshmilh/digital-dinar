@@ -1,0 +1,22 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185956",
+  "dto": "mapstruct",
+  "entityTableName": "view_log",
+  "fields": [
+    {
+      "fieldName": "entityName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "entityId",
+      "fieldType": "Long"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "ViewLog",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

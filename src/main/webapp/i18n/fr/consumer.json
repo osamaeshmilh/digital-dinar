@@ -1,0 +1,53 @@
+{
+  "digitalDinarApp": {
+    "consumer": {
+      "home": {
+        "title": "Consumers",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Consumer",
+        "createOrEditLabel": "Créer ou éditer un Consumer",
+        "notFound": "Aucun Consumer trouvé"
+      },
+      "created": "Un nouveau Consumer a été créé avec l'identifiant { param }",
+      "updated": "Le Consumer avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Consumer avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Consumer { id } ?"
+      },
+      "detail": {
+        "title": "Consumer"
+      },
+      "id": "ID",
+      "arabicFirstName": "Arabic First Name",
+      "arabicMiddleName": "Arabic Middle Name",
+      "arabicLastName": "Arabic Last Name",
+      "englishFirstName": "English First Name",
+      "englishMiddleName": "English Middle Name",
+      "englishLastName": "English Last Name",
+      "birthDate": "Birth Date",
+      "birthPlace": "Birth Place",
+      "nationalNo": "National No",
+      "registerNo": "Register No",
+      "gender": "Gender",
+      "idType": "Id Type",
+      "idNo": "Id No",
+      "mobileNo": "Mobile No",
+      "verifiedByEmailOtp": "Verified By Email Otp",
+      "verifiedByMobileNoOtp": "Verified By Mobile No Otp",
+      "email": "Email",
+      "nidStatus": "Nid Status",
+      "isForeign": "Is Foreign",
+      "isMobileConnectedWithNid": "Is Mobile Connected With Nid",
+      "walletOwnerStatus": "Wallet Owner Status",
+      "imageFile": "Image File",
+      "imageUrlFile": "Image Url File",
+      "postCode": "Post Code",
+      "address": "Address",
+      "lat": "Lat",
+      "lng": "Lng",
+      "notes": "Notes",
+      "user": "User",
+      "walletProfile": "Wallet Profile"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "digitalDinarApp": {
+    "walletProfile": {
+      "home": {
+        "title": "WalletProfiles",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Wallet Profile",
+        "createOrEditLabel": "Créer ou éditer un Wallet Profile",
+        "notFound": "Aucun Wallet Profile trouvé"
+      },
+      "created": "Un nouveau Wallet Profile a été créé avec l'identifiant { param }",
+      "updated": "Le Wallet Profile avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Wallet Profile avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Wallet Profile { id } ?"
+      },
+      "detail": {
+        "title": "Wallet Profile"
+      },
+      "id": "ID",
+      "nameAr": "Name Ar",
+      "nameEn": "Name En",
+      "hasTransferAmountLimitPerTransaction": "Has Transfer Amount Limit Per Transaction",
+      "transferAmountLimitPerTransaction": "Transfer Amount Limit Per Transaction",
+      "hasDailyTransferAmountLimit": "Has Daily Transfer Amount Limit",
+      "dailyTransferAmountLimit": "Daily Transfer Amount Limit",
+      "canTransferToConsumerWallet": "Can Transfer To Consumer Wallet",
+      "canTransferToMerchantWallet": "Can Transfer To Merchant Wallet",
+      "canTransferToConsumer": "Can Transfer To Consumer",
+      "canTransferToBank": "Can Transfer To Bank",
+      "canBuyVouchers": "Can Buy Vouchers",
+      "transferToConsumerWalletFees": "Transfer To Consumer Wallet Fees",
+      "transferToMerchantWalletFees": "Transfer To Merchant Wallet Fees",
+      "transferToConsumerFees": "Transfer To Consumer Fees",
+      "transferToBankFees": "Transfer To Bank Fees",
+      "buyVouchersFees": "Buy Vouchers Fees"
+    }
+  }
+}

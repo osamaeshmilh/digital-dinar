@@ -1,0 +1,35 @@
+{
+  "digitalDinarApp": {
+    "walletTransaction": {
+      "home": {
+        "title": "Wallet Transactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Wallet Transaction",
+        "createOrEditLabel": "Create or edit a Wallet Transaction",
+        "notFound": "No Wallet Transactions found"
+      },
+      "created": "A new Wallet Transaction is created with identifier { param }",
+      "updated": "A Wallet Transaction is updated with identifier { param }",
+      "deleted": "A Wallet Transaction is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Wallet Transaction { id }?"
+      },
+      "detail": {
+        "title": "Wallet Transaction"
+      },
+      "id": "ID",
+      "transactionNo": "Transaction No",
+      "amount": "Amount",
+      "walletAction": "Wallet Action",
+      "userPreviousTransactionNo": "User Previous Transaction No",
+      "totalBeforeAction": "Total Before Action",
+      "totalAfterAction": "Total After Action",
+      "paymentType": "Payment Type",
+      "paymentReference": "Payment Reference",
+      "notes": "Notes",
+      "ownerId": "Owner Id",
+      "walletOwnerType": "Wallet Owner Type",
+      "transaction": "Transaction"
+    }
+  }
+}

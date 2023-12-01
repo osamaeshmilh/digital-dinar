@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201190256",
+  "dto": "mapstruct",
+  "entityTableName": "country",
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "iso2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "iso3",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isoNo",
+      "fieldType": "Integer"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Country",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

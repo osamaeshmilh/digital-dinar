@@ -7,7 +7,26 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+        "activation": "Activation",
+        "attachment": "Attachment",
+        "merchant": "Merchant",
+        "consumer": "Consumer",
+        "walletTransaction": "Wallet Transaction",
+        "beneficiary": "Beneficiary",
+        "walletProfile": "Wallet Profile",
+        "paymentMethod": "Payment Method",
+        "notification": "Notification",
+        "viewLog": "View Log",
+        "setting": "Setting",
+        "slider": "Slider",
+        "country": "Country",
+        "city": "City",
+        "category": "Category",
+        "transaction": "Transaction",
+        "voucherCompany": "Voucher Company",
+        "voucherType": "Voucher Type",
+        "voucher": "Voucher"
       },
       "account": {
         "main": "Account",

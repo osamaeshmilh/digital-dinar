@@ -1,0 +1,9 @@
+{
+  "digitalDinarApp": {
+    "WalletAction": {
+      "null": "",
+      "DEPOSIT": "DEPOSIT",
+      "WITHDRAW": "WITHDRAW"
+    }
+  }
+}

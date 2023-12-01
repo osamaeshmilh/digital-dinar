@@ -1,0 +1,69 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185456",
+  "dto": "mapstruct",
+  "entityTableName": "wallet_transaction",
+  "fields": [
+    {
+      "fieldName": "transactionNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "walletAction",
+      "fieldType": "WalletAction",
+      "fieldValues": "DEPOSIT,WITHDRAW"
+    },
+    {
+      "fieldName": "userPreviousTransactionNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalBeforeAction",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "totalAfterAction",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "paymentType",
+      "fieldType": "PaymentType",
+      "fieldValues": "ADFALI,SADAD,TADAWUL,MOBICASH,EMIZA,MOAMALAT,WALLET,CASH,CHEQUE"
+    },
+    {
+      "fieldName": "paymentReference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ownerId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "walletOwnerType",
+      "fieldType": "WalletOwnerType",
+      "fieldValues": "CONSUMER,MERCHANT"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "WalletTransaction",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "transaction",
+      "otherEntityRelationshipName": "walletTransaction",
+      "relationshipName": "transaction",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

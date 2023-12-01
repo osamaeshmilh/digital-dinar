@@ -1,0 +1,29 @@
+{
+  "digitalDinarApp": {
+    "activation": {
+      "home": {
+        "title": "Activations",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Activation",
+        "createOrEditLabel": "Créer ou éditer un Activation",
+        "notFound": "Aucun Activation trouvé"
+      },
+      "created": "Un nouveau Activation a été créé avec l'identifiant { param }",
+      "updated": "Le Activation avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Activation avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Activation { id } ?"
+      },
+      "detail": {
+        "title": "Activation"
+      },
+      "id": "ID",
+      "mobileNo": "Mobile No",
+      "email": "Email",
+      "code": "Code",
+      "sentOn": "Sent On",
+      "validUntil": "Valid Until",
+      "isUsed": "Is Used"
+    }
+  }
+}

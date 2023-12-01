@@ -1,0 +1,11 @@
+id;name_ar;name_en;has_transfer_amount_limit_per_transaction;transfer_amount_limit_per_transaction;has_daily_transfer_amount_limit;daily_transfer_amount_limit;can_transfer_to_consumer_wallet;can_transfer_to_merchant_wallet;can_transfer_to_consumer;can_transfer_to_bank;can_buy_vouchers;transfer_to_consumer_wallet_fees;transfer_to_merchant_wallet_fees;transfer_to_consumer_fees;transfer_to_bank_fees;buy_vouchers_fees
+1;fooey modulo drab;uh-huh;false;4574.08;false;16471.59;false;false;false;false;true;false;false;true;false;true
+2;mmm designation ick;genuine;true;1341.87;true;14876.02;false;true;true;true;false;false;false;true;false;true
+3;scent;overconfidently gratefully idealistic;false;29153.05;true;28373.7;true;false;false;false;true;false;true;false;true;false
+4;dimly yet wonderfully;ha summons;true;26563.11;true;15929.29;false;false;true;false;true;false;true;false;false;false
+5;ah precipitate honesty;upright contend quicksand;false;12697.42;false;12970.49;false;false;false;false;true;true;false;true;true;true
+6;handicap academics;queasily boo dishonest;true;29213.95;true;23827.06;false;true;true;false;false;true;false;true;false;false
+7;valid psst cauliflower;magnificent duh;true;26476.58;false;6468.76;false;true;true;true;true;true;true;false;true;false
+8;where batten outside;ugh;false;9173.68;false;1035.06;false;false;false;true;true;true;true;false;true;false
+9;suspension pretty by;lest gregarious warmth;true;13689.13;false;7713.46;false;false;true;false;false;true;false;false;false;true
+10;abnormally;ouch but lest;true;24020.81;false;4770.75;true;true;true;false;true;true;true;true;true;false

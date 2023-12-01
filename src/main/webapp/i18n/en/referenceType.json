@@ -1,0 +1,10 @@
+{
+  "digitalDinarApp": {
+    "ReferenceType": {
+      "null": "",
+      "CONSUMER": "CONSUMER",
+      "MERCHANT": "MERCHANT",
+      "TRANSACTION": "TRANSACTION"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "digitalDinarApp": {
+    "voucherCompany": {
+      "home": {
+        "title": "Voucher Companies",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Voucher Company",
+        "createOrEditLabel": "Create or edit a Voucher Company",
+        "notFound": "No Voucher Companies found"
+      },
+      "created": "A new Voucher Company is created with identifier { param }",
+      "updated": "A Voucher Company is updated with identifier { param }",
+      "deleted": "A Voucher Company is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Voucher Company { id }?"
+      },
+      "detail": {
+        "title": "Voucher Company"
+      },
+      "id": "ID",
+      "nameAr": "Name Ar",
+      "nameEn": "Name En",
+      "mobileNo": "Mobile No",
+      "email": "Email",
+      "imageFile": "Image File",
+      "imageUrlFile": "Image Url File",
+      "postCode": "Post Code",
+      "address": "Address",
+      "notes": "Notes",
+      "user": "User"
+    }
+  }
+}

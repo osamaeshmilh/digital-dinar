@@ -1,0 +1,22 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201190056",
+  "dto": "mapstruct",
+  "entityTableName": "setting",
+  "fields": [
+    {
+      "fieldName": "key",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Setting",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

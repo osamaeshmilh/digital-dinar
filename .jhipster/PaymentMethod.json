@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185756",
+  "dto": "mapstruct",
+  "entityTableName": "payment_method",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "menuOrder",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "imageFileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "details",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "feePercentage",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "paymentType",
+      "fieldType": "PaymentType",
+      "fieldValues": "ADFALI,SADAD,TADAWUL,MOBICASH,EMIZA,MOAMALAT,WALLET,CASH,CHEQUE"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "PaymentMethod",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

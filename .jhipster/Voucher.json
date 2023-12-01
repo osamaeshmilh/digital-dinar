@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201190856",
+  "dto": "mapstruct",
+  "entityTableName": "voucher",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "serialNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isSold",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "sellTransactionId",
+      "fieldType": "Long"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Voucher",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "voucherType",
+      "relationshipName": "voucherType",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "voucherCompany",
+      "relationshipName": "voucherCompany",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

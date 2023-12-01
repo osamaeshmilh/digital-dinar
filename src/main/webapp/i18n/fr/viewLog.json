@@ -1,0 +1,25 @@
+{
+  "digitalDinarApp": {
+    "viewLog": {
+      "home": {
+        "title": "ViewLogs",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau View Log",
+        "createOrEditLabel": "Créer ou éditer un View Log",
+        "notFound": "Aucun View Log trouvé"
+      },
+      "created": "Un nouveau View Log a été créé avec l'identifiant { param }",
+      "updated": "Le View Log avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le View Log avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le View Log { id } ?"
+      },
+      "detail": {
+        "title": "View Log"
+      },
+      "id": "ID",
+      "entityName": "Entity Name",
+      "entityId": "Entity Id"
+    }
+  }
+}

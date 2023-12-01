@@ -1,0 +1,119 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201190556",
+  "dto": "mapstruct",
+  "entityTableName": "transaction",
+  "fields": [
+    {
+      "fieldName": "transactionReference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "transactionSecret",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "transactionOtp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paymentType",
+      "fieldType": "PaymentType",
+      "fieldValues": "ADFALI,SADAD,TADAWUL,MOBICASH,EMIZA,MOAMALAT,WALLET,CASH,CHEQUE"
+    },
+    {
+      "fieldName": "transactionStatus",
+      "fieldType": "TransactionStatus",
+      "fieldValues": "PENDING_PAYMENT,PENDING_VERIFICATION,PAYED,ERROR,CANCELLED"
+    },
+    {
+      "fieldName": "transactionType",
+      "fieldType": "TransactionType",
+      "fieldValues": "CONSUMER_WALLET_TO_CONSUMER_WALLET,CONSUMER_WALLET_TO_MERCHANT_WALLET,CONSUMER_WALLET_TO_CONSUMER,CONSUMER_WALLET_TO_BANK,CONSUMER_BUY_VOUCHERS,MERCHANT_WALLET_TO_CONSUMER_WALLET,MERCHANT_WALLET_TO_MERCHANT_WALLET,MERCHANT_WALLET_TO_CONSUMER,MERCHANT_WALLET_TO_BANK,MERCHANT_BUY_VOUCHERS"
+    },
+    {
+      "fieldName": "vendorReference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vendorMessage",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "fees",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "senderMobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "senderName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "senderType",
+      "fieldType": "WalletOwnerType",
+      "fieldValues": "CONSUMER,MERCHANT"
+    },
+    {
+      "fieldName": "senderIdNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "senderId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "receiverName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "receiverMobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "receiverType",
+      "fieldType": "WalletOwnerType",
+      "fieldValues": "CONSUMER,MERCHANT"
+    },
+    {
+      "fieldName": "receiverId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "receiverIdNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdByUserId",
+      "fieldType": "Long"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Transaction",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "walletTransaction",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "walletTransaction",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,169 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185256",
+  "dto": "mapstruct",
+  "entityTableName": "merchant",
+  "fields": [
+    {
+      "fieldName": "arabicFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arabicMiddleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arabicLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishMiddleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "commercialRegistryNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "commercialLicenceNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "birthPlace",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationalNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "registerNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE"
+    },
+    {
+      "fieldName": "idType",
+      "fieldType": "IdType",
+      "fieldValues": "PASSPORT,ID,DRIVING_LICENCE"
+    },
+    {
+      "fieldName": "idNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "verifiedByEmailOtp",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "verifiedByMobileNoOtp",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nidStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isForeign",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isMobileConnectedWithNid",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "walletOwnerStatus",
+      "fieldType": "WalletOwnerStatus",
+      "fieldValues": "ACTIVE,PENDING_KYC1,PENDING_KYC2,DEACTIVATED"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "imageUrlFile",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "postCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lat",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "lng",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Merchant",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "merchant",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "category",
+      "relationshipName": "category",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "city",
+      "relationshipName": "city",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "walletProfile",
+      "relationshipName": "walletProfile",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

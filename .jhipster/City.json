@@ -1,0 +1,30 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201190356",
+  "dto": "mapstruct",
+  "entityTableName": "city",
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "City",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "country",
+      "relationshipName": "country",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

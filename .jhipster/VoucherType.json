@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201190756",
+  "dto": "mapstruct",
+  "entityTableName": "voucher_type",
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "slug",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "menuOrder",
+      "fieldType": "Integer"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "VoucherType",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "voucherCompany",
+      "relationshipName": "voucherCompany",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

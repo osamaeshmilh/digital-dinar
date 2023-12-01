@@ -1,0 +1,78 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185656",
+  "dto": "mapstruct",
+  "entityTableName": "wallet_profile",
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hasTransferAmountLimitPerTransaction",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "transferAmountLimitPerTransaction",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "hasDailyTransferAmountLimit",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "dailyTransferAmountLimit",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "canTransferToConsumerWallet",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "canTransferToMerchantWallet",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "canTransferToConsumer",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "canTransferToBank",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "canBuyVouchers",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "transferToConsumerWalletFees",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "transferToMerchantWalletFees",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "transferToConsumerFees",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "transferToBankFees",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "buyVouchersFees",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "WalletProfile",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

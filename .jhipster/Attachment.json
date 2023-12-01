@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20231201185156",
+  "dto": "mapstruct",
+  "entityTableName": "attachment",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "details",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "attachmentType",
+      "fieldType": "AttachmentType",
+      "fieldValues": "COMMERCIAL_REGISTRY,COMMERCIAL_LICENCE,FACE,FACE_WITH_ID,PASSPORT,ID,DRIVING_LICENCE"
+    },
+    {
+      "fieldName": "file",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "fileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "referenceType",
+      "fieldType": "ReferenceType",
+      "fieldValues": "CONSUMER,MERCHANT,TRANSACTION"
+    },
+    {
+      "fieldName": "referenceId",
+      "fieldType": "Long"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Attachment",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

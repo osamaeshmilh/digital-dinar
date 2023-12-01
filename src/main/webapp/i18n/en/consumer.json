@@ -1,0 +1,53 @@
+{
+  "digitalDinarApp": {
+    "consumer": {
+      "home": {
+        "title": "Consumers",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Consumer",
+        "createOrEditLabel": "Create or edit a Consumer",
+        "notFound": "No Consumers found"
+      },
+      "created": "A new Consumer is created with identifier { param }",
+      "updated": "A Consumer is updated with identifier { param }",
+      "deleted": "A Consumer is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Consumer { id }?"
+      },
+      "detail": {
+        "title": "Consumer"
+      },
+      "id": "ID",
+      "arabicFirstName": "Arabic First Name",
+      "arabicMiddleName": "Arabic Middle Name",
+      "arabicLastName": "Arabic Last Name",
+      "englishFirstName": "English First Name",
+      "englishMiddleName": "English Middle Name",
+      "englishLastName": "English Last Name",
+      "birthDate": "Birth Date",
+      "birthPlace": "Birth Place",
+      "nationalNo": "National No",
+      "registerNo": "Register No",
+      "gender": "Gender",
+      "idType": "Id Type",
+      "idNo": "Id No",
+      "mobileNo": "Mobile No",
+      "verifiedByEmailOtp": "Verified By Email Otp",
+      "verifiedByMobileNoOtp": "Verified By Mobile No Otp",
+      "email": "Email",
+      "nidStatus": "Nid Status",
+      "isForeign": "Is Foreign",
+      "isMobileConnectedWithNid": "Is Mobile Connected With Nid",
+      "walletOwnerStatus": "Wallet Owner Status",
+      "imageFile": "Image File",
+      "imageUrlFile": "Image Url File",
+      "postCode": "Post Code",
+      "address": "Address",
+      "lat": "Lat",
+      "lng": "Lng",
+      "notes": "Notes",
+      "user": "User",
+      "walletProfile": "Wallet Profile"
+    }
+  }
+}

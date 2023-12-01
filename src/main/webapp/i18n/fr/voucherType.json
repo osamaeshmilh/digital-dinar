@@ -1,0 +1,29 @@
+{
+  "digitalDinarApp": {
+    "voucherType": {
+      "home": {
+        "title": "VoucherTypes",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Voucher Type",
+        "createOrEditLabel": "Créer ou éditer un Voucher Type",
+        "notFound": "Aucun Voucher Type trouvé"
+      },
+      "created": "Un nouveau Voucher Type a été créé avec l'identifiant { param }",
+      "updated": "Le Voucher Type avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Voucher Type avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Voucher Type { id } ?"
+      },
+      "detail": {
+        "title": "Voucher Type"
+      },
+      "id": "ID",
+      "nameAr": "Name Ar",
+      "nameEn": "Name En",
+      "slug": "Slug",
+      "amount": "Amount",
+      "menuOrder": "Menu Order",
+      "voucherCompany": "Voucher Company"
+    }
+  }
+}

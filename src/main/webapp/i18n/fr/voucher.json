@@ -1,0 +1,30 @@
+{
+  "digitalDinarApp": {
+    "voucher": {
+      "home": {
+        "title": "Vouchers",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Voucher",
+        "createOrEditLabel": "Créer ou éditer un Voucher",
+        "notFound": "Aucun Voucher trouvé"
+      },
+      "created": "Un nouveau Voucher a été créé avec l'identifiant { param }",
+      "updated": "Le Voucher avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Voucher avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Voucher { id } ?"
+      },
+      "detail": {
+        "title": "Voucher"
+      },
+      "id": "ID",
+      "code": "Code",
+      "amount": "Amount",
+      "serialNumber": "Serial Number",
+      "isSold": "Is Sold",
+      "sellTransactionId": "Sell Transaction Id",
+      "voucherType": "Voucher Type",
+      "voucherCompany": "Voucher Company"
+    }
+  }
+}

@@ -100,7 +100,7 @@
             <span v-text="t$('digitalDinarApp.walletTransaction.transaction')"></span>
           </dt>
           <dd>
-            <div v-if="walletTransaction.transaction">
+            <div v-if="walletTransaction.transaction.id">
               <router-link :to="{ name: 'TransactionView', params: { transactionId: walletTransaction.transaction.id } }">{{
                 walletTransaction.transaction.id
               }}</router-link>

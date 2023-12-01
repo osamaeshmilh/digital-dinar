@@ -217,7 +217,7 @@
             <span v-text="t$('digitalDinarApp.consumer.walletProfile')"></span>
           </dt>
           <dd>
-            <div v-if="consumer.walletProfile">
+            <div v-if="consumer.walletProfile.id">
               <router-link :to="{ name: 'WalletProfileView', params: { walletProfileId: consumer.walletProfile.id } }">{{
                 consumer.walletProfile.nameAr
               }}</router-link>

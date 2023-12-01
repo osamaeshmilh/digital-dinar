@@ -90,7 +90,7 @@
             <td>{{ voucherType.lastModifiedBy }}</td>
             <td>{{ formatDateShort(voucherType.lastModifiedDate) || '' }}</td>
             <td>
-              <div v-if="voucherType.voucherCompany">
+              <div v-if="voucherType.voucherCompany.id">
                 <router-link :to="{ name: 'VoucherCompanyView', params: { voucherCompanyId: voucherType.voucherCompany.id } }">{{
                   voucherType.voucherCompany.nameAr
                 }}</router-link>

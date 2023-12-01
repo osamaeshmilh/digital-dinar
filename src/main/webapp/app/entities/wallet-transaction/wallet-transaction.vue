@@ -126,7 +126,7 @@
             <td>{{ walletTransaction.lastModifiedBy }}</td>
             <td>{{ formatDateShort(walletTransaction.lastModifiedDate) || '' }}</td>
             <td>
-              <div v-if="walletTransaction.transaction">
+              <div v-if="walletTransaction.transaction.id">
                 <router-link :to="{ name: 'TransactionView', params: { transactionId: walletTransaction.transaction.id } }">{{
                   walletTransaction.transaction.id
                 }}</router-link>

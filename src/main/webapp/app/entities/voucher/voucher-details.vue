@@ -64,7 +64,7 @@
             <span v-text="t$('digitalDinarApp.voucher.voucherType')"></span>
           </dt>
           <dd>
-            <div v-if="voucher.voucherType">
+            <div v-if="voucher.voucherType.id">
               <router-link :to="{ name: 'VoucherTypeView', params: { voucherTypeId: voucher.voucherType.id } }">{{
                 voucher.voucherType.nameAr
               }}</router-link>
@@ -74,7 +74,7 @@
             <span v-text="t$('digitalDinarApp.voucher.voucherCompany')"></span>
           </dt>
           <dd>
-            <div v-if="voucher.voucherCompany">
+            <div v-if="voucher.voucherCompany.id">
               <router-link :to="{ name: 'VoucherCompanyView', params: { voucherCompanyId: voucher.voucherCompany.id } }">{{
                 voucher.voucherCompany.nameAr
               }}</router-link>

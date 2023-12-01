@@ -70,7 +70,7 @@
             <td>{{ city.lastModifiedBy }}</td>
             <td>{{ formatDateShort(city.lastModifiedDate) || '' }}</td>
             <td>
-              <div v-if="city.country">
+              <div v-if="city.country.id">
                 <router-link :to="{ name: 'CountryView', params: { countryId: city.country.id } }">{{ city.country.nameAr }}</router-link>
               </div>
             </td>

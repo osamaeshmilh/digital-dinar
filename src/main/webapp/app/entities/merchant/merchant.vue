@@ -243,19 +243,19 @@
               {{ merchant.user ? merchant.user.id : '' }}
             </td>
             <td>
-              <div v-if="merchant.category">
+              <div v-if="merchant.category.id">
                 <router-link :to="{ name: 'CategoryView', params: { categoryId: merchant.category.id } }">{{
                   merchant.category.nameAr
                 }}</router-link>
               </div>
             </td>
             <td>
-              <div v-if="merchant.city">
+              <div v-if="merchant.city.id">
                 <router-link :to="{ name: 'CityView', params: { cityId: merchant.city.id } }">{{ merchant.city.nameAr }}</router-link>
               </div>
             </td>
             <td>
-              <div v-if="merchant.walletProfile">
+              <div v-if="merchant.walletProfile.id">
                 <router-link :to="{ name: 'WalletProfileView', params: { walletProfileId: merchant.walletProfile.id } }">{{
                   merchant.walletProfile.nameAr
                 }}</router-link>

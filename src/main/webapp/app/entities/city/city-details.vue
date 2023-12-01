@@ -46,7 +46,7 @@
             <span v-text="t$('digitalDinarApp.city.country')"></span>
           </dt>
           <dd>
-            <div v-if="city.country">
+            <div v-if="city.country.id">
               <router-link :to="{ name: 'CountryView', params: { countryId: city.country.id } }">{{ city.country.nameAr }}</router-link>
             </div>
           </dd>

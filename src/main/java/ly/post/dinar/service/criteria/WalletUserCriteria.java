@@ -167,6 +167,14 @@ public class WalletUserCriteria implements Serializable, Criteria {
 
     private StringFilter bankAccountSWIFT;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdDate;
+
+    private StringFilter lastModifiedBy;
+
+    private InstantFilter lastModifiedDate;
+
     private LongFilter userId;
 
     private LongFilter categoryId;
@@ -223,6 +231,10 @@ public class WalletUserCriteria implements Serializable, Criteria {
         this.bankAccountNumber = other.bankAccountNumber == null ? null : other.bankAccountNumber.copy();
         this.bankAccountIBAN = other.bankAccountIBAN == null ? null : other.bankAccountIBAN.copy();
         this.bankAccountSWIFT = other.bankAccountSWIFT == null ? null : other.bankAccountSWIFT.copy();
+        this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
+        this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
+        this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.lastModifiedDate = other.lastModifiedDate == null ? null : other.lastModifiedDate.copy();
         this.userId = other.userId == null ? null : other.userId.copy();
         this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
         this.cityId = other.cityId == null ? null : other.cityId.copy();
@@ -793,6 +805,66 @@ public class WalletUserCriteria implements Serializable, Criteria {
         this.bankAccountSWIFT = bankAccountSWIFT;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public StringFilter createdBy() {
+        if (createdBy == null) {
+            createdBy = new StringFilter();
+        }
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public InstantFilter createdDate() {
+        if (createdDate == null) {
+            createdDate = new InstantFilter();
+        }
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public StringFilter getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public StringFilter lastModifiedBy() {
+        if (lastModifiedBy == null) {
+            lastModifiedBy = new StringFilter();
+        }
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(StringFilter lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public InstantFilter getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public InstantFilter lastModifiedDate() {
+        if (lastModifiedDate == null) {
+            lastModifiedDate = new InstantFilter();
+        }
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(InstantFilter lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public LongFilter getUserId() {
         return userId;
     }
@@ -953,6 +1025,10 @@ public class WalletUserCriteria implements Serializable, Criteria {
             Objects.equals(bankAccountNumber, that.bankAccountNumber) &&
             Objects.equals(bankAccountIBAN, that.bankAccountIBAN) &&
             Objects.equals(bankAccountSWIFT, that.bankAccountSWIFT) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdDate, that.createdDate) &&
+            Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
             Objects.equals(userId, that.userId) &&
             Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(cityId, that.cityId) &&
@@ -1004,6 +1080,10 @@ public class WalletUserCriteria implements Serializable, Criteria {
             bankAccountNumber,
             bankAccountIBAN,
             bankAccountSWIFT,
+            createdBy,
+            createdDate,
+            lastModifiedBy,
+            lastModifiedDate,
             userId,
             categoryId,
             cityId,
@@ -1056,6 +1136,10 @@ public class WalletUserCriteria implements Serializable, Criteria {
             (bankAccountNumber != null ? "bankAccountNumber=" + bankAccountNumber + ", " : "") +
             (bankAccountIBAN != null ? "bankAccountIBAN=" + bankAccountIBAN + ", " : "") +
             (bankAccountSWIFT != null ? "bankAccountSWIFT=" + bankAccountSWIFT + ", " : "") +
+            (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+            (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+            (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (lastModifiedDate != null ? "lastModifiedDate=" + lastModifiedDate + ", " : "") +
             (userId != null ? "userId=" + userId + ", " : "") +
             (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
             (cityId != null ? "cityId=" + cityId + ", " : "") +

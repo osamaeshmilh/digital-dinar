@@ -129,6 +129,20 @@ public class WalletTransactionQueryService extends QueryService<WalletTransactio
             if (criteria.getWalletOwnerType() != null) {
                 specification = specification.and(buildSpecification(criteria.getWalletOwnerType(), WalletTransaction_.walletOwnerType));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), WalletTransaction_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), WalletTransaction_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getLastModifiedBy(), WalletTransaction_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), WalletTransaction_.lastModifiedDate));
+            }
             if (criteria.getTransactionId() != null) {
                 specification =
                     specification.and(

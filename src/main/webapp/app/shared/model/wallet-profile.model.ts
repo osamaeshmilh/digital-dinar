@@ -16,6 +16,10 @@ export interface IWalletProfile {
   transferToConsumerFees?: boolean | null;
   transferToBankFees?: boolean | null;
   buyVouchersFees?: boolean | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
 }
 
 export class WalletProfile implements IWalletProfile {
@@ -37,6 +41,10 @@ export class WalletProfile implements IWalletProfile {
     public transferToConsumerFees?: boolean | null,
     public transferToBankFees?: boolean | null,
     public buyVouchersFees?: boolean | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
   ) {
     this.hasTransferAmountLimitPerTransaction = this.hasTransferAmountLimitPerTransaction ?? false;
     this.hasDailyTransferAmountLimit = this.hasDailyTransferAmountLimit ?? false;

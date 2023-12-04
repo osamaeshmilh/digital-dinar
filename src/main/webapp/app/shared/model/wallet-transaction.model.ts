@@ -16,6 +16,10 @@ export interface IWalletTransaction {
   paymentReference?: string | null;
   notes?: string | null;
   walletOwnerType?: keyof typeof WalletType | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   transaction?: ITransaction | null;
   walletUser?: IWalletUser | null;
 }
@@ -33,6 +37,10 @@ export class WalletTransaction implements IWalletTransaction {
     public paymentReference?: string | null,
     public notes?: string | null,
     public walletOwnerType?: keyof typeof WalletType | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public transaction?: ITransaction | null,
     public walletUser?: IWalletUser | null,
   ) {}

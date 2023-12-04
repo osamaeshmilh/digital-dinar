@@ -64,6 +64,30 @@
             <span>{{ voucherCompany.notes }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.voucherCompany.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ voucherCompany.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.voucherCompany.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="voucherCompany.createdDate">{{ formatDateLong(voucherCompany.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.voucherCompany.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ voucherCompany.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.voucherCompany.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="voucherCompany.lastModifiedDate">{{ formatDateLong(voucherCompany.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.voucherCompany.user')"></span>
           </dt>
           <dd>

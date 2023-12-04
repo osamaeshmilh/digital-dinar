@@ -102,6 +102,30 @@
           <dd>
             <span>{{ walletProfile.buyVouchersFees }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletProfile.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ walletProfile.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletProfile.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="walletProfile.createdDate">{{ formatDateLong(walletProfile.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletProfile.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ walletProfile.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletProfile.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="walletProfile.lastModifiedDate">{{ formatDateLong(walletProfile.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

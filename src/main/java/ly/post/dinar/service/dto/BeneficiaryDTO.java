@@ -1,6 +1,7 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.IdType;
 
@@ -37,6 +38,14 @@ public class BeneficiaryDTO implements Serializable {
     private Boolean isVerified;
 
     private Boolean hasTransferred;
+
+    private String createdBy;
+
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     private BankBranchDTO bankBranch;
 
@@ -154,6 +163,38 @@ public class BeneficiaryDTO implements Serializable {
         this.hasTransferred = hasTransferred;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public BankBranchDTO getBankBranch() {
         return bankBranch;
     }
@@ -209,6 +250,10 @@ public class BeneficiaryDTO implements Serializable {
             ", notes='" + getNotes() + "'" +
             ", isVerified='" + getIsVerified() + "'" +
             ", hasTransferred='" + getHasTransferred() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", bankBranch=" + getBankBranch() +
             ", walletUser=" + getWalletUser() +
             "}";

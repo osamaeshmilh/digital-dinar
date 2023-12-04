@@ -2,6 +2,7 @@ package ly.post.dinar.domain;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import ly.post.dinar.domain.enumeration.AttachmentType;
 import ly.post.dinar.domain.enumeration.ReferenceType;
 import org.hibernate.annotations.Cache;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "attachment")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Attachment implements Serializable {
+public class Attachment extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,6 +53,11 @@ public class Attachment implements Serializable {
 
     @Column(name = "reference_id")
     private Long referenceId;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -185,6 +191,30 @@ public class Attachment implements Serializable {
         this.referenceId = referenceId;
     }
 
+    // Inherited createdBy methods
+    public Attachment createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Attachment createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Attachment lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Attachment lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -218,6 +248,10 @@ public class Attachment implements Serializable {
             ", fileUrl='" + getFileUrl() + "'" +
             ", referenceType='" + getReferenceType() + "'" +
             ", referenceId=" + getReferenceId() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

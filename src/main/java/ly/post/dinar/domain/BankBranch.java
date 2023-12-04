@@ -2,6 +2,7 @@ package ly.post.dinar.domain;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -12,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "bank_branch")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class BankBranch implements Serializable {
+public class BankBranch extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +30,11 @@ public class BankBranch implements Serializable {
 
     @Column(name = "address")
     private String address;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Bank bank;
@@ -87,6 +93,30 @@ public class BankBranch implements Serializable {
         this.address = address;
     }
 
+    // Inherited createdBy methods
+    public BankBranch createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public BankBranch createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public BankBranch lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public BankBranch lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public Bank getBank() {
         return this.bank;
     }
@@ -127,6 +157,10 @@ public class BankBranch implements Serializable {
             ", nameAr='" + getNameAr() + "'" +
             ", namEn='" + getNamEn() + "'" +
             ", address='" + getAddress() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

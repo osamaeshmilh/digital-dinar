@@ -67,6 +67,30 @@
             <span v-text="t$('digitalDinarApp.WalletType.' + walletTransaction.walletOwnerType)"></span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.walletTransaction.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ walletTransaction.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletTransaction.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="walletTransaction.createdDate">{{ formatDateLong(walletTransaction.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletTransaction.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ walletTransaction.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletTransaction.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="walletTransaction.lastModifiedDate">{{ formatDateLong(walletTransaction.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.walletTransaction.transaction')"></span>
           </dt>
           <dd>

@@ -3,6 +3,7 @@ package ly.post.dinar.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "wallet_user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WalletUser implements Serializable {
+public class WalletUser extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -147,6 +148,11 @@ public class WalletUser implements Serializable {
 
     @Column(name = "bank_account_swift")
     private String bankAccountSWIFT;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
@@ -685,6 +691,30 @@ public class WalletUser implements Serializable {
         this.bankAccountSWIFT = bankAccountSWIFT;
     }
 
+    // Inherited createdBy methods
+    public WalletUser createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public WalletUser createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public WalletUser lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public WalletUser lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -874,6 +904,10 @@ public class WalletUser implements Serializable {
             ", bankAccountNumber='" + getBankAccountNumber() + "'" +
             ", bankAccountIBAN='" + getBankAccountIBAN() + "'" +
             ", bankAccountSWIFT='" + getBankAccountSWIFT() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

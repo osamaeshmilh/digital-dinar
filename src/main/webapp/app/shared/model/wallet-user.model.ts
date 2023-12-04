@@ -50,6 +50,10 @@ export interface IWalletUser {
   bankAccountNumber?: string | null;
   bankAccountIBAN?: string | null;
   bankAccountSWIFT?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   user?: IUser | null;
   category?: ICategory | null;
   city?: ICity | null;
@@ -100,6 +104,10 @@ export class WalletUser implements IWalletUser {
     public bankAccountNumber?: string | null,
     public bankAccountIBAN?: string | null,
     public bankAccountSWIFT?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public user?: IUser | null,
     public category?: ICategory | null,
     public city?: ICity | null,

@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import BankBranchService from './bank-branch.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IBankBranch } from '@/shared/model/bank-branch.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'BankBranchDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const bankBranchService = inject('bankBranchService', () => new BankBranchService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       bankBranch,
 

@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import BankBranchService from './bank-branch.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import BankService from '@/entities/bank/bank.service';
@@ -34,6 +34,8 @@ export default defineComponent({
     const retrieveBankBranch = async bankBranchId => {
       try {
         const res = await bankBranchService().find(bankBranchId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         bankBranch.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -60,6 +62,10 @@ export default defineComponent({
       nameAr: {},
       namEn: {},
       address: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
       bank: {},
     };
     const v$ = useVuelidate(validationRules, bankBranch as any);
@@ -74,6 +80,7 @@ export default defineComponent({
       currentLanguage,
       banks,
       v$,
+      ...useDateFormat({ entityRef: bankBranch }),
       t$,
     };
   },

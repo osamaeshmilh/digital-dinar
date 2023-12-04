@@ -98,6 +98,18 @@ public class NotificationQueryService extends QueryService<Notification> {
             if (criteria.getUserId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUserId(), Notification_.userId));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Notification_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Notification_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Notification_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Notification_.lastModifiedDate));
+            }
         }
         return specification;
     }

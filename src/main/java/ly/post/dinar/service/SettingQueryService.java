@@ -95,6 +95,18 @@ public class SettingQueryService extends QueryService<Setting> {
             if (criteria.getValue() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getValue(), Setting_.value));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Setting_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Setting_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Setting_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Setting_.lastModifiedDate));
+            }
         }
         return specification;
     }

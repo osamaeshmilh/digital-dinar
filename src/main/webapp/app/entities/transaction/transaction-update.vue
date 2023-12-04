@@ -297,6 +297,68 @@
             />
           </div>
           <div class="form-group">
+            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.createdBy')" for="transaction-createdBy"></label>
+            <input
+              type="text"
+              class="form-control"
+              name="createdBy"
+              id="transaction-createdBy"
+              data-cy="createdBy"
+              :class="{ valid: !v$.createdBy.$invalid, invalid: v$.createdBy.$invalid }"
+              v-model="v$.createdBy.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.createdDate')" for="transaction-createdDate"></label>
+            <div class="d-flex">
+              <input
+                id="transaction-createdDate"
+                data-cy="createdDate"
+                type="datetime-local"
+                class="form-control"
+                name="createdDate"
+                :class="{ valid: !v$.createdDate.$invalid, invalid: v$.createdDate.$invalid }"
+                :value="convertDateTimeFromServer(v$.createdDate.$model)"
+                @change="updateInstantField('createdDate', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"
+              for="transaction-lastModifiedBy"
+            ></label>
+            <input
+              type="text"
+              class="form-control"
+              name="lastModifiedBy"
+              id="transaction-lastModifiedBy"
+              data-cy="lastModifiedBy"
+              :class="{ valid: !v$.lastModifiedBy.$invalid, invalid: v$.lastModifiedBy.$invalid }"
+              v-model="v$.lastModifiedBy.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"
+              for="transaction-lastModifiedDate"
+            ></label>
+            <div class="d-flex">
+              <input
+                id="transaction-lastModifiedDate"
+                data-cy="lastModifiedDate"
+                type="datetime-local"
+                class="form-control"
+                name="lastModifiedDate"
+                :class="{ valid: !v$.lastModifiedDate.$invalid, invalid: v$.lastModifiedDate.$invalid }"
+                :value="convertDateTimeFromServer(v$.lastModifiedDate.$model)"
+                @change="updateInstantField('lastModifiedDate', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.sender')" for="transaction-sender"></label>
             <select class="form-control" id="transaction-sender" data-cy="sender" name="sender" v-model="transaction.sender">
               <option v-bind:value="null"></option>

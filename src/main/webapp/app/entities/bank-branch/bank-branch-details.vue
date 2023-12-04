@@ -25,6 +25,30 @@
             <span>{{ bankBranch.address }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.bankBranch.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ bankBranch.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bankBranch.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="bankBranch.createdDate">{{ formatDateLong(bankBranch.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bankBranch.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ bankBranch.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bankBranch.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="bankBranch.lastModifiedDate">{{ formatDateLong(bankBranch.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.bankBranch.bank')"></span>
           </dt>
           <dd>

@@ -33,6 +33,14 @@ public class VoucherTypeCriteria implements Serializable, Criteria {
 
     private IntegerFilter menuOrder;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdDate;
+
+    private StringFilter lastModifiedBy;
+
+    private InstantFilter lastModifiedDate;
+
     private LongFilter voucherCompanyId;
 
     private Boolean distinct;
@@ -46,6 +54,10 @@ public class VoucherTypeCriteria implements Serializable, Criteria {
         this.slug = other.slug == null ? null : other.slug.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.menuOrder = other.menuOrder == null ? null : other.menuOrder.copy();
+        this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
+        this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
+        this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.lastModifiedDate = other.lastModifiedDate == null ? null : other.lastModifiedDate.copy();
         this.voucherCompanyId = other.voucherCompanyId == null ? null : other.voucherCompanyId.copy();
         this.distinct = other.distinct;
     }
@@ -145,6 +157,66 @@ public class VoucherTypeCriteria implements Serializable, Criteria {
         this.menuOrder = menuOrder;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public StringFilter createdBy() {
+        if (createdBy == null) {
+            createdBy = new StringFilter();
+        }
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public InstantFilter createdDate() {
+        if (createdDate == null) {
+            createdDate = new InstantFilter();
+        }
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public StringFilter getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public StringFilter lastModifiedBy() {
+        if (lastModifiedBy == null) {
+            lastModifiedBy = new StringFilter();
+        }
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(StringFilter lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public InstantFilter getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public InstantFilter lastModifiedDate() {
+        if (lastModifiedDate == null) {
+            lastModifiedDate = new InstantFilter();
+        }
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(InstantFilter lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public LongFilter getVoucherCompanyId() {
         return voucherCompanyId;
     }
@@ -184,6 +256,10 @@ public class VoucherTypeCriteria implements Serializable, Criteria {
             Objects.equals(slug, that.slug) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(menuOrder, that.menuOrder) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdDate, that.createdDate) &&
+            Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
             Objects.equals(voucherCompanyId, that.voucherCompanyId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -191,7 +267,20 @@ public class VoucherTypeCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameAr, nameEn, slug, amount, menuOrder, voucherCompanyId, distinct);
+        return Objects.hash(
+            id,
+            nameAr,
+            nameEn,
+            slug,
+            amount,
+            menuOrder,
+            createdBy,
+            createdDate,
+            lastModifiedBy,
+            lastModifiedDate,
+            voucherCompanyId,
+            distinct
+        );
     }
 
     // prettier-ignore
@@ -204,6 +293,10 @@ public class VoucherTypeCriteria implements Serializable, Criteria {
             (slug != null ? "slug=" + slug + ", " : "") +
             (amount != null ? "amount=" + amount + ", " : "") +
             (menuOrder != null ? "menuOrder=" + menuOrder + ", " : "") +
+            (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+            (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+            (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (lastModifiedDate != null ? "lastModifiedDate=" + lastModifiedDate + ", " : "") +
             (voucherCompanyId != null ? "voucherCompanyId=" + voucherCompanyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

@@ -107,6 +107,18 @@ public class ActivationQueryService extends QueryService<Activation> {
             if (criteria.getIsUsed() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsUsed(), Activation_.isUsed));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Activation_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Activation_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Activation_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Activation_.lastModifiedDate));
+            }
         }
         return specification;
     }

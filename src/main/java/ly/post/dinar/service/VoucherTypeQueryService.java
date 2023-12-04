@@ -105,6 +105,18 @@ public class VoucherTypeQueryService extends QueryService<VoucherType> {
             if (criteria.getMenuOrder() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getMenuOrder(), VoucherType_.menuOrder));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), VoucherType_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), VoucherType_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), VoucherType_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), VoucherType_.lastModifiedDate));
+            }
             if (criteria.getVoucherCompanyId() != null) {
                 specification =
                     specification.and(

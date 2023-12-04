@@ -21,6 +21,10 @@
       "nameAr": "Name Ar",
       "namEn": "Nam En",
       "address": "Address",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "bank": "Bank"
     }
   }

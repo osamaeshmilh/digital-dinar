@@ -22,7 +22,11 @@
       "nameEn": "Name En",
       "iso2": "Iso 2",
       "iso3": "Iso 3",
-      "isoNo": "Iso No"
+      "isoNo": "Iso No",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
     }
   }
 }

@@ -22,7 +22,11 @@
       "menuOrder": "Menu Order",
       "imageFileUrl": "Image File Url",
       "imageFile": "Image File",
-      "url": "Url"
+      "url": "Url",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
     }
   }
 }

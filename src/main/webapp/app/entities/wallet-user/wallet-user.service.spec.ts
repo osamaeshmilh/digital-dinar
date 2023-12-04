@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import dayjs from 'dayjs';
 
 import WalletUserService from './wallet-user.service';
-import { DATE_FORMAT } from '@/shared/composables/date-format';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/shared/composables/date-format';
 import { WalletUser } from '@/shared/model/wallet-user.model';
 
 const error = {
@@ -73,6 +73,10 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        currentDate,
       );
     });
 
@@ -81,6 +85,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             birthDate: dayjs(currentDate).format(DATE_FORMAT),
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -106,12 +112,16 @@ describe('Service Tests', () => {
           {
             id: 123,
             birthDate: dayjs(currentDate).format(DATE_FORMAT),
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -173,6 +183,10 @@ describe('Service Tests', () => {
             bankAccountNumber: 'BBBBBB',
             bankAccountIBAN: 'BBBBBB',
             bankAccountSWIFT: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -180,6 +194,8 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -206,25 +222,24 @@ describe('Service Tests', () => {
           {
             arabicFirstName: 'BBBBBB',
             arabicMiddleName: 'BBBBBB',
-            englishLastName: 'BBBBBB',
-            commercialRegistryNo: 'BBBBBB',
+            englishMiddleName: 'BBBBBB',
             commercialLicenceNo: 'BBBBBB',
+            birthDate: dayjs(currentDate).format(DATE_FORMAT),
             birthPlace: 'BBBBBB',
             nationalNo: 'BBBBBB',
-            idType: 'BBBBBB',
-            idNo: 'BBBBBB',
-            verifiedByEmailOtp: true,
+            registerNo: 'BBBBBB',
+            gender: 'BBBBBB',
             email: 'BBBBBB',
-            nidStatus: 'BBBBBB',
             isForeign: true,
             isKYCVerified: true,
-            walletStatus: 'BBBBBB',
-            imageUrlFile: 'BBBBBB',
+            imageFile: 'BBBBBB',
             postCode: 'BBBBBB',
-            address: 'BBBBBB',
-            bankAccountName: 'BBBBBB',
             bankAccountNumber: 'BBBBBB',
             bankAccountSWIFT: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new WalletUser(),
         );
@@ -233,6 +248,8 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );
@@ -294,12 +311,18 @@ describe('Service Tests', () => {
             bankAccountNumber: 'BBBBBB',
             bankAccountIBAN: 'BBBBBB',
             bankAccountSWIFT: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
         const expected = Object.assign(
           {
             birthDate: currentDate,
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
           },
           returnedFromService,
         );

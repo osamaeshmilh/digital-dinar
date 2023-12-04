@@ -105,6 +105,18 @@ public class VoucherQueryService extends QueryService<Voucher> {
             if (criteria.getSellTransactionId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getSellTransactionId(), Voucher_.sellTransactionId));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Voucher_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Voucher_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Voucher_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Voucher_.lastModifiedDate));
+            }
             if (criteria.getVoucherTypeId() != null) {
                 specification =
                     specification.and(

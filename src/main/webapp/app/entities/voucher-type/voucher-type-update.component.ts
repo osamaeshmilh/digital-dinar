@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import VoucherTypeService from './voucher-type.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import VoucherCompanyService from '@/entities/voucher-company/voucher-company.service';
@@ -34,6 +34,8 @@ export default defineComponent({
     const retrieveVoucherType = async voucherTypeId => {
       try {
         const res = await voucherTypeService().find(voucherTypeId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         voucherType.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -62,6 +64,10 @@ export default defineComponent({
       slug: {},
       amount: {},
       menuOrder: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
       voucherCompany: {},
     };
     const v$ = useVuelidate(validationRules, voucherType as any);
@@ -76,6 +82,7 @@ export default defineComponent({
       currentLanguage,
       voucherCompanies,
       v$,
+      ...useDateFormat({ entityRef: voucherType }),
       t$,
     };
   },

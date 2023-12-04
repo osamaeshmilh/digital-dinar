@@ -3,6 +3,7 @@ package ly.post.dinar.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import ly.post.dinar.domain.enumeration.IdType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "beneficiary")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Beneficiary implements Serializable {
+public class Beneficiary extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,6 +63,11 @@ public class Beneficiary implements Serializable {
 
     @Column(name = "has_transferred")
     private Boolean hasTransferred;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "bank" }, allowSetters = true)
@@ -258,6 +264,30 @@ public class Beneficiary implements Serializable {
         this.hasTransferred = hasTransferred;
     }
 
+    // Inherited createdBy methods
+    public Beneficiary createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Beneficiary createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Beneficiary lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Beneficiary lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public BankBranch getBankBranch() {
         return this.bankBranch;
     }
@@ -321,6 +351,10 @@ public class Beneficiary implements Serializable {
             ", notes='" + getNotes() + "'" +
             ", isVerified='" + getIsVerified() + "'" +
             ", hasTransferred='" + getHasTransferred() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

@@ -48,6 +48,7 @@ public class CacheConfiguration {
             createCache(cm, ly.post.dinar.domain.User.class.getName());
             createCache(cm, ly.post.dinar.domain.Authority.class.getName());
             createCache(cm, ly.post.dinar.domain.User.class.getName() + ".authorities");
+            createCache(cm, ly.post.dinar.domain.EntityAuditEvent.class.getName());
             createCache(cm, ly.post.dinar.domain.Activation.class.getName());
             createCache(cm, ly.post.dinar.domain.Attachment.class.getName());
             createCache(cm, ly.post.dinar.domain.WalletUser.class.getName());

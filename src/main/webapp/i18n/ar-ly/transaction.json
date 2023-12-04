@@ -36,6 +36,10 @@
       "receiverName": "Receiver Name",
       "receiverMobileNo": "Receiver Mobile No",
       "receiverIdNo": "Receiver Id No",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "sender": "Sender",
       "receiver": "Receiver",
       "walletTransaction": "Wallet Transaction"

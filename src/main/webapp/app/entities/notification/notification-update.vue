@@ -52,6 +52,72 @@
               v-model.number="v$.userId.$model"
             />
           </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('digitalDinarApp.notification.createdBy')" for="notification-createdBy"></label>
+            <input
+              type="text"
+              class="form-control"
+              name="createdBy"
+              id="notification-createdBy"
+              data-cy="createdBy"
+              :class="{ valid: !v$.createdBy.$invalid, invalid: v$.createdBy.$invalid }"
+              v-model="v$.createdBy.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.notification.createdDate')"
+              for="notification-createdDate"
+            ></label>
+            <div class="d-flex">
+              <input
+                id="notification-createdDate"
+                data-cy="createdDate"
+                type="datetime-local"
+                class="form-control"
+                name="createdDate"
+                :class="{ valid: !v$.createdDate.$invalid, invalid: v$.createdDate.$invalid }"
+                :value="convertDateTimeFromServer(v$.createdDate.$model)"
+                @change="updateInstantField('createdDate', $event)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.notification.lastModifiedBy')"
+              for="notification-lastModifiedBy"
+            ></label>
+            <input
+              type="text"
+              class="form-control"
+              name="lastModifiedBy"
+              id="notification-lastModifiedBy"
+              data-cy="lastModifiedBy"
+              :class="{ valid: !v$.lastModifiedBy.$invalid, invalid: v$.lastModifiedBy.$invalid }"
+              v-model="v$.lastModifiedBy.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.notification.lastModifiedDate')"
+              for="notification-lastModifiedDate"
+            ></label>
+            <div class="d-flex">
+              <input
+                id="notification-lastModifiedDate"
+                data-cy="lastModifiedDate"
+                type="datetime-local"
+                class="form-control"
+                name="lastModifiedDate"
+                :class="{ valid: !v$.lastModifiedDate.$invalid, invalid: v$.lastModifiedDate.$invalid }"
+                :value="convertDateTimeFromServer(v$.lastModifiedDate.$model)"
+                @change="updateInstantField('lastModifiedDate', $event)"
+              />
+            </div>
+          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

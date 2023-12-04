@@ -76,6 +76,22 @@
               <span v-text="t$('digitalDinarApp.walletTransaction.walletOwnerType')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'walletOwnerType'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.walletTransaction.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.walletTransaction.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.walletTransaction.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.walletTransaction.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('transaction.id')">
               <span v-text="t$('digitalDinarApp.walletTransaction.transaction')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'transaction.id'"></jhi-sort-indicator>
@@ -104,6 +120,10 @@
             <td>{{ walletTransaction.paymentReference }}</td>
             <td>{{ walletTransaction.notes }}</td>
             <td v-text="t$('digitalDinarApp.WalletType.' + walletTransaction.walletOwnerType)"></td>
+            <td>{{ walletTransaction.createdBy }}</td>
+            <td>{{ formatDateShort(walletTransaction.createdDate) || '' }}</td>
+            <td>{{ walletTransaction.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(walletTransaction.lastModifiedDate) || '' }}</td>
             <td>
               <div v-if="walletTransaction.transaction">
                 <router-link :to="{ name: 'TransactionView', params: { transactionId: walletTransaction.transaction.id } }">{{

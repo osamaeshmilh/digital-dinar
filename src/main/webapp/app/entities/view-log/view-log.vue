@@ -40,6 +40,22 @@
               <span v-text="t$('digitalDinarApp.viewLog.entityId')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'entityId'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.viewLog.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.viewLog.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.viewLog.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.viewLog.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -50,6 +66,10 @@
             </td>
             <td>{{ viewLog.entityName }}</td>
             <td>{{ viewLog.entityId }}</td>
+            <td>{{ viewLog.createdBy }}</td>
+            <td>{{ formatDateShort(viewLog.createdDate) || '' }}</td>
+            <td>{{ viewLog.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(viewLog.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'ViewLogView', params: { viewLogId: viewLog.id } }" custom v-slot="{ navigate }">

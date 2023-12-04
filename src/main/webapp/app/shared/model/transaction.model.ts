@@ -24,6 +24,10 @@ export interface ITransaction {
   receiverName?: string | null;
   receiverMobileNo?: string | null;
   receiverIdNo?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   sender?: IWalletUser | null;
   receiver?: IWalletUser | null;
   walletTransactions?: IWalletTransaction[] | null;
@@ -50,6 +54,10 @@ export class Transaction implements ITransaction {
     public receiverName?: string | null,
     public receiverMobileNo?: string | null,
     public receiverIdNo?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public sender?: IWalletUser | null,
     public receiver?: IWalletUser | null,
     public walletTransactions?: IWalletTransaction[] | null,

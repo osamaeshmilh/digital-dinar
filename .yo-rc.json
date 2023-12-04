@@ -3,6 +3,12 @@
     "applicationType": "monolith",
     "authenticationType": "jwt",
     "baseName": "digitalDinar",
+    "blueprints": [
+      {
+        "name": "generator-jhipster-entity-audit",
+        "version": "5.0.0"
+      }
+    ],
     "buildTool": "maven",
     "cacheProvider": "ehcache",
     "clientFramework": "vue",
@@ -42,7 +48,7 @@
     "jhipsterVersion": "8.0.0",
     "jwtSecretKey": "ZDNjNDgzYzU0M2I1MDBkYmQyZjdmMjk0YmIxZjk1ZTc1MzEwZDZiYjFkZTBiNjc3Y2M2NDM4NzY5NTkzMzMwMjRjMmNlYmQ1MDVhYzA2ODllMDBhYmVmMWZlZjcwYjc3MmE4ODZkN2MyMTkyN2E5ZTNkNWVmZWFhNzVhNDViZjA=",
     "languages": ["en", "fr", "ar-ly"],
-    "lastLiquibaseTimestamp": 1701684141000,
+    "lastLiquibaseTimestamp": 1701684874000,
     "messageBroker": false,
     "microfrontend": null,
     "microfrontends": [],
@@ -57,5 +63,10 @@
     "testFrameworks": [],
     "websocket": "spring-websocket",
     "withAdminUi": true
+  },
+  "generator-jhipster-entity-audit": {
+    "auditFramework": "custom",
+    "auditPage": true,
+    "entityAuditEventChangelogDate": "20231204101434"
   }
 }

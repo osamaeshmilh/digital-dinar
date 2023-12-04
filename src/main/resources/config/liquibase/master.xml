@@ -42,5 +42,6 @@
     <include file="config/liquibase/changelog/20231204100021_added_entity_constraints_Voucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20231204100221_added_entity_constraints_BankBranch.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <include file="config/liquibase/changelog/20231204101434_added_entity_EntityAuditEvent.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

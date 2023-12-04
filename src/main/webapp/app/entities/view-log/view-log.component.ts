@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import ViewLogService from './view-log.service';
 import { type IViewLog } from '@/shared/model/view-log.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'ViewLog',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const viewLogService = inject('viewLogService', () => new ViewLogService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveViewLogs,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

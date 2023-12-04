@@ -5,6 +5,10 @@ export interface IBankBranch {
   nameAr?: string | null;
   namEn?: string | null;
   address?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   bank?: IBank | null;
 }
 
@@ -14,6 +18,10 @@ export class BankBranch implements IBankBranch {
     public nameAr?: string | null,
     public namEn?: string | null,
     public address?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public bank?: IBank | null,
   ) {}
 }

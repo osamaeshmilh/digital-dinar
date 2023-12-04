@@ -44,6 +44,22 @@
               <span v-text="t$('digitalDinarApp.bankBranch.address')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'address'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.bankBranch.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.bankBranch.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.bankBranch.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.bankBranch.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('bank.nameAr')">
               <span v-text="t$('digitalDinarApp.bankBranch.bank')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'bank.nameAr'"></jhi-sort-indicator>
@@ -59,6 +75,10 @@
             <td>{{ bankBranch.nameAr }}</td>
             <td>{{ bankBranch.namEn }}</td>
             <td>{{ bankBranch.address }}</td>
+            <td>{{ bankBranch.createdBy }}</td>
+            <td>{{ formatDateShort(bankBranch.createdDate) || '' }}</td>
+            <td>{{ bankBranch.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(bankBranch.lastModifiedDate) || '' }}</td>
             <td>
               <div v-if="bankBranch.bank">
                 <router-link :to="{ name: 'BankView', params: { bankId: bankBranch.bank.id } }">{{ bankBranch.bank.nameAr }}</router-link>

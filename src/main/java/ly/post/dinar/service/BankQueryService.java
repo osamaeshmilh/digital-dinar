@@ -98,6 +98,18 @@ public class BankQueryService extends QueryService<Bank> {
             if (criteria.getSwiftCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSwiftCode(), Bank_.swiftCode));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Bank_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Bank_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Bank_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Bank_.lastModifiedDate));
+            }
         }
         return specification;
     }

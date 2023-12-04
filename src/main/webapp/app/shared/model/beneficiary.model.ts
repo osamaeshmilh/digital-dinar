@@ -17,6 +17,10 @@ export interface IBeneficiary {
   notes?: string | null;
   isVerified?: boolean | null;
   hasTransferred?: boolean | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   bankBranch?: IBankBranch | null;
   walletUser?: IWalletUser | null;
 }
@@ -37,6 +41,10 @@ export class Beneficiary implements IBeneficiary {
     public notes?: string | null,
     public isVerified?: boolean | null,
     public hasTransferred?: boolean | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public bankBranch?: IBankBranch | null,
     public walletUser?: IWalletUser | null,
   ) {

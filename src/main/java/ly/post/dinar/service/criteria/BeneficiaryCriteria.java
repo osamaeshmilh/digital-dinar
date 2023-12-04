@@ -67,6 +67,14 @@ public class BeneficiaryCriteria implements Serializable, Criteria {
 
     private BooleanFilter hasTransferred;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdDate;
+
+    private StringFilter lastModifiedBy;
+
+    private InstantFilter lastModifiedDate;
+
     private LongFilter bankBranchId;
 
     private LongFilter walletUserId;
@@ -90,6 +98,10 @@ public class BeneficiaryCriteria implements Serializable, Criteria {
         this.notes = other.notes == null ? null : other.notes.copy();
         this.isVerified = other.isVerified == null ? null : other.isVerified.copy();
         this.hasTransferred = other.hasTransferred == null ? null : other.hasTransferred.copy();
+        this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
+        this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
+        this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.lastModifiedDate = other.lastModifiedDate == null ? null : other.lastModifiedDate.copy();
         this.bankBranchId = other.bankBranchId == null ? null : other.bankBranchId.copy();
         this.walletUserId = other.walletUserId == null ? null : other.walletUserId.copy();
         this.distinct = other.distinct;
@@ -310,6 +322,66 @@ public class BeneficiaryCriteria implements Serializable, Criteria {
         this.hasTransferred = hasTransferred;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public StringFilter createdBy() {
+        if (createdBy == null) {
+            createdBy = new StringFilter();
+        }
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public InstantFilter createdDate() {
+        if (createdDate == null) {
+            createdDate = new InstantFilter();
+        }
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public StringFilter getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public StringFilter lastModifiedBy() {
+        if (lastModifiedBy == null) {
+            lastModifiedBy = new StringFilter();
+        }
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(StringFilter lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public InstantFilter getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public InstantFilter lastModifiedDate() {
+        if (lastModifiedDate == null) {
+            lastModifiedDate = new InstantFilter();
+        }
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(InstantFilter lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public LongFilter getBankBranchId() {
         return bankBranchId;
     }
@@ -372,6 +444,10 @@ public class BeneficiaryCriteria implements Serializable, Criteria {
             Objects.equals(notes, that.notes) &&
             Objects.equals(isVerified, that.isVerified) &&
             Objects.equals(hasTransferred, that.hasTransferred) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdDate, that.createdDate) &&
+            Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
             Objects.equals(bankBranchId, that.bankBranchId) &&
             Objects.equals(walletUserId, that.walletUserId) &&
             Objects.equals(distinct, that.distinct)
@@ -395,6 +471,10 @@ public class BeneficiaryCriteria implements Serializable, Criteria {
             notes,
             isVerified,
             hasTransferred,
+            createdBy,
+            createdDate,
+            lastModifiedBy,
+            lastModifiedDate,
             bankBranchId,
             walletUserId,
             distinct
@@ -419,6 +499,10 @@ public class BeneficiaryCriteria implements Serializable, Criteria {
             (notes != null ? "notes=" + notes + ", " : "") +
             (isVerified != null ? "isVerified=" + isVerified + ", " : "") +
             (hasTransferred != null ? "hasTransferred=" + hasTransferred + ", " : "") +
+            (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+            (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
+            (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (lastModifiedDate != null ? "lastModifiedDate=" + lastModifiedDate + ", " : "") +
             (bankBranchId != null ? "bankBranchId=" + bankBranchId + ", " : "") +
             (walletUserId != null ? "walletUserId=" + walletUserId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

@@ -146,6 +146,18 @@ public class TransactionQueryService extends QueryService<Transaction> {
             if (criteria.getReceiverIdNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReceiverIdNo(), Transaction_.receiverIdNo));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Transaction_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Transaction_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Transaction_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Transaction_.lastModifiedDate));
+            }
             if (criteria.getSenderId() != null) {
                 specification =
                     specification.and(

@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import VoucherTypeService from './voucher-type.service';
 import { type IVoucherType } from '@/shared/model/voucher-type.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'VoucherType',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const voucherTypeService = inject('voucherTypeService', () => new VoucherTypeService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveVoucherTypes,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

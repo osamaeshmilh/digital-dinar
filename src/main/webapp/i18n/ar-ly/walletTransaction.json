@@ -28,6 +28,10 @@
       "paymentReference": "Payment Reference",
       "notes": "Notes",
       "walletOwnerType": "Wallet Owner Type",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "transaction": "Transaction",
       "walletUser": "Wallet User"
     }

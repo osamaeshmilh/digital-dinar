@@ -3,6 +3,10 @@ export interface IBank {
   nameAr?: string | null;
   namEn?: string | null;
   swiftCode?: string | null;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
 }
 
 export class Bank implements IBank {
@@ -11,5 +15,9 @@ export class Bank implements IBank {
     public nameAr?: string | null,
     public namEn?: string | null,
     public swiftCode?: string | null,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
   ) {}
 }

@@ -101,6 +101,18 @@ public class SliderQueryService extends QueryService<Slider> {
             if (criteria.getUrl() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUrl(), Slider_.url));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Slider_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Slider_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Slider_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Slider_.lastModifiedDate));
+            }
         }
         return specification;
     }

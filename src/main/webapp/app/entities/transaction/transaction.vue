@@ -104,6 +104,22 @@
               <span v-text="t$('digitalDinarApp.transaction.receiverIdNo')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiverIdNo'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.transaction.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.transaction.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('sender.id')">
               <span v-text="t$('digitalDinarApp.transaction.sender')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'sender.id'"></jhi-sort-indicator>
@@ -138,6 +154,10 @@
             <td>{{ transaction.receiverName }}</td>
             <td>{{ transaction.receiverMobileNo }}</td>
             <td>{{ transaction.receiverIdNo }}</td>
+            <td>{{ transaction.createdBy }}</td>
+            <td>{{ formatDateShort(transaction.createdDate) || '' }}</td>
+            <td>{{ transaction.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(transaction.lastModifiedDate) || '' }}</td>
             <td>
               <div v-if="transaction.sender">
                 <router-link :to="{ name: 'WalletUserView', params: { walletUserId: transaction.sender.id } }">{{

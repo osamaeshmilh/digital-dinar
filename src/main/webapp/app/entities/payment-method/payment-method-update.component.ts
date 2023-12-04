@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 
 import PaymentMethodService from './payment-method.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type IPaymentMethod, PaymentMethod } from '@/shared/model/payment-method.model';
@@ -31,6 +31,8 @@ export default defineComponent({
     const retrievePaymentMethod = async paymentMethodId => {
       try {
         const res = await paymentMethodService().find(paymentMethodId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         paymentMethod.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -56,6 +58,10 @@ export default defineComponent({
       feePercentage: {},
       paymentType: {},
       notes: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, paymentMethod as any);
     v$.value.$validate();
@@ -70,6 +76,7 @@ export default defineComponent({
       currentLanguage,
       ...dataUtils,
       v$,
+      ...useDateFormat({ entityRef: paymentMethod }),
       t$,
     };
   },

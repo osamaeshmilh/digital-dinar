@@ -98,6 +98,18 @@ public class CategoryQueryService extends QueryService<Category> {
             if (criteria.getCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCode(), Category_.code));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Category_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Category_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Category_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Category_.lastModifiedDate));
+            }
         }
         return specification;
     }

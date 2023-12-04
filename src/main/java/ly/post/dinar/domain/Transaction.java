@@ -3,6 +3,7 @@ package ly.post.dinar.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import ly.post.dinar.domain.enumeration.PaymentType;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "transaction")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Transaction implements Serializable {
+public class Transaction extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -83,6 +84,11 @@ public class Transaction implements Serializable {
 
     @Column(name = "receiver_id_no")
     private String receiverIdNo;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
@@ -352,6 +358,30 @@ public class Transaction implements Serializable {
         this.receiverIdNo = receiverIdNo;
     }
 
+    // Inherited createdBy methods
+    public Transaction createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public Transaction createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public Transaction lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Transaction lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public WalletUser getSender() {
         return this.sender;
     }
@@ -451,6 +481,10 @@ public class Transaction implements Serializable {
             ", receiverName='" + getReceiverName() + "'" +
             ", receiverMobileNo='" + getReceiverMobileNo() + "'" +
             ", receiverIdNo='" + getReceiverIdNo() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

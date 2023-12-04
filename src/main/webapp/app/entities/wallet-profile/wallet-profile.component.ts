@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import WalletProfileService from './wallet-profile.service';
 import { type IWalletProfile } from '@/shared/model/wallet-profile.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'WalletProfile',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const walletProfileService = inject('walletProfileService', () => new WalletProfileService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveWalletProfiles,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

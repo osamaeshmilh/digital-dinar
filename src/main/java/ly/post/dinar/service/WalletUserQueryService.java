@@ -201,6 +201,18 @@ public class WalletUserQueryService extends QueryService<WalletUser> {
             if (criteria.getBankAccountSWIFT() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBankAccountSWIFT(), WalletUser_.bankAccountSWIFT));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), WalletUser_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), WalletUser_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), WalletUser_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), WalletUser_.lastModifiedDate));
+            }
             if (criteria.getUserId() != null) {
                 specification =
                     specification.and(

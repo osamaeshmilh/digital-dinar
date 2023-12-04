@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import BeneficiaryService from './beneficiary.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IBeneficiary } from '@/shared/model/beneficiary.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'BeneficiaryDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const beneficiaryService = inject('beneficiaryService', () => new BeneficiaryService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       beneficiary,
 

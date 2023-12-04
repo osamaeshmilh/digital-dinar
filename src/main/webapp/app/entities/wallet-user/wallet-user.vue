@@ -184,6 +184,22 @@
               <span v-text="t$('digitalDinarApp.walletUser.bankAccountSWIFT')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'bankAccountSWIFT'"></jhi-sort-indicator>
             </th>
+            <th scope="row" v-on:click="changeOrder('createdBy')">
+              <span v-text="t$('digitalDinarApp.walletUser.createdBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('createdDate')">
+              <span v-text="t$('digitalDinarApp.walletUser.createdDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
+              <span v-text="t$('digitalDinarApp.walletUser.lastModifiedBy')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
+              <span v-text="t$('digitalDinarApp.walletUser.lastModifiedDate')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            </th>
             <th scope="row" v-on:click="changeOrder('user.id')">
               <span v-text="t$('digitalDinarApp.walletUser.user')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'user.id'"></jhi-sort-indicator>
@@ -258,6 +274,10 @@
             <td>{{ walletUser.bankAccountNumber }}</td>
             <td>{{ walletUser.bankAccountIBAN }}</td>
             <td>{{ walletUser.bankAccountSWIFT }}</td>
+            <td>{{ walletUser.createdBy }}</td>
+            <td>{{ formatDateShort(walletUser.createdDate) || '' }}</td>
+            <td>{{ walletUser.lastModifiedBy }}</td>
+            <td>{{ formatDateShort(walletUser.lastModifiedDate) || '' }}</td>
             <td>
               {{ walletUser.user ? walletUser.user.id : '' }}
             </td>

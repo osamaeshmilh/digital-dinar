@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import BeneficiaryService from './beneficiary.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import BankBranchService from '@/entities/bank-branch/bank-branch.service';
@@ -42,6 +42,8 @@ export default defineComponent({
     const retrieveBeneficiary = async beneficiaryId => {
       try {
         const res = await beneficiaryService().find(beneficiaryId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         beneficiary.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -83,6 +85,10 @@ export default defineComponent({
       notes: {},
       isVerified: {},
       hasTransferred: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
       bankBranch: {},
       walletUser: {},
     };
@@ -100,6 +106,7 @@ export default defineComponent({
       bankBranches,
       walletUsers,
       v$,
+      ...useDateFormat({ entityRef: beneficiary }),
       t$,
     };
   },

@@ -115,6 +115,30 @@
             <span>{{ transaction.receiverIdNo }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.transaction.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ transaction.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="transaction.createdDate">{{ formatDateLong(transaction.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ transaction.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="transaction.lastModifiedDate">{{ formatDateLong(transaction.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.transaction.sender')"></span>
           </dt>
           <dd>

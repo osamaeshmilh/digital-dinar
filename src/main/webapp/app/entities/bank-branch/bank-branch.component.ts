@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import BankBranchService from './bank-branch.service';
 import { type IBankBranch } from '@/shared/model/bank-branch.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'BankBranch',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const bankBranchService = inject('bankBranchService', () => new BankBranchService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -116,6 +118,7 @@ export default defineComponent({
       isFetching,
       retrieveBankBranchs,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

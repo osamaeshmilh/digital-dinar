@@ -24,6 +24,30 @@
           <dd>
             <span>{{ bank.swiftCode }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bank.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ bank.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bank.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="bank.createdDate">{{ formatDateLong(bank.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bank.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ bank.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.bank.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="bank.lastModifiedDate">{{ formatDateLong(bank.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

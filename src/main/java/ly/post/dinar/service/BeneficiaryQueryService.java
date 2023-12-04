@@ -130,6 +130,18 @@ public class BeneficiaryQueryService extends QueryService<Beneficiary> {
             if (criteria.getHasTransferred() != null) {
                 specification = specification.and(buildSpecification(criteria.getHasTransferred(), Beneficiary_.hasTransferred));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Beneficiary_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Beneficiary_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Beneficiary_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Beneficiary_.lastModifiedDate));
+            }
             if (criteria.getBankBranchId() != null) {
                 specification =
                     specification.and(

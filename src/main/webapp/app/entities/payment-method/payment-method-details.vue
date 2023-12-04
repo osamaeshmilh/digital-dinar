@@ -75,6 +75,30 @@
           <dd>
             <span>{{ paymentMethod.notes }}</span>
           </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.paymentMethod.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ paymentMethod.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.paymentMethod.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="paymentMethod.createdDate">{{ formatDateLong(paymentMethod.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.paymentMethod.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ paymentMethod.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.paymentMethod.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="paymentMethod.lastModifiedDate">{{ formatDateLong(paymentMethod.lastModifiedDate) }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

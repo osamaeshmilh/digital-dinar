@@ -95,6 +95,18 @@ public class ViewLogQueryService extends QueryService<ViewLog> {
             if (criteria.getEntityId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getEntityId(), ViewLog_.entityId));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), ViewLog_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), ViewLog_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), ViewLog_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), ViewLog_.lastModifiedDate));
+            }
         }
         return specification;
     }

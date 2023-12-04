@@ -104,6 +104,18 @@ public class CountryQueryService extends QueryService<Country> {
             if (criteria.getIsoNo() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getIsoNo(), Country_.isoNo));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Country_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Country_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Country_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Country_.lastModifiedDate));
+            }
         }
         return specification;
     }

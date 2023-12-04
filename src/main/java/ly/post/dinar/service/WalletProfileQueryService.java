@@ -169,6 +169,18 @@ public class WalletProfileQueryService extends QueryService<WalletProfile> {
             if (criteria.getBuyVouchersFees() != null) {
                 specification = specification.and(buildSpecification(criteria.getBuyVouchersFees(), WalletProfile_.buyVouchersFees));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), WalletProfile_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), WalletProfile_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), WalletProfile_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), WalletProfile_.lastModifiedDate));
+            }
         }
         return specification;
     }

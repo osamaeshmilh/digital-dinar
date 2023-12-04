@@ -110,6 +110,18 @@ public class AttachmentQueryService extends QueryService<Attachment> {
             if (criteria.getReferenceId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getReferenceId(), Attachment_.referenceId));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), Attachment_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), Attachment_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Attachment_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), Attachment_.lastModifiedDate));
+            }
         }
         return specification;
     }

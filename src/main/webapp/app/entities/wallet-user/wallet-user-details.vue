@@ -238,6 +238,30 @@
             <span>{{ walletUser.bankAccountSWIFT }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.walletUser.createdBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ walletUser.createdBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletUser.createdDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="walletUser.createdDate">{{ formatDateLong(walletUser.createdDate) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletUser.lastModifiedBy')"></span>
+          </dt>
+          <dd>
+            <span>{{ walletUser.lastModifiedBy }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletUser.lastModifiedDate')"></span>
+          </dt>
+          <dd>
+            <span v-if="walletUser.lastModifiedDate">{{ formatDateLong(walletUser.lastModifiedDate) }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.walletUser.user')"></span>
           </dt>
           <dd>

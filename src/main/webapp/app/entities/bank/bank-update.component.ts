@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import BankService from './bank.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type IBank, Bank } from '@/shared/model/bank.model';
@@ -28,6 +28,8 @@ export default defineComponent({
     const retrieveBank = async bankId => {
       try {
         const res = await bankService().find(bankId);
+        res.createdDate = new Date(res.createdDate);
+        res.lastModifiedDate = new Date(res.lastModifiedDate);
         bank.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -44,6 +46,10 @@ export default defineComponent({
       nameAr: {},
       namEn: {},
       swiftCode: {},
+      createdBy: {},
+      createdDate: {},
+      lastModifiedBy: {},
+      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, bank as any);
     v$.value.$validate();
@@ -56,6 +62,7 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       v$,
+      ...useDateFormat({ entityRef: bank }),
       t$,
     };
   },

@@ -3,6 +3,7 @@ package ly.post.dinar.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.WalletAction;
 import ly.post.dinar.domain.enumeration.WalletType;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "wallet_transaction")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WalletTransaction implements Serializable {
+public class WalletTransaction extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +58,11 @@ public class WalletTransaction implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "wallet_owner_type")
     private WalletType walletOwnerType;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "sender", "receiver", "walletTransactions" }, allowSetters = true)
@@ -214,6 +220,30 @@ public class WalletTransaction implements Serializable {
         this.walletOwnerType = walletOwnerType;
     }
 
+    // Inherited createdBy methods
+    public WalletTransaction createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public WalletTransaction createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public WalletTransaction lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public WalletTransaction lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
     public Transaction getTransaction() {
         return this.transaction;
     }
@@ -274,6 +304,10 @@ public class WalletTransaction implements Serializable {
             ", paymentReference='" + getPaymentReference() + "'" +
             ", notes='" + getNotes() + "'" +
             ", walletOwnerType='" + getWalletOwnerType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

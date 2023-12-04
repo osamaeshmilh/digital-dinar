@@ -96,6 +96,18 @@ public class CityQueryService extends QueryService<City> {
             if (criteria.getNameEn() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNameEn(), City_.nameEn));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), City_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), City_.createdDate));
+            }
+            if (criteria.getLastModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), City_.lastModifiedBy));
+            }
+            if (criteria.getLastModifiedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLastModifiedDate(), City_.lastModifiedDate));
+            }
             if (criteria.getCountryId() != null) {
                 specification =
                     specification.and(

@@ -1,8 +1,9 @@
 import { type ITransaction } from '@/shared/model/transaction.model';
+import { type IWalletUser } from '@/shared/model/wallet-user.model';
 
 import { type WalletAction } from '@/shared/model/enumerations/wallet-action.model';
 import { type PaymentType } from '@/shared/model/enumerations/payment-type.model';
-import { type WalletOwnerType } from '@/shared/model/enumerations/wallet-owner-type.model';
+import { type WalletType } from '@/shared/model/enumerations/wallet-type.model';
 export interface IWalletTransaction {
   id?: number;
   transactionNo?: string | null;
@@ -14,13 +15,9 @@ export interface IWalletTransaction {
   paymentType?: keyof typeof PaymentType | null;
   paymentReference?: string | null;
   notes?: string | null;
-  ownerId?: number | null;
-  walletOwnerType?: keyof typeof WalletOwnerType | null;
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
+  walletOwnerType?: keyof typeof WalletType | null;
   transaction?: ITransaction | null;
+  walletUser?: IWalletUser | null;
 }
 
 export class WalletTransaction implements IWalletTransaction {
@@ -35,12 +32,8 @@ export class WalletTransaction implements IWalletTransaction {
     public paymentType?: keyof typeof PaymentType | null,
     public paymentReference?: string | null,
     public notes?: string | null,
-    public ownerId?: number | null,
-    public walletOwnerType?: keyof typeof WalletOwnerType | null,
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
+    public walletOwnerType?: keyof typeof WalletType | null,
     public transaction?: ITransaction | null,
+    public walletUser?: IWalletUser | null,
   ) {}
 }

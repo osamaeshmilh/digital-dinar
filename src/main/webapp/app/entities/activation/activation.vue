@@ -56,22 +56,6 @@
               <span v-text="t$('digitalDinarApp.activation.isUsed')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'isUsed'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.activation.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.activation.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.activation.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.activation.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -86,10 +70,6 @@
             <td>{{ formatDateShort(activation.sentOn) || '' }}</td>
             <td>{{ formatDateShort(activation.validUntil) || '' }}</td>
             <td>{{ activation.isUsed }}</td>
-            <td>{{ activation.createdBy }}</td>
-            <td>{{ formatDateShort(activation.createdDate) || '' }}</td>
-            <td>{{ activation.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(activation.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'ActivationView', params: { activationId: activation.id } }" custom v-slot="{ navigate }">

@@ -3,14 +3,14 @@
     "PaymentType": {
       "null": "",
       "ADFALI": "ADFALI",
-      "SADAD": "SADAD",
-      "TADAWUL": "TADAWUL",
-      "MOBICASH": "MOBICASH",
+      "CASH": "CASH",
+      "CHEQUE": "CHEQUE",
       "EMIZA": "EMIZA",
       "MOAMALAT": "MOAMALAT",
-      "WALLET": "WALLET",
-      "CASH": "CASH",
-      "CHEQUE": "CHEQUE"
+      "MOBICASH": "MOBICASH",
+      "SADAD": "SADAD",
+      "TADAWUL": "TADAWUL",
+      "WALLET": "WALLET"
     }
   }
 }

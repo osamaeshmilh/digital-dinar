@@ -1,8 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20231201190556",
+  "changelogDate": "20231204095721",
   "dto": "mapstruct",
-  "enableAudit": true,
   "entityTableName": "transaction",
   "fields": [
     {
@@ -20,17 +19,17 @@
     {
       "fieldName": "paymentType",
       "fieldType": "PaymentType",
-      "fieldValues": "ADFALI,SADAD,TADAWUL,MOBICASH,EMIZA,MOAMALAT,WALLET,CASH,CHEQUE"
+      "fieldValues": "ADFALI,CASH,CHEQUE,EMIZA,MOAMALAT,MOBICASH,SADAD,TADAWUL,WALLET"
     },
     {
       "fieldName": "transactionStatus",
       "fieldType": "TransactionStatus",
-      "fieldValues": "PENDING_PAYMENT,PENDING_VERIFICATION,PAYED,ERROR,CANCELLED"
+      "fieldValues": "CANCELLED,ERROR,PENDING_PAYMENT,PENDING_VERIFICATION,PAYED"
     },
     {
       "fieldName": "transactionType",
       "fieldType": "TransactionType",
-      "fieldValues": "CONSUMER_WALLET_TO_CONSUMER_WALLET,CONSUMER_WALLET_TO_MERCHANT_WALLET,CONSUMER_WALLET_TO_CONSUMER,CONSUMER_WALLET_TO_BANK,CONSUMER_BUY_VOUCHERS,MERCHANT_WALLET_TO_CONSUMER_WALLET,MERCHANT_WALLET_TO_MERCHANT_WALLET,MERCHANT_WALLET_TO_CONSUMER,MERCHANT_WALLET_TO_BANK,MERCHANT_BUY_VOUCHERS"
+      "fieldValues": "CONSUMER_BUY_VOUCHERS,CONSUMER_WALLET_TO_BANK,CONSUMER_WALLET_TO_CONSUMER,CONSUMER_WALLET_TO_CONSUMER_WALLET,CONSUMER_WALLET_TO_MERCHANT_WALLET,CONSUMER_WALLET_CASHOUT,MERCHANT_BUY_VOUCHERS,MERCHANT_WALLET_TO_BANK,MERCHANT_WALLET_TO_CONSUMER,MERCHANT_WALLET_TO_CONSUMER_WALLET,MERCHANT_WALLET_TO_MERCHANT_WALLET,MERCHANT_WALLET_CASHOUT"
     },
     {
       "fieldName": "vendorReference",
@@ -65,17 +64,8 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "senderType",
-      "fieldType": "WalletOwnerType",
-      "fieldValues": "CONSUMER,MERCHANT"
-    },
-    {
       "fieldName": "senderIdNo",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "senderId",
-      "fieldType": "Long"
     },
     {
       "fieldName": "receiverName",
@@ -86,61 +76,26 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "receiverType",
-      "fieldType": "WalletOwnerType",
-      "fieldValues": "CONSUMER,MERCHANT"
-    },
-    {
-      "fieldName": "receiverId",
-      "fieldType": "Long"
-    },
-    {
       "fieldName": "receiverIdNo",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "createdByUserId",
-      "fieldType": "Long"
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "createdBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "createdDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "lastModifiedBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "lastModifiedDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
     }
   ],
   "jpaMetamodelFiltering": true,
   "name": "Transaction",
   "pagination": "pagination",
   "relationships": [
+    {
+      "otherEntityName": "walletUser",
+      "relationshipName": "sender",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "walletUser",
+      "relationshipName": "receiver",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
     {
       "otherEntityName": "walletTransaction",
       "otherEntityRelationshipName": "transaction",

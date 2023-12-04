@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.AttachmentCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.AttachmentRepository;
+import ly.post.dinar.service.AttachmentQueryService;
 import ly.post.dinar.service.AttachmentService;
+import ly.post.dinar.service.criteria.AttachmentCriteria;
 import ly.post.dinar.service.dto.AttachmentDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.Attachment}.
@@ -44,9 +42,16 @@ public class AttachmentResource {
 
     private final AttachmentRepository attachmentRepository;
 
-    public AttachmentResource(AttachmentService attachmentService, AttachmentRepository attachmentRepository) {
+    private final AttachmentQueryService attachmentQueryService;
+
+    public AttachmentResource(
+        AttachmentService attachmentService,
+        AttachmentRepository attachmentRepository,
+        AttachmentQueryService attachmentQueryService
+    ) {
         this.attachmentService = attachmentService;
         this.attachmentRepository = attachmentRepository;
+        this.attachmentQueryService = attachmentQueryService;
     }
 
     /**
@@ -57,23 +62,16 @@ public class AttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<AttachmentDTO>> createAttachment(@RequestBody AttachmentDTO attachmentDTO) throws URISyntaxException {
+    public ResponseEntity<AttachmentDTO> createAttachment(@RequestBody AttachmentDTO attachmentDTO) throws URISyntaxException {
         log.debug("REST request to save Attachment : {}", attachmentDTO);
         if (attachmentDTO.getId() != null) {
             throw new BadRequestAlertException("A new attachment cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return attachmentService
-            .save(attachmentDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/attachments/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        AttachmentDTO result = attachmentService.save(attachmentDTO);
+        return ResponseEntity
+            .created(new URI("/api/attachments/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -87,7 +85,7 @@ public class AttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<AttachmentDTO>> updateAttachment(
+    public ResponseEntity<AttachmentDTO> updateAttachment(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody AttachmentDTO attachmentDTO
     ) throws URISyntaxException {
@@ -99,23 +97,15 @@ public class AttachmentResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return attachmentRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!attachmentRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return attachmentService
-                    .update(attachmentDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        AttachmentDTO result = attachmentService.update(attachmentDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, attachmentDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -130,7 +120,7 @@ public class AttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<AttachmentDTO>> partialUpdateAttachment(
+    public ResponseEntity<AttachmentDTO> partialUpdateAttachment(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody AttachmentDTO attachmentDTO
     ) throws URISyntaxException {
@@ -142,55 +132,35 @@ public class AttachmentResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return attachmentRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!attachmentRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<AttachmentDTO> result = attachmentService.partialUpdate(attachmentDTO);
+        Optional<AttachmentDTO> result = attachmentService.partialUpdate(attachmentDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, attachmentDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /attachments} : get all the attachments.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of attachments in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<AttachmentDTO>>> getAllAttachments(
+    @GetMapping("")
+    public ResponseEntity<List<AttachmentDTO>> getAllAttachments(
         AttachmentCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Attachments by criteria: {}", criteria);
-        return attachmentService
-            .countByCriteria(criteria)
-            .zipWith(attachmentService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<AttachmentDTO> page = attachmentQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -200,9 +170,9 @@ public class AttachmentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countAttachments(AttachmentCriteria criteria) {
+    public ResponseEntity<Long> countAttachments(AttachmentCriteria criteria) {
         log.debug("REST request to count Attachments by criteria: {}", criteria);
-        return attachmentService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(attachmentQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -212,9 +182,9 @@ public class AttachmentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the attachmentDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<AttachmentDTO>> getAttachment(@PathVariable Long id) {
+    public ResponseEntity<AttachmentDTO> getAttachment(@PathVariable Long id) {
         log.debug("REST request to get Attachment : {}", id);
-        Mono<AttachmentDTO> attachmentDTO = attachmentService.findOne(id);
+        Optional<AttachmentDTO> attachmentDTO = attachmentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(attachmentDTO);
     }
 
@@ -225,17 +195,12 @@ public class AttachmentResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteAttachment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAttachment(@PathVariable Long id) {
         log.debug("REST request to delete Attachment : {}", id);
-        return attachmentService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        attachmentService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

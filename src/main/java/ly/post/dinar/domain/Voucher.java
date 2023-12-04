@@ -1,59 +1,49 @@
 package ly.post.dinar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Voucher.
  */
-@Table("voucher")
+@Entity
+@Table(name = "voucher")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Voucher extends AbstractAuditingEntity<Long> implements Serializable {
+public class Voucher implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("code")
+    @Column(name = "code")
     private String code;
 
-    @Column("amount")
+    @Column(name = "amount")
     private Float amount;
 
-    @Column("serial_number")
+    @Column(name = "serial_number")
     private String serialNumber;
 
-    @Column("is_sold")
+    @Column(name = "is_sold")
     private Boolean isSold;
 
-    @Column("sell_transaction_id")
+    @Column(name = "sell_transaction_id")
     private Long sellTransactionId;
 
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
-
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "voucherCompany" }, allowSetters = true)
     private VoucherType voucherType;
 
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
     private VoucherCompany voucherCompany;
-
-    @Column("voucher_type_id")
-    private Long voucherTypeId;
-
-    @Column("voucher_company_id")
-    private Long voucherCompanyId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -135,37 +125,12 @@ public class Voucher extends AbstractAuditingEntity<Long> implements Serializabl
         this.sellTransactionId = sellTransactionId;
     }
 
-    // Inherited createdBy methods
-    public Voucher createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public Voucher createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public Voucher lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public Voucher lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     public VoucherType getVoucherType() {
         return this.voucherType;
     }
 
     public void setVoucherType(VoucherType voucherType) {
         this.voucherType = voucherType;
-        this.voucherTypeId = voucherType != null ? voucherType.getId() : null;
     }
 
     public Voucher voucherType(VoucherType voucherType) {
@@ -179,28 +144,11 @@ public class Voucher extends AbstractAuditingEntity<Long> implements Serializabl
 
     public void setVoucherCompany(VoucherCompany voucherCompany) {
         this.voucherCompany = voucherCompany;
-        this.voucherCompanyId = voucherCompany != null ? voucherCompany.getId() : null;
     }
 
     public Voucher voucherCompany(VoucherCompany voucherCompany) {
         this.setVoucherCompany(voucherCompany);
         return this;
-    }
-
-    public Long getVoucherTypeId() {
-        return this.voucherTypeId;
-    }
-
-    public void setVoucherTypeId(Long voucherType) {
-        this.voucherTypeId = voucherType;
-    }
-
-    public Long getVoucherCompanyId() {
-        return this.voucherCompanyId;
-    }
-
-    public void setVoucherCompanyId(Long voucherCompany) {
-        this.voucherCompanyId = voucherCompany;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -232,10 +180,6 @@ public class Voucher extends AbstractAuditingEntity<Long> implements Serializabl
             ", serialNumber='" + getSerialNumber() + "'" +
             ", isSold='" + getIsSold() + "'" +
             ", sellTransactionId=" + getSellTransactionId() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

@@ -42,30 +42,6 @@
           <dd>
             <span>{{ activation.isUsed }}</span>
           </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.activation.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ activation.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.activation.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="activation.createdDate">{{ formatDateLong(activation.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.activation.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ activation.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.activation.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="activation.lastModifiedDate">{{ formatDateLong(activation.lastModifiedDate) }}</span>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

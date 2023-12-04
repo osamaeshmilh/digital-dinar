@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.WalletProfileCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.WalletProfileRepository;
+import ly.post.dinar.service.WalletProfileQueryService;
 import ly.post.dinar.service.WalletProfileService;
+import ly.post.dinar.service.criteria.WalletProfileCriteria;
 import ly.post.dinar.service.dto.WalletProfileDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.WalletProfile}.
@@ -44,9 +42,16 @@ public class WalletProfileResource {
 
     private final WalletProfileRepository walletProfileRepository;
 
-    public WalletProfileResource(WalletProfileService walletProfileService, WalletProfileRepository walletProfileRepository) {
+    private final WalletProfileQueryService walletProfileQueryService;
+
+    public WalletProfileResource(
+        WalletProfileService walletProfileService,
+        WalletProfileRepository walletProfileRepository,
+        WalletProfileQueryService walletProfileQueryService
+    ) {
         this.walletProfileService = walletProfileService;
         this.walletProfileRepository = walletProfileRepository;
+        this.walletProfileQueryService = walletProfileQueryService;
     }
 
     /**
@@ -57,24 +62,16 @@ public class WalletProfileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<WalletProfileDTO>> createWalletProfile(@RequestBody WalletProfileDTO walletProfileDTO)
-        throws URISyntaxException {
+    public ResponseEntity<WalletProfileDTO> createWalletProfile(@RequestBody WalletProfileDTO walletProfileDTO) throws URISyntaxException {
         log.debug("REST request to save WalletProfile : {}", walletProfileDTO);
         if (walletProfileDTO.getId() != null) {
             throw new BadRequestAlertException("A new walletProfile cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return walletProfileService
-            .save(walletProfileDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/wallet-profiles/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        WalletProfileDTO result = walletProfileService.save(walletProfileDTO);
+        return ResponseEntity
+            .created(new URI("/api/wallet-profiles/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -88,7 +85,7 @@ public class WalletProfileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<WalletProfileDTO>> updateWalletProfile(
+    public ResponseEntity<WalletProfileDTO> updateWalletProfile(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody WalletProfileDTO walletProfileDTO
     ) throws URISyntaxException {
@@ -100,23 +97,15 @@ public class WalletProfileResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return walletProfileRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!walletProfileRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return walletProfileService
-                    .update(walletProfileDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        WalletProfileDTO result = walletProfileService.update(walletProfileDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, walletProfileDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -131,7 +120,7 @@ public class WalletProfileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<WalletProfileDTO>> partialUpdateWalletProfile(
+    public ResponseEntity<WalletProfileDTO> partialUpdateWalletProfile(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody WalletProfileDTO walletProfileDTO
     ) throws URISyntaxException {
@@ -143,55 +132,35 @@ public class WalletProfileResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return walletProfileRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!walletProfileRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<WalletProfileDTO> result = walletProfileService.partialUpdate(walletProfileDTO);
+        Optional<WalletProfileDTO> result = walletProfileService.partialUpdate(walletProfileDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, walletProfileDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /wallet-profiles} : get all the walletProfiles.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of walletProfiles in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<WalletProfileDTO>>> getAllWalletProfiles(
+    @GetMapping("")
+    public ResponseEntity<List<WalletProfileDTO>> getAllWalletProfiles(
         WalletProfileCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get WalletProfiles by criteria: {}", criteria);
-        return walletProfileService
-            .countByCriteria(criteria)
-            .zipWith(walletProfileService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<WalletProfileDTO> page = walletProfileQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -201,9 +170,9 @@ public class WalletProfileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countWalletProfiles(WalletProfileCriteria criteria) {
+    public ResponseEntity<Long> countWalletProfiles(WalletProfileCriteria criteria) {
         log.debug("REST request to count WalletProfiles by criteria: {}", criteria);
-        return walletProfileService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(walletProfileQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -213,9 +182,9 @@ public class WalletProfileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the walletProfileDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<WalletProfileDTO>> getWalletProfile(@PathVariable Long id) {
+    public ResponseEntity<WalletProfileDTO> getWalletProfile(@PathVariable Long id) {
         log.debug("REST request to get WalletProfile : {}", id);
-        Mono<WalletProfileDTO> walletProfileDTO = walletProfileService.findOne(id);
+        Optional<WalletProfileDTO> walletProfileDTO = walletProfileService.findOne(id);
         return ResponseUtil.wrapOrNotFound(walletProfileDTO);
     }
 
@@ -226,17 +195,12 @@ public class WalletProfileResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteWalletProfile(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteWalletProfile(@PathVariable Long id) {
         log.debug("REST request to delete WalletProfile : {}", id);
-        return walletProfileService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        walletProfileService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

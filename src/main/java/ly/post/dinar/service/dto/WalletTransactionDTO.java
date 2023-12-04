@@ -1,11 +1,10 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.WalletAction;
-import ly.post.dinar.domain.enumeration.WalletOwnerType;
+import ly.post.dinar.domain.enumeration.WalletType;
 
 /**
  * A DTO for the {@link ly.post.dinar.domain.WalletTransaction} entity.
@@ -33,19 +32,11 @@ public class WalletTransactionDTO implements Serializable {
 
     private String notes;
 
-    private Long ownerId;
-
-    private WalletOwnerType walletOwnerType;
-
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
+    private WalletType walletOwnerType;
 
     private TransactionDTO transaction;
+
+    private WalletUserDTO walletUser;
 
     public Long getId() {
         return id;
@@ -127,52 +118,12 @@ public class WalletTransactionDTO implements Serializable {
         this.notes = notes;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public WalletOwnerType getWalletOwnerType() {
+    public WalletType getWalletOwnerType() {
         return walletOwnerType;
     }
 
-    public void setWalletOwnerType(WalletOwnerType walletOwnerType) {
+    public void setWalletOwnerType(WalletType walletOwnerType) {
         this.walletOwnerType = walletOwnerType;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public TransactionDTO getTransaction() {
@@ -181,6 +132,14 @@ public class WalletTransactionDTO implements Serializable {
 
     public void setTransaction(TransactionDTO transaction) {
         this.transaction = transaction;
+    }
+
+    public WalletUserDTO getWalletUser() {
+        return walletUser;
+    }
+
+    public void setWalletUser(WalletUserDTO walletUser) {
+        this.walletUser = walletUser;
     }
 
     @Override
@@ -218,13 +177,9 @@ public class WalletTransactionDTO implements Serializable {
             ", paymentType='" + getPaymentType() + "'" +
             ", paymentReference='" + getPaymentReference() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", ownerId=" + getOwnerId() +
             ", walletOwnerType='" + getWalletOwnerType() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", transaction=" + getTransaction() +
+            ", walletUser=" + getWalletUser() +
             "}";
     }
 }

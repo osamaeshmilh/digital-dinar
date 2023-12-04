@@ -10,8 +10,7 @@
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "activation": "Activation",
         "attachment": "Attachment",
-        "merchant": "Merchant",
-        "consumer": "Consumer",
+        "walletUser": "Wallet User",
         "walletTransaction": "Wallet Transaction",
         "beneficiary": "Beneficiary",
         "walletProfile": "Wallet Profile",
@@ -26,7 +25,9 @@
         "transaction": "Transaction",
         "voucherCompany": "Voucher Company",
         "voucherType": "Voucher Type",
-        "voucher": "Voucher"
+        "voucher": "Voucher",
+        "bank": "Bank",
+        "bankBranch": "Bank Branch"
       },
       "account": {
         "main": "Compte",

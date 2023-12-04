@@ -19,34 +19,10 @@
             <span>{{ city.nameEn }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.city.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ city.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.city.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="city.createdDate">{{ formatDateLong(city.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.city.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ city.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.city.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="city.lastModifiedDate">{{ formatDateLong(city.lastModifiedDate) }}</span>
-          </dd>
-          <dt>
             <span v-text="t$('digitalDinarApp.city.country')"></span>
           </dt>
           <dd>
-            <div v-if="city.country.id">
+            <div v-if="city.country">
               <router-link :to="{ name: 'CountryView', params: { countryId: city.country.id } }">{{ city.country.nameAr }}</router-link>
             </div>
           </dd>

@@ -1,19 +1,19 @@
 export enum PaymentType {
   ADFALI = 'ADFALI',
 
-  SADAD = 'SADAD',
+  CASH = 'CASH',
 
-  TADAWUL = 'TADAWUL',
-
-  MOBICASH = 'MOBICASH',
+  CHEQUE = 'CHEQUE',
 
   EMIZA = 'EMIZA',
 
   MOAMALAT = 'MOAMALAT',
 
+  MOBICASH = 'MOBICASH',
+
+  SADAD = 'SADAD',
+
+  TADAWUL = 'TADAWUL',
+
   WALLET = 'WALLET',
-
-  CASH = 'CASH',
-
-  CHEQUE = 'CHEQUE',
 }

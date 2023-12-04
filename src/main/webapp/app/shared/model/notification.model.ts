@@ -3,10 +3,6 @@ export interface INotification {
   title?: string | null;
   description?: string | null;
   userId?: number | null;
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
 }
 
 export class Notification implements INotification {
@@ -15,9 +11,5 @@ export class Notification implements INotification {
     public title?: string | null,
     public description?: string | null,
     public userId?: number | null,
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
   ) {}
 }

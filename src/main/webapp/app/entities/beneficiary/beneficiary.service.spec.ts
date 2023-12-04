@@ -1,10 +1,8 @@
 /* tslint:disable max-line-length */
 import axios from 'axios';
 import sinon from 'sinon';
-import dayjs from 'dayjs';
 
 import BeneficiaryService from './beneficiary.service';
-import { DATE_TIME_FORMAT } from '@/shared/composables/date-format';
 import { Beneficiary } from '@/shared/model/beneficiary.model';
 
 const error = {
@@ -28,41 +26,30 @@ describe('Service Tests', () => {
   describe('Beneficiary Service', () => {
     let service: BeneficiaryService;
     let elemDefault;
-    let currentDate: Date;
 
     beforeEach(() => {
       service = new BeneficiaryService();
-      currentDate = new Date();
       elemDefault = new Beneficiary(
         123,
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
-        'PASSPORT',
+        'AAAAAAA',
+        'AAAAAAA',
+        'DRIVING_LICENCE',
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
-        0,
         false,
         false,
-        'AAAAAAA',
-        currentDate,
-        'AAAAAAA',
-        currentDate,
       );
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
-        const returnedFromService = Object.assign(
-          {
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-          },
-          elemDefault,
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
         axiosStub.get.resolves({ data: returnedFromService });
 
         return service.find(123).then(res => {
@@ -84,18 +71,10 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 123,
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         axiosStub.post.resolves({ data: returnedFromService });
         return service.create({}).then(res => {
@@ -121,29 +100,20 @@ describe('Service Tests', () => {
             arabicLastName: 'BBBBBB',
             englishFirstName: 'BBBBBB',
             englishLastName: 'BBBBBB',
+            bankAccountName: 'BBBBBB',
+            bankAccountNumber: 'BBBBBB',
             idType: 'BBBBBB',
             idNo: 'BBBBBB',
             mobileNo: 'BBBBBB',
             email: 'BBBBBB',
             notes: 'BBBBBB',
-            createdByUserId: 1,
             isVerified: true,
             hasTransferred: true,
-            createdBy: 'BBBBBB',
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedBy: 'BBBBBB',
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
 
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
         axiosStub.put.resolves({ data: returnedFromService });
 
         return service.update(expected).then(res => {
@@ -166,24 +136,19 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             arabicFirstName: 'BBBBBB',
-            arabicLastName: 'BBBBBB',
             englishFirstName: 'BBBBBB',
             englishLastName: 'BBBBBB',
+            bankAccountNumber: 'BBBBBB',
+            idType: 'BBBBBB',
+            idNo: 'BBBBBB',
             mobileNo: 'BBBBBB',
-            email: 'BBBBBB',
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            isVerified: true,
           },
           new Beneficiary(),
         );
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
         axiosStub.patch.resolves({ data: returnedFromService });
 
         return service.partialUpdate(patchObject).then(res => {
@@ -209,28 +174,19 @@ describe('Service Tests', () => {
             arabicLastName: 'BBBBBB',
             englishFirstName: 'BBBBBB',
             englishLastName: 'BBBBBB',
+            bankAccountName: 'BBBBBB',
+            bankAccountNumber: 'BBBBBB',
             idType: 'BBBBBB',
             idNo: 'BBBBBB',
             mobileNo: 'BBBBBB',
             email: 'BBBBBB',
             notes: 'BBBBBB',
-            createdByUserId: 1,
             isVerified: true,
             hasTransferred: true,
-            createdBy: 'BBBBBB',
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedBy: 'BBBBBB',
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
         axiosStub.get.resolves([returnedFromService]);
         return service.retrieve({ sort: {}, page: 0, size: 10 }).then(res => {
           expect(res).toContainEqual(expected);

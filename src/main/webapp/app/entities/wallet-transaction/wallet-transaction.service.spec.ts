@@ -1,10 +1,8 @@
 /* tslint:disable max-line-length */
 import axios from 'axios';
 import sinon from 'sinon';
-import dayjs from 'dayjs';
 
 import WalletTransactionService from './wallet-transaction.service';
-import { DATE_TIME_FORMAT } from '@/shared/composables/date-format';
 import { WalletTransaction } from '@/shared/model/wallet-transaction.model';
 
 const error = {
@@ -28,40 +26,15 @@ describe('Service Tests', () => {
   describe('WalletTransaction Service', () => {
     let service: WalletTransactionService;
     let elemDefault;
-    let currentDate: Date;
 
     beforeEach(() => {
       service = new WalletTransactionService();
-      currentDate = new Date();
-      elemDefault = new WalletTransaction(
-        123,
-        'AAAAAAA',
-        0,
-        'DEPOSIT',
-        'AAAAAAA',
-        0,
-        0,
-        'ADFALI',
-        'AAAAAAA',
-        'AAAAAAA',
-        0,
-        'CONSUMER',
-        'AAAAAAA',
-        currentDate,
-        'AAAAAAA',
-        currentDate,
-      );
+      elemDefault = new WalletTransaction(123, 'AAAAAAA', 0, 'DEPOSIT', 'AAAAAAA', 0, 0, 'ADFALI', 'AAAAAAA', 'AAAAAAA', 'CONSUMER');
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
-        const returnedFromService = Object.assign(
-          {
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-          },
-          elemDefault,
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
         axiosStub.get.resolves({ data: returnedFromService });
 
         return service.find(123).then(res => {
@@ -83,18 +56,10 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 123,
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         axiosStub.post.resolves({ data: returnedFromService });
         return service.create({}).then(res => {
@@ -125,23 +90,12 @@ describe('Service Tests', () => {
             paymentType: 'BBBBBB',
             paymentReference: 'BBBBBB',
             notes: 'BBBBBB',
-            ownerId: 1,
             walletOwnerType: 'BBBBBB',
-            createdBy: 'BBBBBB',
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedBy: 'BBBBBB',
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
 
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
         axiosStub.put.resolves({ data: returnedFromService });
 
         return service.update(expected).then(res => {
@@ -163,25 +117,16 @@ describe('Service Tests', () => {
       it('should partial update a WalletTransaction', async () => {
         const patchObject = Object.assign(
           {
+            transactionNo: 'BBBBBB',
             walletAction: 'BBBBBB',
-            totalBeforeAction: 1,
             paymentType: 'BBBBBB',
-            ownerId: 1,
             walletOwnerType: 'BBBBBB',
-            createdBy: 'BBBBBB',
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new WalletTransaction(),
         );
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
         axiosStub.patch.resolves({ data: returnedFromService });
 
         return service.partialUpdate(patchObject).then(res => {
@@ -212,22 +157,11 @@ describe('Service Tests', () => {
             paymentType: 'BBBBBB',
             paymentReference: 'BBBBBB',
             notes: 'BBBBBB',
-            ownerId: 1,
             walletOwnerType: 'BBBBBB',
-            createdBy: 'BBBBBB',
-            createdDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            lastModifiedBy: 'BBBBBB',
-            lastModifiedDate: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
-        const expected = Object.assign(
-          {
-            createdDate: currentDate,
-            lastModifiedDate: currentDate,
-          },
-          returnedFromService,
-        );
+        const expected = Object.assign({}, returnedFromService);
         axiosStub.get.resolves([returnedFromService]);
         return service.retrieve({ sort: {}, page: 0, size: 10 }).then(res => {
           expect(res).toContainEqual(expected);

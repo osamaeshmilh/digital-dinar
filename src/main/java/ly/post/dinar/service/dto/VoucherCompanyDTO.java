@@ -2,7 +2,6 @@ package ly.post.dinar.service.dto;
 
 import jakarta.persistence.Lob;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -32,14 +31,6 @@ public class VoucherCompanyDTO implements Serializable {
     private String address;
 
     private String notes;
-
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
 
     private UserDTO user;
 
@@ -131,38 +122,6 @@ public class VoucherCompanyDTO implements Serializable {
         this.notes = notes;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     public UserDTO getUser() {
         return user;
     }
@@ -206,10 +165,6 @@ public class VoucherCompanyDTO implements Serializable {
             ", postCode='" + getPostCode() + "'" +
             ", address='" + getAddress() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", user=" + getUser() +
             "}";
     }

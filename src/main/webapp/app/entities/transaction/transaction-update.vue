@@ -237,26 +237,6 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.senderType')" for="transaction-senderType"></label>
-            <select
-              class="form-control"
-              name="senderType"
-              :class="{ valid: !v$.senderType.$invalid, invalid: v$.senderType.$invalid }"
-              v-model="v$.senderType.$model"
-              id="transaction-senderType"
-              data-cy="senderType"
-            >
-              <option
-                v-for="walletOwnerType in walletOwnerTypeValues"
-                :key="walletOwnerType"
-                v-bind:value="walletOwnerType"
-                v-bind:label="t$('digitalDinarApp.WalletOwnerType.' + walletOwnerType)"
-              >
-                {{ walletOwnerType }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
             <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.senderIdNo')" for="transaction-senderIdNo"></label>
             <input
               type="text"
@@ -266,18 +246,6 @@
               data-cy="senderIdNo"
               :class="{ valid: !v$.senderIdNo.$invalid, invalid: v$.senderIdNo.$invalid }"
               v-model="v$.senderIdNo.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.senderId')" for="transaction-senderId"></label>
-            <input
-              type="number"
-              class="form-control"
-              name="senderId"
-              id="transaction-senderId"
-              data-cy="senderId"
-              :class="{ valid: !v$.senderId.$invalid, invalid: v$.senderId.$invalid }"
-              v-model.number="v$.senderId.$model"
             />
           </div>
           <div class="form-group">
@@ -315,42 +283,6 @@
           <div class="form-group">
             <label
               class="form-control-label"
-              v-text="t$('digitalDinarApp.transaction.receiverType')"
-              for="transaction-receiverType"
-            ></label>
-            <select
-              class="form-control"
-              name="receiverType"
-              :class="{ valid: !v$.receiverType.$invalid, invalid: v$.receiverType.$invalid }"
-              v-model="v$.receiverType.$model"
-              id="transaction-receiverType"
-              data-cy="receiverType"
-            >
-              <option
-                v-for="walletOwnerType in walletOwnerTypeValues"
-                :key="walletOwnerType"
-                v-bind:value="walletOwnerType"
-                v-bind:label="t$('digitalDinarApp.WalletOwnerType.' + walletOwnerType)"
-              >
-                {{ walletOwnerType }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.receiverId')" for="transaction-receiverId"></label>
-            <input
-              type="number"
-              class="form-control"
-              name="receiverId"
-              id="transaction-receiverId"
-              data-cy="receiverId"
-              :class="{ valid: !v$.receiverId.$invalid, invalid: v$.receiverId.$invalid }"
-              v-model.number="v$.receiverId.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label
-              class="form-control-label"
               v-text="t$('digitalDinarApp.transaction.receiverIdNo')"
               for="transaction-receiverIdNo"
             ></label>
@@ -365,82 +297,32 @@
             />
           </div>
           <div class="form-group">
-            <label
-              class="form-control-label"
-              v-text="t$('digitalDinarApp.transaction.createdByUserId')"
-              for="transaction-createdByUserId"
-            ></label>
-            <input
-              type="number"
-              class="form-control"
-              name="createdByUserId"
-              id="transaction-createdByUserId"
-              data-cy="createdByUserId"
-              :class="{ valid: !v$.createdByUserId.$invalid, invalid: v$.createdByUserId.$invalid }"
-              v-model.number="v$.createdByUserId.$model"
-            />
+            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.sender')" for="transaction-sender"></label>
+            <select class="form-control" id="transaction-sender" data-cy="sender" name="sender" v-model="transaction.sender">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="transaction.sender && walletUserOption.id === transaction.sender.id ? transaction.sender : walletUserOption"
+                v-for="walletUserOption in walletUsers"
+                :key="walletUserOption.id"
+              >
+                {{ walletUserOption.id }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.createdBy')" for="transaction-createdBy"></label>
-            <input
-              type="text"
-              class="form-control"
-              name="createdBy"
-              id="transaction-createdBy"
-              data-cy="createdBy"
-              :class="{ valid: !v$.createdBy.$invalid, invalid: v$.createdBy.$invalid }"
-              v-model="v$.createdBy.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.createdDate')" for="transaction-createdDate"></label>
-            <div class="d-flex">
-              <input
-                id="transaction-createdDate"
-                data-cy="createdDate"
-                type="datetime-local"
-                class="form-control"
-                name="createdDate"
-                :class="{ valid: !v$.createdDate.$invalid, invalid: v$.createdDate.$invalid }"
-                :value="convertDateTimeFromServer(v$.createdDate.$model)"
-                @change="updateInstantField('createdDate', $event)"
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <label
-              class="form-control-label"
-              v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"
-              for="transaction-lastModifiedBy"
-            ></label>
-            <input
-              type="text"
-              class="form-control"
-              name="lastModifiedBy"
-              id="transaction-lastModifiedBy"
-              data-cy="lastModifiedBy"
-              :class="{ valid: !v$.lastModifiedBy.$invalid, invalid: v$.lastModifiedBy.$invalid }"
-              v-model="v$.lastModifiedBy.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label
-              class="form-control-label"
-              v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"
-              for="transaction-lastModifiedDate"
-            ></label>
-            <div class="d-flex">
-              <input
-                id="transaction-lastModifiedDate"
-                data-cy="lastModifiedDate"
-                type="datetime-local"
-                class="form-control"
-                name="lastModifiedDate"
-                :class="{ valid: !v$.lastModifiedDate.$invalid, invalid: v$.lastModifiedDate.$invalid }"
-                :value="convertDateTimeFromServer(v$.lastModifiedDate.$model)"
-                @change="updateInstantField('lastModifiedDate', $event)"
-              />
-            </div>
+            <label class="form-control-label" v-text="t$('digitalDinarApp.transaction.receiver')" for="transaction-receiver"></label>
+            <select class="form-control" id="transaction-receiver" data-cy="receiver" name="receiver" v-model="transaction.receiver">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="
+                  transaction.receiver && walletUserOption.id === transaction.receiver.id ? transaction.receiver : walletUserOption
+                "
+                v-for="walletUserOption in walletUsers"
+                :key="walletUserOption.id"
+              >
+                {{ walletUserOption.id }}
+              </option>
+            </select>
           </div>
         </div>
         <div>

@@ -1,16 +1,16 @@
 package ly.post.dinar.service;
 
-import ly.post.dinar.domain.criteria.CountryCriteria;
+import java.util.Optional;
+import ly.post.dinar.domain.Country;
 import ly.post.dinar.repository.CountryRepository;
 import ly.post.dinar.service.dto.CountryDTO;
 import ly.post.dinar.service.mapper.CountryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Service Implementation for managing {@link ly.post.dinar.domain.Country}.
@@ -36,9 +36,11 @@ public class CountryService {
      * @param countryDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<CountryDTO> save(CountryDTO countryDTO) {
+    public CountryDTO save(CountryDTO countryDTO) {
         log.debug("Request to save Country : {}", countryDTO);
-        return countryRepository.save(countryMapper.toEntity(countryDTO)).map(countryMapper::toDto);
+        Country country = countryMapper.toEntity(countryDTO);
+        country = countryRepository.save(country);
+        return countryMapper.toDto(country);
     }
 
     /**
@@ -47,9 +49,11 @@ public class CountryService {
      * @param countryDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<CountryDTO> update(CountryDTO countryDTO) {
+    public CountryDTO update(CountryDTO countryDTO) {
         log.debug("Request to update Country : {}", countryDTO);
-        return countryRepository.save(countryMapper.toEntity(countryDTO)).map(countryMapper::toDto);
+        Country country = countryMapper.toEntity(countryDTO);
+        country = countryRepository.save(country);
+        return countryMapper.toDto(country);
     }
 
     /**
@@ -58,7 +62,7 @@ public class CountryService {
      * @param countryDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Mono<CountryDTO> partialUpdate(CountryDTO countryDTO) {
+    public Optional<CountryDTO> partialUpdate(CountryDTO countryDTO) {
         log.debug("Request to partially update Country : {}", countryDTO);
 
         return countryRepository
@@ -68,7 +72,7 @@ public class CountryService {
 
                 return existingCountry;
             })
-            .flatMap(countryRepository::save)
+            .map(countryRepository::save)
             .map(countryMapper::toDto);
     }
 
@@ -79,40 +83,9 @@ public class CountryService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Flux<CountryDTO> findAll(Pageable pageable) {
+    public Page<CountryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Countries");
-        return countryRepository.findAllBy(pageable).map(countryMapper::toDto);
-    }
-
-    /**
-     * Find countries by Criteria.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Flux<CountryDTO> findByCriteria(CountryCriteria criteria, Pageable pageable) {
-        log.debug("Request to get all Countries by Criteria");
-        return countryRepository.findByCriteria(criteria, pageable).map(countryMapper::toDto);
-    }
-
-    /**
-     * Find the count of countries by criteria.
-     * @param criteria filtering criteria
-     * @return the count of countries
-     */
-    public Mono<Long> countByCriteria(CountryCriteria criteria) {
-        log.debug("Request to get the count of all Countries by Criteria");
-        return countryRepository.countByCriteria(criteria);
-    }
-
-    /**
-     * Returns the number of countries available.
-     * @return the number of entities in the database.
-     *
-     */
-    public Mono<Long> countAll() {
-        return countryRepository.count();
+        return countryRepository.findAll(pageable).map(countryMapper::toDto);
     }
 
     /**
@@ -122,7 +95,7 @@ public class CountryService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Mono<CountryDTO> findOne(Long id) {
+    public Optional<CountryDTO> findOne(Long id) {
         log.debug("Request to get Country : {}", id);
         return countryRepository.findById(id).map(countryMapper::toDto);
     }
@@ -131,10 +104,9 @@ public class CountryService {
      * Delete the country by id.
      *
      * @param id the id of the entity.
-     * @return a Mono to signal the deletion
      */
-    public Mono<Void> delete(Long id) {
+    public void delete(Long id) {
         log.debug("Request to delete Country : {}", id);
-        return countryRepository.deleteById(id);
+        countryRepository.deleteById(id);
     }
 }

@@ -1,9 +1,0 @@
-export enum WalletOwnerStatus {
-  ACTIVE = 'ACTIVE',
-
-  PENDING_KYC1 = 'PENDING_KYC1',
-
-  PENDING_KYC2 = 'PENDING_KYC2',
-
-  DEACTIVATED = 'DEACTIVATED',
-}

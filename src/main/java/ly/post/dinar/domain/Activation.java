@@ -1,46 +1,44 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Activation.
  */
-@Table("activation")
+@Entity
+@Table(name = "activation")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Activation extends AbstractAuditingEntity<Long> implements Serializable {
+public class Activation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("mobile_no")
+    @Column(name = "mobile_no")
     private String mobileNo;
 
-    @Column("email")
+    @Column(name = "email")
     private String email;
 
-    @Column("code")
+    @Column(name = "code")
     private String code;
 
-    @Column("sent_on")
+    @Column(name = "sent_on")
     private Instant sentOn;
 
-    @Column("valid_until")
+    @Column(name = "valid_until")
     private Instant validUntil;
 
-    @Column("is_used")
+    @Column(name = "is_used")
     private Boolean isUsed;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -135,30 +133,6 @@ public class Activation extends AbstractAuditingEntity<Long> implements Serializ
         this.isUsed = isUsed;
     }
 
-    // Inherited createdBy methods
-    public Activation createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public Activation createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public Activation lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public Activation lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -189,10 +163,6 @@ public class Activation extends AbstractAuditingEntity<Long> implements Serializ
             ", sentOn='" + getSentOn() + "'" +
             ", validUntil='" + getValidUntil() + "'" +
             ", isUsed='" + getIsUsed() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

@@ -20,11 +20,7 @@
       "id": "ID",
       "nameAr": "Name Ar",
       "nameEn": "Name En",
-      "code": "Code",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "code": "Code"
     }
   }
 }

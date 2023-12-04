@@ -33,11 +33,7 @@
       "transferToMerchantWalletFees": "Transfer To Merchant Wallet Fees",
       "transferToConsumerFees": "Transfer To Consumer Fees",
       "transferToBankFees": "Transfer To Bank Fees",
-      "buyVouchersFees": "Buy Vouchers Fees",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "buyVouchersFees": "Buy Vouchers Fees"
     }
   }
 }

@@ -11,13 +11,9 @@ const Attachment = () => import('@/entities/attachment/attachment.vue');
 const AttachmentUpdate = () => import('@/entities/attachment/attachment-update.vue');
 const AttachmentDetails = () => import('@/entities/attachment/attachment-details.vue');
 
-const Merchant = () => import('@/entities/merchant/merchant.vue');
-const MerchantUpdate = () => import('@/entities/merchant/merchant-update.vue');
-const MerchantDetails = () => import('@/entities/merchant/merchant-details.vue');
-
-const Consumer = () => import('@/entities/consumer/consumer.vue');
-const ConsumerUpdate = () => import('@/entities/consumer/consumer-update.vue');
-const ConsumerDetails = () => import('@/entities/consumer/consumer-details.vue');
+const WalletUser = () => import('@/entities/wallet-user/wallet-user.vue');
+const WalletUserUpdate = () => import('@/entities/wallet-user/wallet-user-update.vue');
+const WalletUserDetails = () => import('@/entities/wallet-user/wallet-user-details.vue');
 
 const WalletTransaction = () => import('@/entities/wallet-transaction/wallet-transaction.vue');
 const WalletTransactionUpdate = () => import('@/entities/wallet-transaction/wallet-transaction-update.vue');
@@ -79,6 +75,14 @@ const Voucher = () => import('@/entities/voucher/voucher.vue');
 const VoucherUpdate = () => import('@/entities/voucher/voucher-update.vue');
 const VoucherDetails = () => import('@/entities/voucher/voucher-details.vue');
 
+const Bank = () => import('@/entities/bank/bank.vue');
+const BankUpdate = () => import('@/entities/bank/bank-update.vue');
+const BankDetails = () => import('@/entities/bank/bank-details.vue');
+
+const BankBranch = () => import('@/entities/bank-branch/bank-branch.vue');
+const BankBranchUpdate = () => import('@/entities/bank-branch/bank-branch-update.vue');
+const BankBranchDetails = () => import('@/entities/bank-branch/bank-branch-details.vue');
+
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -134,51 +138,27 @@ export default {
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'merchant',
-      name: 'Merchant',
-      component: Merchant,
+      path: 'wallet-user',
+      name: 'WalletUser',
+      component: WalletUser,
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'merchant/new',
-      name: 'MerchantCreate',
-      component: MerchantUpdate,
+      path: 'wallet-user/new',
+      name: 'WalletUserCreate',
+      component: WalletUserUpdate,
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'merchant/:merchantId/edit',
-      name: 'MerchantEdit',
-      component: MerchantUpdate,
+      path: 'wallet-user/:walletUserId/edit',
+      name: 'WalletUserEdit',
+      component: WalletUserUpdate,
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'merchant/:merchantId/view',
-      name: 'MerchantView',
-      component: MerchantDetails,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'consumer',
-      name: 'Consumer',
-      component: Consumer,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'consumer/new',
-      name: 'ConsumerCreate',
-      component: ConsumerUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'consumer/:consumerId/edit',
-      name: 'ConsumerEdit',
-      component: ConsumerUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'consumer/:consumerId/view',
-      name: 'ConsumerView',
-      component: ConsumerDetails,
+      path: 'wallet-user/:walletUserId/view',
+      name: 'WalletUserView',
+      component: WalletUserDetails,
       meta: { authorities: [Authority.USER] },
     },
     {
@@ -539,6 +519,54 @@ export default {
       path: 'voucher/:voucherId/view',
       name: 'VoucherView',
       component: VoucherDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank',
+      name: 'Bank',
+      component: Bank,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank/new',
+      name: 'BankCreate',
+      component: BankUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank/:bankId/edit',
+      name: 'BankEdit',
+      component: BankUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank/:bankId/view',
+      name: 'BankView',
+      component: BankDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank-branch',
+      name: 'BankBranch',
+      component: BankBranch,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank-branch/new',
+      name: 'BankBranchCreate',
+      component: BankBranchUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank-branch/:bankBranchId/edit',
+      name: 'BankBranchEdit',
+      component: BankBranchUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'bank-branch/:bankBranchId/view',
+      name: 'BankBranchView',
+      component: BankBranchDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

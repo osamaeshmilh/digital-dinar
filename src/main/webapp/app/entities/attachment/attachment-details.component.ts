@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 
 import AttachmentService from './attachment.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useDateFormat } from '@/shared/composables';
 import { type IAttachment } from '@/shared/model/attachment.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -12,7 +11,6 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'AttachmentDetails',
   setup() {
-    const dateFormat = useDateFormat();
     const attachmentService = inject('attachmentService', () => new AttachmentService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -38,7 +36,6 @@ export default defineComponent({
     }
 
     return {
-      ...dateFormat,
       alertService,
       attachment,
 

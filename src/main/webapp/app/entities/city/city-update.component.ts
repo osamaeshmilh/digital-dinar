@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import CityService from './city.service';
-import { useValidation, useDateFormat } from '@/shared/composables';
+import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import CountryService from '@/entities/country/country.service';
@@ -34,8 +34,6 @@ export default defineComponent({
     const retrieveCity = async cityId => {
       try {
         const res = await cityService().find(cityId);
-        res.createdDate = new Date(res.createdDate);
-        res.lastModifiedDate = new Date(res.lastModifiedDate);
         city.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -61,10 +59,6 @@ export default defineComponent({
     const validationRules = {
       nameAr: {},
       nameEn: {},
-      createdBy: {},
-      createdDate: {},
-      lastModifiedBy: {},
-      lastModifiedDate: {},
       country: {},
     };
     const v$ = useVuelidate(validationRules, city as any);
@@ -79,7 +73,6 @@ export default defineComponent({
       currentLanguage,
       countries,
       v$,
-      ...useDateFormat({ entityRef: city }),
       t$,
     };
   },

@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.SliderCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.SliderRepository;
+import ly.post.dinar.service.SliderQueryService;
 import ly.post.dinar.service.SliderService;
+import ly.post.dinar.service.criteria.SliderCriteria;
 import ly.post.dinar.service.dto.SliderDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.Slider}.
@@ -44,9 +42,12 @@ public class SliderResource {
 
     private final SliderRepository sliderRepository;
 
-    public SliderResource(SliderService sliderService, SliderRepository sliderRepository) {
+    private final SliderQueryService sliderQueryService;
+
+    public SliderResource(SliderService sliderService, SliderRepository sliderRepository, SliderQueryService sliderQueryService) {
         this.sliderService = sliderService;
         this.sliderRepository = sliderRepository;
+        this.sliderQueryService = sliderQueryService;
     }
 
     /**
@@ -57,23 +58,16 @@ public class SliderResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<SliderDTO>> createSlider(@RequestBody SliderDTO sliderDTO) throws URISyntaxException {
+    public ResponseEntity<SliderDTO> createSlider(@RequestBody SliderDTO sliderDTO) throws URISyntaxException {
         log.debug("REST request to save Slider : {}", sliderDTO);
         if (sliderDTO.getId() != null) {
             throw new BadRequestAlertException("A new slider cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return sliderService
-            .save(sliderDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/sliders/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        SliderDTO result = sliderService.save(sliderDTO);
+        return ResponseEntity
+            .created(new URI("/api/sliders/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -87,7 +81,7 @@ public class SliderResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<SliderDTO>> updateSlider(
+    public ResponseEntity<SliderDTO> updateSlider(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SliderDTO sliderDTO
     ) throws URISyntaxException {
@@ -99,23 +93,15 @@ public class SliderResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return sliderRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!sliderRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return sliderService
-                    .update(sliderDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        SliderDTO result = sliderService.update(sliderDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, sliderDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -130,7 +116,7 @@ public class SliderResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<SliderDTO>> partialUpdateSlider(
+    public ResponseEntity<SliderDTO> partialUpdateSlider(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SliderDTO sliderDTO
     ) throws URISyntaxException {
@@ -142,55 +128,35 @@ public class SliderResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return sliderRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!sliderRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<SliderDTO> result = sliderService.partialUpdate(sliderDTO);
+        Optional<SliderDTO> result = sliderService.partialUpdate(sliderDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, sliderDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /sliders} : get all the sliders.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of sliders in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<SliderDTO>>> getAllSliders(
+    @GetMapping("")
+    public ResponseEntity<List<SliderDTO>> getAllSliders(
         SliderCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Sliders by criteria: {}", criteria);
-        return sliderService
-            .countByCriteria(criteria)
-            .zipWith(sliderService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<SliderDTO> page = sliderQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -200,9 +166,9 @@ public class SliderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countSliders(SliderCriteria criteria) {
+    public ResponseEntity<Long> countSliders(SliderCriteria criteria) {
         log.debug("REST request to count Sliders by criteria: {}", criteria);
-        return sliderService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(sliderQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -212,9 +178,9 @@ public class SliderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sliderDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<SliderDTO>> getSlider(@PathVariable Long id) {
+    public ResponseEntity<SliderDTO> getSlider(@PathVariable Long id) {
         log.debug("REST request to get Slider : {}", id);
-        Mono<SliderDTO> sliderDTO = sliderService.findOne(id);
+        Optional<SliderDTO> sliderDTO = sliderService.findOne(id);
         return ResponseUtil.wrapOrNotFound(sliderDTO);
     }
 
@@ -225,17 +191,12 @@ public class SliderResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteSlider(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSlider(@PathVariable Long id) {
         log.debug("REST request to delete Slider : {}", id);
-        return sliderService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        sliderService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

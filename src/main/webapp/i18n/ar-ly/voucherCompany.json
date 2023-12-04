@@ -27,10 +27,6 @@
       "postCode": "Post Code",
       "address": "Address",
       "notes": "Notes",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date",
       "user": "User"
     }
   }

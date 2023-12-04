@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import SettingService from './setting.service';
-import { useDateFormat } from '@/shared/composables';
 import { type ISetting } from '@/shared/model/setting.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -11,7 +10,6 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'SettingDetails',
   setup() {
-    const dateFormat = useDateFormat();
     const settingService = inject('settingService', () => new SettingService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -35,7 +33,6 @@ export default defineComponent({
     }
 
     return {
-      ...dateFormat,
       alertService,
       setting,
 

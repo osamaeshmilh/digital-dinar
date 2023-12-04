@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 
 import AttachmentService from './attachment.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useValidation, useDateFormat } from '@/shared/composables';
+import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type IAttachment, Attachment } from '@/shared/model/attachment.model';
@@ -33,8 +33,6 @@ export default defineComponent({
     const retrieveAttachment = async attachmentId => {
       try {
         const res = await attachmentService().find(attachmentId);
-        res.createdDate = new Date(res.createdDate);
-        res.lastModifiedDate = new Date(res.lastModifiedDate);
         attachment.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -58,10 +56,6 @@ export default defineComponent({
       fileUrl: {},
       referenceType: {},
       referenceId: {},
-      createdBy: {},
-      createdDate: {},
-      lastModifiedBy: {},
-      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, attachment as any);
     v$.value.$validate();
@@ -77,7 +71,6 @@ export default defineComponent({
       currentLanguage,
       ...dataUtils,
       v$,
-      ...useDateFormat({ entityRef: attachment }),
       t$,
     };
   },

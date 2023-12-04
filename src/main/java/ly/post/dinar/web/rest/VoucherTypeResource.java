@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.VoucherTypeCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.VoucherTypeRepository;
+import ly.post.dinar.service.VoucherTypeQueryService;
 import ly.post.dinar.service.VoucherTypeService;
+import ly.post.dinar.service.criteria.VoucherTypeCriteria;
 import ly.post.dinar.service.dto.VoucherTypeDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.VoucherType}.
@@ -44,9 +42,16 @@ public class VoucherTypeResource {
 
     private final VoucherTypeRepository voucherTypeRepository;
 
-    public VoucherTypeResource(VoucherTypeService voucherTypeService, VoucherTypeRepository voucherTypeRepository) {
+    private final VoucherTypeQueryService voucherTypeQueryService;
+
+    public VoucherTypeResource(
+        VoucherTypeService voucherTypeService,
+        VoucherTypeRepository voucherTypeRepository,
+        VoucherTypeQueryService voucherTypeQueryService
+    ) {
         this.voucherTypeService = voucherTypeService;
         this.voucherTypeRepository = voucherTypeRepository;
+        this.voucherTypeQueryService = voucherTypeQueryService;
     }
 
     /**
@@ -57,23 +62,16 @@ public class VoucherTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<VoucherTypeDTO>> createVoucherType(@RequestBody VoucherTypeDTO voucherTypeDTO) throws URISyntaxException {
+    public ResponseEntity<VoucherTypeDTO> createVoucherType(@RequestBody VoucherTypeDTO voucherTypeDTO) throws URISyntaxException {
         log.debug("REST request to save VoucherType : {}", voucherTypeDTO);
         if (voucherTypeDTO.getId() != null) {
             throw new BadRequestAlertException("A new voucherType cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return voucherTypeService
-            .save(voucherTypeDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/voucher-types/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        VoucherTypeDTO result = voucherTypeService.save(voucherTypeDTO);
+        return ResponseEntity
+            .created(new URI("/api/voucher-types/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -87,7 +85,7 @@ public class VoucherTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<VoucherTypeDTO>> updateVoucherType(
+    public ResponseEntity<VoucherTypeDTO> updateVoucherType(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody VoucherTypeDTO voucherTypeDTO
     ) throws URISyntaxException {
@@ -99,23 +97,15 @@ public class VoucherTypeResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return voucherTypeRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!voucherTypeRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return voucherTypeService
-                    .update(voucherTypeDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        VoucherTypeDTO result = voucherTypeService.update(voucherTypeDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, voucherTypeDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -130,7 +120,7 @@ public class VoucherTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<VoucherTypeDTO>> partialUpdateVoucherType(
+    public ResponseEntity<VoucherTypeDTO> partialUpdateVoucherType(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody VoucherTypeDTO voucherTypeDTO
     ) throws URISyntaxException {
@@ -142,55 +132,35 @@ public class VoucherTypeResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return voucherTypeRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!voucherTypeRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<VoucherTypeDTO> result = voucherTypeService.partialUpdate(voucherTypeDTO);
+        Optional<VoucherTypeDTO> result = voucherTypeService.partialUpdate(voucherTypeDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, voucherTypeDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /voucher-types} : get all the voucherTypes.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of voucherTypes in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<VoucherTypeDTO>>> getAllVoucherTypes(
+    @GetMapping("")
+    public ResponseEntity<List<VoucherTypeDTO>> getAllVoucherTypes(
         VoucherTypeCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get VoucherTypes by criteria: {}", criteria);
-        return voucherTypeService
-            .countByCriteria(criteria)
-            .zipWith(voucherTypeService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<VoucherTypeDTO> page = voucherTypeQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -200,9 +170,9 @@ public class VoucherTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countVoucherTypes(VoucherTypeCriteria criteria) {
+    public ResponseEntity<Long> countVoucherTypes(VoucherTypeCriteria criteria) {
         log.debug("REST request to count VoucherTypes by criteria: {}", criteria);
-        return voucherTypeService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(voucherTypeQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -212,9 +182,9 @@ public class VoucherTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the voucherTypeDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<VoucherTypeDTO>> getVoucherType(@PathVariable Long id) {
+    public ResponseEntity<VoucherTypeDTO> getVoucherType(@PathVariable Long id) {
         log.debug("REST request to get VoucherType : {}", id);
-        Mono<VoucherTypeDTO> voucherTypeDTO = voucherTypeService.findOne(id);
+        Optional<VoucherTypeDTO> voucherTypeDTO = voucherTypeService.findOne(id);
         return ResponseUtil.wrapOrNotFound(voucherTypeDTO);
     }
 
@@ -225,17 +195,12 @@ public class VoucherTypeResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteVoucherType(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteVoucherType(@PathVariable Long id) {
         log.debug("REST request to delete VoucherType : {}", id);
-        return voucherTypeService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        voucherTypeService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

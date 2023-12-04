@@ -128,22 +128,6 @@
               <span v-text="t$('digitalDinarApp.walletProfile.buyVouchersFees')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'buyVouchersFees'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.walletProfile.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.walletProfile.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.walletProfile.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.walletProfile.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -170,10 +154,6 @@
             <td>{{ walletProfile.transferToConsumerFees }}</td>
             <td>{{ walletProfile.transferToBankFees }}</td>
             <td>{{ walletProfile.buyVouchersFees }}</td>
-            <td>{{ walletProfile.createdBy }}</td>
-            <td>{{ formatDateShort(walletProfile.createdDate) || '' }}</td>
-            <td>{{ walletProfile.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(walletProfile.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link

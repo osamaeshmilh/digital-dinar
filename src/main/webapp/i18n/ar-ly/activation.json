@@ -23,11 +23,7 @@
       "code": "Code",
       "sentOn": "Sent On",
       "validUntil": "Valid Until",
-      "isUsed": "Is Used",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "isUsed": "Is Used"
     }
   }
 }

@@ -1,69 +1,40 @@
 package ly.post.dinar.repository;
 
+import java.util.List;
+import java.util.Optional;
 import ly.post.dinar.domain.VoucherType;
-import ly.post.dinar.domain.criteria.VoucherTypeCriteria;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.r2dbc.repository.Query;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
- * Spring Data R2DBC repository for the VoucherType entity.
+ * Spring Data JPA repository for the VoucherType entity.
  */
-@SuppressWarnings("unused")
 @Repository
-public interface VoucherTypeRepository extends ReactiveCrudRepository<VoucherType, Long>, VoucherTypeRepositoryInternal {
-    Flux<VoucherType> findAllBy(Pageable pageable);
+public interface VoucherTypeRepository extends JpaRepository<VoucherType, Long>, JpaSpecificationExecutor<VoucherType> {
+    default Optional<VoucherType> findOneWithEagerRelationships(Long id) {
+        return this.findOneWithToOneRelationships(id);
+    }
 
-    @Override
-    Mono<VoucherType> findOneWithEagerRelationships(Long id);
+    default List<VoucherType> findAllWithEagerRelationships() {
+        return this.findAllWithToOneRelationships();
+    }
 
-    @Override
-    Flux<VoucherType> findAllWithEagerRelationships();
+    default Page<VoucherType> findAllWithEagerRelationships(Pageable pageable) {
+        return this.findAllWithToOneRelationships(pageable);
+    }
 
-    @Override
-    Flux<VoucherType> findAllWithEagerRelationships(Pageable page);
+    @Query(
+        value = "select voucherType from VoucherType voucherType left join fetch voucherType.voucherCompany",
+        countQuery = "select count(voucherType) from VoucherType voucherType"
+    )
+    Page<VoucherType> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("SELECT * FROM voucher_type entity WHERE entity.voucher_company_id = :id")
-    Flux<VoucherType> findByVoucherCompany(Long id);
+    @Query("select voucherType from VoucherType voucherType left join fetch voucherType.voucherCompany")
+    List<VoucherType> findAllWithToOneRelationships();
 
-    @Query("SELECT * FROM voucher_type entity WHERE entity.voucher_company_id IS NULL")
-    Flux<VoucherType> findAllWhereVoucherCompanyIsNull();
-
-    @Override
-    <S extends VoucherType> Mono<S> save(S entity);
-
-    @Override
-    Flux<VoucherType> findAll();
-
-    @Override
-    Mono<VoucherType> findById(Long id);
-
-    @Override
-    Mono<Void> deleteById(Long id);
-}
-
-interface VoucherTypeRepositoryInternal {
-    <S extends VoucherType> Mono<S> save(S entity);
-
-    Flux<VoucherType> findAllBy(Pageable pageable);
-
-    Flux<VoucherType> findAll();
-
-    Mono<VoucherType> findById(Long id);
-    // this is not supported at the moment because of https://github.com/jhipster/generator-jhipster/issues/18269
-    // Flux<VoucherType> findAllBy(Pageable pageable, Criteria criteria);
-    Flux<VoucherType> findByCriteria(VoucherTypeCriteria criteria, Pageable pageable);
-
-    Mono<Long> countByCriteria(VoucherTypeCriteria criteria);
-
-    Mono<VoucherType> findOneWithEagerRelationships(Long id);
-
-    Flux<VoucherType> findAllWithEagerRelationships();
-
-    Flux<VoucherType> findAllWithEagerRelationships(Pageable page);
-
-    Mono<Void> deleteById(Long id);
+    @Query("select voucherType from VoucherType voucherType left join fetch voucherType.voucherCompany where voucherType.id =:id")
+    Optional<VoucherType> findOneWithToOneRelationships(@Param("id") Long id);
 }

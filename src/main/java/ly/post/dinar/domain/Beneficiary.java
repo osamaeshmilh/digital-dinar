@@ -1,65 +1,78 @@
 package ly.post.dinar.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 import ly.post.dinar.domain.enumeration.IdType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Beneficiary.
  */
-@Table("beneficiary")
+@Entity
+@Table(name = "beneficiary")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Beneficiary extends AbstractAuditingEntity<Long> implements Serializable {
+public class Beneficiary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("arabic_first_name")
+    @Column(name = "arabic_first_name")
     private String arabicFirstName;
 
-    @Column("arabic_last_name")
+    @Column(name = "arabic_last_name")
     private String arabicLastName;
 
-    @Column("english_first_name")
+    @Column(name = "english_first_name")
     private String englishFirstName;
 
-    @Column("english_last_name")
+    @Column(name = "english_last_name")
     private String englishLastName;
 
-    @Column("id_type")
+    @Column(name = "bank_account_name")
+    private String bankAccountName;
+
+    @Column(name = "bank_account_number")
+    private String bankAccountNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "id_type")
     private IdType idType;
 
-    @Column("id_no")
+    @Column(name = "id_no")
     private String idNo;
 
-    @Column("mobile_no")
+    @Column(name = "mobile_no")
     private String mobileNo;
 
-    @Column("email")
+    @Column(name = "email")
     private String email;
 
-    @Column("notes")
+    @Column(name = "notes")
     private String notes;
 
-    @Column("created_by_user_id")
-    private Long createdByUserId;
-
-    @Column("is_verified")
+    @Column(name = "is_verified")
     private Boolean isVerified;
 
-    @Column("has_transferred")
+    @Column(name = "has_transferred")
     private Boolean hasTransferred;
 
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "bank" }, allowSetters = true)
+    private BankBranch bankBranch;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(
+        value = { "user", "category", "city", "walletProfile", "bankBranch", "walletTransactions", "beneficiaries" },
+        allowSetters = true
+    )
+    private WalletUser walletUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -128,6 +141,32 @@ public class Beneficiary extends AbstractAuditingEntity<Long> implements Seriali
         this.englishLastName = englishLastName;
     }
 
+    public String getBankAccountName() {
+        return this.bankAccountName;
+    }
+
+    public Beneficiary bankAccountName(String bankAccountName) {
+        this.setBankAccountName(bankAccountName);
+        return this;
+    }
+
+    public void setBankAccountName(String bankAccountName) {
+        this.bankAccountName = bankAccountName;
+    }
+
+    public String getBankAccountNumber() {
+        return this.bankAccountNumber;
+    }
+
+    public Beneficiary bankAccountNumber(String bankAccountNumber) {
+        this.setBankAccountNumber(bankAccountNumber);
+        return this;
+    }
+
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
+    }
+
     public IdType getIdType() {
         return this.idType;
     }
@@ -193,19 +232,6 @@ public class Beneficiary extends AbstractAuditingEntity<Long> implements Seriali
         this.notes = notes;
     }
 
-    public Long getCreatedByUserId() {
-        return this.createdByUserId;
-    }
-
-    public Beneficiary createdByUserId(Long createdByUserId) {
-        this.setCreatedByUserId(createdByUserId);
-        return this;
-    }
-
-    public void setCreatedByUserId(Long createdByUserId) {
-        this.createdByUserId = createdByUserId;
-    }
-
     public Boolean getIsVerified() {
         return this.isVerified;
     }
@@ -232,27 +258,29 @@ public class Beneficiary extends AbstractAuditingEntity<Long> implements Seriali
         this.hasTransferred = hasTransferred;
     }
 
-    // Inherited createdBy methods
-    public Beneficiary createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
+    public BankBranch getBankBranch() {
+        return this.bankBranch;
+    }
+
+    public void setBankBranch(BankBranch bankBranch) {
+        this.bankBranch = bankBranch;
+    }
+
+    public Beneficiary bankBranch(BankBranch bankBranch) {
+        this.setBankBranch(bankBranch);
         return this;
     }
 
-    // Inherited createdDate methods
-    public Beneficiary createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
+    public WalletUser getWalletUser() {
+        return this.walletUser;
     }
 
-    // Inherited lastModifiedBy methods
-    public Beneficiary lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
+    public void setWalletUser(WalletUser walletUser) {
+        this.walletUser = walletUser;
     }
 
-    // Inherited lastModifiedDate methods
-    public Beneficiary lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
+    public Beneficiary walletUser(WalletUser walletUser) {
+        this.setWalletUser(walletUser);
         return this;
     }
 
@@ -284,18 +312,15 @@ public class Beneficiary extends AbstractAuditingEntity<Long> implements Seriali
             ", arabicLastName='" + getArabicLastName() + "'" +
             ", englishFirstName='" + getEnglishFirstName() + "'" +
             ", englishLastName='" + getEnglishLastName() + "'" +
+            ", bankAccountName='" + getBankAccountName() + "'" +
+            ", bankAccountNumber='" + getBankAccountNumber() + "'" +
             ", idType='" + getIdType() + "'" +
             ", idNo='" + getIdNo() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
             ", email='" + getEmail() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", createdByUserId=" + getCreatedByUserId() +
             ", isVerified='" + getIsVerified() + "'" +
             ", hasTransferred='" + getHasTransferred() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

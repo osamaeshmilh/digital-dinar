@@ -4,15 +4,17 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import WalletTransactionService from './wallet-transaction.service';
-import { useValidation, useDateFormat } from '@/shared/composables';
+import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import TransactionService from '@/entities/transaction/transaction.service';
 import { type ITransaction } from '@/shared/model/transaction.model';
+import WalletUserService from '@/entities/wallet-user/wallet-user.service';
+import { type IWalletUser } from '@/shared/model/wallet-user.model';
 import { type IWalletTransaction, WalletTransaction } from '@/shared/model/wallet-transaction.model';
 import { WalletAction } from '@/shared/model/enumerations/wallet-action.model';
 import { PaymentType } from '@/shared/model/enumerations/payment-type.model';
-import { WalletOwnerType } from '@/shared/model/enumerations/wallet-owner-type.model';
+import { WalletType } from '@/shared/model/enumerations/wallet-type.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -26,9 +28,13 @@ export default defineComponent({
     const transactionService = inject('transactionService', () => new TransactionService());
 
     const transactions: Ref<ITransaction[]> = ref([]);
+
+    const walletUserService = inject('walletUserService', () => new WalletUserService());
+
+    const walletUsers: Ref<IWalletUser[]> = ref([]);
     const walletActionValues: Ref<string[]> = ref(Object.keys(WalletAction));
     const paymentTypeValues: Ref<string[]> = ref(Object.keys(PaymentType));
-    const walletOwnerTypeValues: Ref<string[]> = ref(Object.keys(WalletOwnerType));
+    const walletTypeValues: Ref<string[]> = ref(Object.keys(WalletType));
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
 
@@ -40,8 +46,6 @@ export default defineComponent({
     const retrieveWalletTransaction = async walletTransactionId => {
       try {
         const res = await walletTransactionService().find(walletTransactionId);
-        res.createdDate = new Date(res.createdDate);
-        res.lastModifiedDate = new Date(res.lastModifiedDate);
         walletTransaction.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -57,6 +61,11 @@ export default defineComponent({
         .retrieve()
         .then(res => {
           transactions.value = res.data;
+        });
+      walletUserService()
+        .retrieve()
+        .then(res => {
+          walletUsers.value = res.data;
         });
     };
 
@@ -74,13 +83,9 @@ export default defineComponent({
       paymentType: {},
       paymentReference: {},
       notes: {},
-      ownerId: {},
       walletOwnerType: {},
-      createdBy: {},
-      createdDate: {},
-      lastModifiedBy: {},
-      lastModifiedDate: {},
       transaction: {},
+      walletUser: {},
     };
     const v$ = useVuelidate(validationRules, walletTransaction as any);
     v$.value.$validate();
@@ -92,12 +97,12 @@ export default defineComponent({
       previousState,
       walletActionValues,
       paymentTypeValues,
-      walletOwnerTypeValues,
+      walletTypeValues,
       isSaving,
       currentLanguage,
       transactions,
+      walletUsers,
       v$,
-      ...useDateFormat({ entityRef: walletTransaction }),
       t$,
     };
   },

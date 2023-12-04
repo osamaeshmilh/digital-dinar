@@ -77,6 +77,38 @@
             />
           </div>
           <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.beneficiary.bankAccountName')"
+              for="beneficiary-bankAccountName"
+            ></label>
+            <input
+              type="text"
+              class="form-control"
+              name="bankAccountName"
+              id="beneficiary-bankAccountName"
+              data-cy="bankAccountName"
+              :class="{ valid: !v$.bankAccountName.$invalid, invalid: v$.bankAccountName.$invalid }"
+              v-model="v$.bankAccountName.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="t$('digitalDinarApp.beneficiary.bankAccountNumber')"
+              for="beneficiary-bankAccountNumber"
+            ></label>
+            <input
+              type="text"
+              class="form-control"
+              name="bankAccountNumber"
+              id="beneficiary-bankAccountNumber"
+              data-cy="bankAccountNumber"
+              :class="{ valid: !v$.bankAccountNumber.$invalid, invalid: v$.bankAccountNumber.$invalid }"
+              v-model="v$.bankAccountNumber.$model"
+            />
+          </div>
+          <div class="form-group">
             <label class="form-control-label" v-text="t$('digitalDinarApp.beneficiary.idType')" for="beneficiary-idType"></label>
             <select
               class="form-control"
@@ -145,22 +177,6 @@
             />
           </div>
           <div class="form-group">
-            <label
-              class="form-control-label"
-              v-text="t$('digitalDinarApp.beneficiary.createdByUserId')"
-              for="beneficiary-createdByUserId"
-            ></label>
-            <input
-              type="number"
-              class="form-control"
-              name="createdByUserId"
-              id="beneficiary-createdByUserId"
-              data-cy="createdByUserId"
-              :class="{ valid: !v$.createdByUserId.$invalid, invalid: v$.createdByUserId.$invalid }"
-              v-model.number="v$.createdByUserId.$model"
-            />
-          </div>
-          <div class="form-group">
             <label class="form-control-label" v-text="t$('digitalDinarApp.beneficiary.isVerified')" for="beneficiary-isVerified"></label>
             <input
               type="checkbox"
@@ -189,66 +205,46 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.beneficiary.createdBy')" for="beneficiary-createdBy"></label>
-            <input
-              type="text"
+            <label class="form-control-label" v-text="t$('digitalDinarApp.beneficiary.bankBranch')" for="beneficiary-bankBranch"></label>
+            <select
               class="form-control"
-              name="createdBy"
-              id="beneficiary-createdBy"
-              data-cy="createdBy"
-              :class="{ valid: !v$.createdBy.$invalid, invalid: v$.createdBy.$invalid }"
-              v-model="v$.createdBy.$model"
-            />
+              id="beneficiary-bankBranch"
+              data-cy="bankBranch"
+              name="bankBranch"
+              v-model="beneficiary.bankBranch"
+            >
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="
+                  beneficiary.bankBranch && bankBranchOption.id === beneficiary.bankBranch.id ? beneficiary.bankBranch : bankBranchOption
+                "
+                v-for="bankBranchOption in bankBranches"
+                :key="bankBranchOption.id"
+              >
+                {{ bankBranchOption.nameAr }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('digitalDinarApp.beneficiary.createdDate')" for="beneficiary-createdDate"></label>
-            <div class="d-flex">
-              <input
-                id="beneficiary-createdDate"
-                data-cy="createdDate"
-                type="datetime-local"
-                class="form-control"
-                name="createdDate"
-                :class="{ valid: !v$.createdDate.$invalid, invalid: v$.createdDate.$invalid }"
-                :value="convertDateTimeFromServer(v$.createdDate.$model)"
-                @change="updateInstantField('createdDate', $event)"
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <label
-              class="form-control-label"
-              v-text="t$('digitalDinarApp.beneficiary.lastModifiedBy')"
-              for="beneficiary-lastModifiedBy"
-            ></label>
-            <input
-              type="text"
+            <label class="form-control-label" v-text="t$('digitalDinarApp.beneficiary.walletUser')" for="beneficiary-walletUser"></label>
+            <select
               class="form-control"
-              name="lastModifiedBy"
-              id="beneficiary-lastModifiedBy"
-              data-cy="lastModifiedBy"
-              :class="{ valid: !v$.lastModifiedBy.$invalid, invalid: v$.lastModifiedBy.$invalid }"
-              v-model="v$.lastModifiedBy.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label
-              class="form-control-label"
-              v-text="t$('digitalDinarApp.beneficiary.lastModifiedDate')"
-              for="beneficiary-lastModifiedDate"
-            ></label>
-            <div class="d-flex">
-              <input
-                id="beneficiary-lastModifiedDate"
-                data-cy="lastModifiedDate"
-                type="datetime-local"
-                class="form-control"
-                name="lastModifiedDate"
-                :class="{ valid: !v$.lastModifiedDate.$invalid, invalid: v$.lastModifiedDate.$invalid }"
-                :value="convertDateTimeFromServer(v$.lastModifiedDate.$model)"
-                @change="updateInstantField('lastModifiedDate', $event)"
-              />
-            </div>
+              id="beneficiary-walletUser"
+              data-cy="walletUser"
+              name="walletUser"
+              v-model="beneficiary.walletUser"
+            >
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="
+                  beneficiary.walletUser && walletUserOption.id === beneficiary.walletUser.id ? beneficiary.walletUser : walletUserOption
+                "
+                v-for="walletUserOption in walletUsers"
+                :key="walletUserOption.id"
+              >
+                {{ walletUserOption.id }}
+              </option>
+            </select>
           </div>
         </div>
         <div>

@@ -5,12 +5,12 @@ package ly.post.dinar.domain.enumeration;
  */
 public enum PaymentType {
     ADFALI,
-    SADAD,
-    TADAWUL,
-    MOBICASH,
-    EMIZA,
-    MOAMALAT,
-    WALLET,
     CASH,
     CHEQUE,
+    EMIZA,
+    MOAMALAT,
+    MOBICASH,
+    SADAD,
+    TADAWUL,
+    WALLET,
 }

@@ -61,48 +61,28 @@
             <span>{{ walletTransaction.notes }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.walletTransaction.ownerId')"></span>
-          </dt>
-          <dd>
-            <span>{{ walletTransaction.ownerId }}</span>
-          </dd>
-          <dt>
             <span v-text="t$('digitalDinarApp.walletTransaction.walletOwnerType')"></span>
           </dt>
           <dd>
-            <span v-text="t$('digitalDinarApp.WalletOwnerType.' + walletTransaction.walletOwnerType)"></span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.walletTransaction.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ walletTransaction.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.walletTransaction.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="walletTransaction.createdDate">{{ formatDateLong(walletTransaction.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.walletTransaction.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ walletTransaction.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.walletTransaction.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="walletTransaction.lastModifiedDate">{{ formatDateLong(walletTransaction.lastModifiedDate) }}</span>
+            <span v-text="t$('digitalDinarApp.WalletType.' + walletTransaction.walletOwnerType)"></span>
           </dd>
           <dt>
             <span v-text="t$('digitalDinarApp.walletTransaction.transaction')"></span>
           </dt>
           <dd>
-            <div v-if="walletTransaction.transaction.id">
+            <div v-if="walletTransaction.transaction">
               <router-link :to="{ name: 'TransactionView', params: { transactionId: walletTransaction.transaction.id } }">{{
                 walletTransaction.transaction.id
+              }}</router-link>
+            </div>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.walletTransaction.walletUser')"></span>
+          </dt>
+          <dd>
+            <div v-if="walletTransaction.walletUser">
+              <router-link :to="{ name: 'WalletUserView', params: { walletUserId: walletTransaction.walletUser.id } }">{{
+                walletTransaction.walletUser.id
               }}</router-link>
             </div>
           </dd>

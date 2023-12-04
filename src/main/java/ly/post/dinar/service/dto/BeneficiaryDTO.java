@@ -1,7 +1,6 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.IdType;
 
@@ -21,6 +20,10 @@ public class BeneficiaryDTO implements Serializable {
 
     private String englishLastName;
 
+    private String bankAccountName;
+
+    private String bankAccountNumber;
+
     private IdType idType;
 
     private String idNo;
@@ -31,19 +34,13 @@ public class BeneficiaryDTO implements Serializable {
 
     private String notes;
 
-    private Long createdByUserId;
-
     private Boolean isVerified;
 
     private Boolean hasTransferred;
 
-    private String createdBy;
+    private BankBranchDTO bankBranch;
 
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
+    private WalletUserDTO walletUser;
 
     public Long getId() {
         return id;
@@ -83,6 +80,22 @@ public class BeneficiaryDTO implements Serializable {
 
     public void setEnglishLastName(String englishLastName) {
         this.englishLastName = englishLastName;
+    }
+
+    public String getBankAccountName() {
+        return bankAccountName;
+    }
+
+    public void setBankAccountName(String bankAccountName) {
+        this.bankAccountName = bankAccountName;
+    }
+
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
+    }
+
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
     }
 
     public IdType getIdType() {
@@ -125,14 +138,6 @@ public class BeneficiaryDTO implements Serializable {
         this.notes = notes;
     }
 
-    public Long getCreatedByUserId() {
-        return createdByUserId;
-    }
-
-    public void setCreatedByUserId(Long createdByUserId) {
-        this.createdByUserId = createdByUserId;
-    }
-
     public Boolean getIsVerified() {
         return isVerified;
     }
@@ -149,36 +154,20 @@ public class BeneficiaryDTO implements Serializable {
         this.hasTransferred = hasTransferred;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public BankBranchDTO getBankBranch() {
+        return bankBranch;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setBankBranch(BankBranchDTO bankBranch) {
+        this.bankBranch = bankBranch;
     }
 
-    public Instant getCreatedDate() {
-        return createdDate;
+    public WalletUserDTO getWalletUser() {
+        return walletUser;
     }
 
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    public void setWalletUser(WalletUserDTO walletUser) {
+        this.walletUser = walletUser;
     }
 
     @Override
@@ -211,18 +200,17 @@ public class BeneficiaryDTO implements Serializable {
             ", arabicLastName='" + getArabicLastName() + "'" +
             ", englishFirstName='" + getEnglishFirstName() + "'" +
             ", englishLastName='" + getEnglishLastName() + "'" +
+            ", bankAccountName='" + getBankAccountName() + "'" +
+            ", bankAccountNumber='" + getBankAccountNumber() + "'" +
             ", idType='" + getIdType() + "'" +
             ", idNo='" + getIdNo() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
             ", email='" + getEmail() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", createdByUserId=" + getCreatedByUserId() +
             ", isVerified='" + getIsVerified() + "'" +
             ", hasTransferred='" + getHasTransferred() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
+            ", bankBranch=" + getBankBranch() +
+            ", walletUser=" + getWalletUser() +
             "}";
     }
 }

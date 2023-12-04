@@ -1,8 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20231201190256",
+  "changelogDate": "20231204095421",
   "dto": "mapstruct",
-  "enableAudit": true,
   "entityTableName": "country",
   "fields": [
     {
@@ -24,40 +23,6 @@
     {
       "fieldName": "isoNo",
       "fieldType": "Integer"
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "createdBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "createdDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "lastModifiedBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "lastModifiedDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
     }
   ],
   "jpaMetamodelFiltering": true,

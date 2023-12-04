@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.NotificationCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.NotificationRepository;
+import ly.post.dinar.service.NotificationQueryService;
 import ly.post.dinar.service.NotificationService;
+import ly.post.dinar.service.criteria.NotificationCriteria;
 import ly.post.dinar.service.dto.NotificationDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.Notification}.
@@ -44,9 +42,16 @@ public class NotificationResource {
 
     private final NotificationRepository notificationRepository;
 
-    public NotificationResource(NotificationService notificationService, NotificationRepository notificationRepository) {
+    private final NotificationQueryService notificationQueryService;
+
+    public NotificationResource(
+        NotificationService notificationService,
+        NotificationRepository notificationRepository,
+        NotificationQueryService notificationQueryService
+    ) {
         this.notificationService = notificationService;
         this.notificationRepository = notificationRepository;
+        this.notificationQueryService = notificationQueryService;
     }
 
     /**
@@ -57,24 +62,16 @@ public class NotificationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<NotificationDTO>> createNotification(@RequestBody NotificationDTO notificationDTO)
-        throws URISyntaxException {
+    public ResponseEntity<NotificationDTO> createNotification(@RequestBody NotificationDTO notificationDTO) throws URISyntaxException {
         log.debug("REST request to save Notification : {}", notificationDTO);
         if (notificationDTO.getId() != null) {
             throw new BadRequestAlertException("A new notification cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return notificationService
-            .save(notificationDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/notifications/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        NotificationDTO result = notificationService.save(notificationDTO);
+        return ResponseEntity
+            .created(new URI("/api/notifications/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -88,7 +85,7 @@ public class NotificationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<NotificationDTO>> updateNotification(
+    public ResponseEntity<NotificationDTO> updateNotification(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NotificationDTO notificationDTO
     ) throws URISyntaxException {
@@ -100,23 +97,15 @@ public class NotificationResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return notificationRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!notificationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return notificationService
-                    .update(notificationDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        NotificationDTO result = notificationService.update(notificationDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, notificationDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -131,7 +120,7 @@ public class NotificationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<NotificationDTO>> partialUpdateNotification(
+    public ResponseEntity<NotificationDTO> partialUpdateNotification(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NotificationDTO notificationDTO
     ) throws URISyntaxException {
@@ -143,55 +132,35 @@ public class NotificationResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return notificationRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!notificationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<NotificationDTO> result = notificationService.partialUpdate(notificationDTO);
+        Optional<NotificationDTO> result = notificationService.partialUpdate(notificationDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, notificationDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /notifications} : get all the notifications.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of notifications in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<NotificationDTO>>> getAllNotifications(
+    @GetMapping("")
+    public ResponseEntity<List<NotificationDTO>> getAllNotifications(
         NotificationCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Notifications by criteria: {}", criteria);
-        return notificationService
-            .countByCriteria(criteria)
-            .zipWith(notificationService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<NotificationDTO> page = notificationQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -201,9 +170,9 @@ public class NotificationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countNotifications(NotificationCriteria criteria) {
+    public ResponseEntity<Long> countNotifications(NotificationCriteria criteria) {
         log.debug("REST request to count Notifications by criteria: {}", criteria);
-        return notificationService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(notificationQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -213,9 +182,9 @@ public class NotificationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the notificationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<NotificationDTO>> getNotification(@PathVariable Long id) {
+    public ResponseEntity<NotificationDTO> getNotification(@PathVariable Long id) {
         log.debug("REST request to get Notification : {}", id);
-        Mono<NotificationDTO> notificationDTO = notificationService.findOne(id);
+        Optional<NotificationDTO> notificationDTO = notificationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(notificationDTO);
     }
 
@@ -226,17 +195,12 @@ public class NotificationResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteNotification(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
         log.debug("REST request to delete Notification : {}", id);
-        return notificationService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        notificationService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

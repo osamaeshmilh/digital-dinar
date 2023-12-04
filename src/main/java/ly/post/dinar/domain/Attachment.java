@@ -1,57 +1,57 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 import ly.post.dinar.domain.enumeration.AttachmentType;
 import ly.post.dinar.domain.enumeration.ReferenceType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Attachment.
  */
-@Table("attachment")
+@Entity
+@Table(name = "attachment")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Attachment extends AbstractAuditingEntity<Long> implements Serializable {
+public class Attachment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("name")
+    @Column(name = "name")
     private String name;
 
-    @Column("details")
+    @Column(name = "details")
     private String details;
 
-    @Column("notes")
+    @Column(name = "notes")
     private String notes;
 
-    @Column("attachment_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "attachment_type")
     private AttachmentType attachmentType;
 
-    @Column("file")
+    @Lob
+    @Column(name = "file")
     private byte[] file;
 
-    @Column("file_content_type")
+    @Column(name = "file_content_type")
     private String fileContentType;
 
-    @Column("file_url")
+    @Column(name = "file_url")
     private String fileUrl;
 
-    @Column("reference_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reference_type")
     private ReferenceType referenceType;
 
-    @Column("reference_id")
+    @Column(name = "reference_id")
     private Long referenceId;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -185,30 +185,6 @@ public class Attachment extends AbstractAuditingEntity<Long> implements Serializ
         this.referenceId = referenceId;
     }
 
-    // Inherited createdBy methods
-    public Attachment createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public Attachment createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public Attachment lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public Attachment lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -242,10 +218,6 @@ public class Attachment extends AbstractAuditingEntity<Long> implements Serializ
             ", fileUrl='" + getFileUrl() + "'" +
             ", referenceType='" + getReferenceType() + "'" +
             ", referenceId=" + getReferenceId() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

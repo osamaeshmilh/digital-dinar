@@ -44,22 +44,6 @@
               <span v-text="t$('digitalDinarApp.notification.userId')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'userId'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.notification.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.notification.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.notification.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.notification.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -73,10 +57,6 @@
             <td>{{ notification.title }}</td>
             <td>{{ notification.description }}</td>
             <td>{{ notification.userId }}</td>
-            <td>{{ notification.createdBy }}</td>
-            <td>{{ formatDateShort(notification.createdDate) || '' }}</td>
-            <td>{{ notification.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(notification.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'NotificationView', params: { notificationId: notification.id } }" custom v-slot="{ navigate }">

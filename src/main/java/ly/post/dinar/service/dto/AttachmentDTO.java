@@ -2,7 +2,6 @@ package ly.post.dinar.service.dto;
 
 import jakarta.persistence.Lob;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.AttachmentType;
 import ly.post.dinar.domain.enumeration.ReferenceType;
@@ -32,14 +31,6 @@ public class AttachmentDTO implements Serializable {
     private ReferenceType referenceType;
 
     private Long referenceId;
-
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
 
     public Long getId() {
         return id;
@@ -121,38 +112,6 @@ public class AttachmentDTO implements Serializable {
         this.referenceId = referenceId;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -187,10 +146,6 @@ public class AttachmentDTO implements Serializable {
             ", fileUrl='" + getFileUrl() + "'" +
             ", referenceType='" + getReferenceType() + "'" +
             ", referenceId=" + getReferenceId() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

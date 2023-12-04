@@ -88,17 +88,9 @@
               <span v-text="t$('digitalDinarApp.transaction.senderName')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'senderName'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('senderType')">
-              <span v-text="t$('digitalDinarApp.transaction.senderType')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'senderType'"></jhi-sort-indicator>
-            </th>
             <th scope="row" v-on:click="changeOrder('senderIdNo')">
               <span v-text="t$('digitalDinarApp.transaction.senderIdNo')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'senderIdNo'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('senderId')">
-              <span v-text="t$('digitalDinarApp.transaction.senderId')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'senderId'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('receiverName')">
               <span v-text="t$('digitalDinarApp.transaction.receiverName')"></span>
@@ -108,37 +100,17 @@
               <span v-text="t$('digitalDinarApp.transaction.receiverMobileNo')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiverMobileNo'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('receiverType')">
-              <span v-text="t$('digitalDinarApp.transaction.receiverType')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiverType'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('receiverId')">
-              <span v-text="t$('digitalDinarApp.transaction.receiverId')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiverId'"></jhi-sort-indicator>
-            </th>
             <th scope="row" v-on:click="changeOrder('receiverIdNo')">
               <span v-text="t$('digitalDinarApp.transaction.receiverIdNo')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiverIdNo'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdByUserId')">
-              <span v-text="t$('digitalDinarApp.transaction.createdByUserId')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdByUserId'"></jhi-sort-indicator>
+            <th scope="row" v-on:click="changeOrder('sender.id')">
+              <span v-text="t$('digitalDinarApp.transaction.sender')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'sender.id'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.transaction.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.transaction.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
+            <th scope="row" v-on:click="changeOrder('receiver.id')">
+              <span v-text="t$('digitalDinarApp.transaction.receiver')"></span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'receiver.id'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
@@ -162,19 +134,24 @@
             <td>{{ transaction.notes }}</td>
             <td>{{ transaction.senderMobileNo }}</td>
             <td>{{ transaction.senderName }}</td>
-            <td v-text="t$('digitalDinarApp.WalletOwnerType.' + transaction.senderType)"></td>
             <td>{{ transaction.senderIdNo }}</td>
-            <td>{{ transaction.senderId }}</td>
             <td>{{ transaction.receiverName }}</td>
             <td>{{ transaction.receiverMobileNo }}</td>
-            <td v-text="t$('digitalDinarApp.WalletOwnerType.' + transaction.receiverType)"></td>
-            <td>{{ transaction.receiverId }}</td>
             <td>{{ transaction.receiverIdNo }}</td>
-            <td>{{ transaction.createdByUserId }}</td>
-            <td>{{ transaction.createdBy }}</td>
-            <td>{{ formatDateShort(transaction.createdDate) || '' }}</td>
-            <td>{{ transaction.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(transaction.lastModifiedDate) || '' }}</td>
+            <td>
+              <div v-if="transaction.sender">
+                <router-link :to="{ name: 'WalletUserView', params: { walletUserId: transaction.sender.id } }">{{
+                  transaction.sender.id
+                }}</router-link>
+              </div>
+            </td>
+            <td>
+              <div v-if="transaction.receiver">
+                <router-link :to="{ name: 'WalletUserView', params: { walletUserId: transaction.receiver.id } }">{{
+                  transaction.receiver.id
+                }}</router-link>
+              </div>
+            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'TransactionView', params: { transactionId: transaction.id } }" custom v-slot="{ navigate }">

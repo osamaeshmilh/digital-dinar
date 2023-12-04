@@ -1,76 +1,73 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A WalletProfile.
  */
-@Table("wallet_profile")
+@Entity
+@Table(name = "wallet_profile")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WalletProfile extends AbstractAuditingEntity<Long> implements Serializable {
+public class WalletProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("name_ar")
+    @Column(name = "name_ar")
     private String nameAr;
 
-    @Column("name_en")
+    @Column(name = "name_en")
     private String nameEn;
 
-    @Column("has_transfer_amount_limit_per_transaction")
+    @Column(name = "has_transfer_amount_limit_per_transaction")
     private Boolean hasTransferAmountLimitPerTransaction;
 
-    @Column("transfer_amount_limit_per_transaction")
+    @Column(name = "transfer_amount_limit_per_transaction")
     private Float transferAmountLimitPerTransaction;
 
-    @Column("has_daily_transfer_amount_limit")
+    @Column(name = "has_daily_transfer_amount_limit")
     private Boolean hasDailyTransferAmountLimit;
 
-    @Column("daily_transfer_amount_limit")
+    @Column(name = "daily_transfer_amount_limit")
     private Float dailyTransferAmountLimit;
 
-    @Column("can_transfer_to_consumer_wallet")
+    @Column(name = "can_transfer_to_consumer_wallet")
     private Boolean canTransferToConsumerWallet;
 
-    @Column("can_transfer_to_merchant_wallet")
+    @Column(name = "can_transfer_to_merchant_wallet")
     private Boolean canTransferToMerchantWallet;
 
-    @Column("can_transfer_to_consumer")
+    @Column(name = "can_transfer_to_consumer")
     private Boolean canTransferToConsumer;
 
-    @Column("can_transfer_to_bank")
+    @Column(name = "can_transfer_to_bank")
     private Boolean canTransferToBank;
 
-    @Column("can_buy_vouchers")
+    @Column(name = "can_buy_vouchers")
     private Boolean canBuyVouchers;
 
-    @Column("transfer_to_consumer_wallet_fees")
+    @Column(name = "transfer_to_consumer_wallet_fees")
     private Boolean transferToConsumerWalletFees;
 
-    @Column("transfer_to_merchant_wallet_fees")
+    @Column(name = "transfer_to_merchant_wallet_fees")
     private Boolean transferToMerchantWalletFees;
 
-    @Column("transfer_to_consumer_fees")
+    @Column(name = "transfer_to_consumer_fees")
     private Boolean transferToConsumerFees;
 
-    @Column("transfer_to_bank_fees")
+    @Column(name = "transfer_to_bank_fees")
     private Boolean transferToBankFees;
 
-    @Column("buy_vouchers_fees")
+    @Column(name = "buy_vouchers_fees")
     private Boolean buyVouchersFees;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -295,30 +292,6 @@ public class WalletProfile extends AbstractAuditingEntity<Long> implements Seria
         this.buyVouchersFees = buyVouchersFees;
     }
 
-    // Inherited createdBy methods
-    public WalletProfile createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public WalletProfile createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public WalletProfile lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public WalletProfile lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -359,10 +332,6 @@ public class WalletProfile extends AbstractAuditingEntity<Long> implements Seria
             ", transferToConsumerFees='" + getTransferToConsumerFees() + "'" +
             ", transferToBankFees='" + getTransferToBankFees() + "'" +
             ", buyVouchersFees='" + getBuyVouchersFees() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

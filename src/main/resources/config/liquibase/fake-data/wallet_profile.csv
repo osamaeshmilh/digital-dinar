@@ -1,11 +1,11 @@
-id;name_ar;name_en;has_transfer_amount_limit_per_transaction;transfer_amount_limit_per_transaction;has_daily_transfer_amount_limit;daily_transfer_amount_limit;can_transfer_to_consumer_wallet;can_transfer_to_merchant_wallet;can_transfer_to_consumer;can_transfer_to_bank;can_buy_vouchers;transfer_to_consumer_wallet_fees;transfer_to_merchant_wallet_fees;transfer_to_consumer_fees;transfer_to_bank_fees;buy_vouchers_fees;created_by;created_date;last_modified_by;last_modified_date
-1;fooey modulo drab;uh-huh;false;4574.08;false;16471.59;false;false;false;false;true;false;false;true;false;true;mmm designation ick;2023-12-01T11:11:28;yum;2023-12-01T17:57:56
-2;suspicious;midst lest;true;16618.98;true;14861.05;false;true;true;true;false;false;true;true;false;false;handy unbearably;2023-12-01T14:20:09;which ah;2023-12-01T05:08:39
-3;itchy;hence whoa gadzooks;true;19067.77;true;19232.35;true;false;false;false;false;false;true;false;true;false;notwithstanding ugh evade;2023-12-01T07:41:41;contend quicksand sudden;2023-11-30T21:47:11
-4;draught afterwards;whereas which;false;10882.97;true;29643.59;true;true;true;false;false;false;false;false;true;true;until nuke sorrowful;2023-12-01T12:24:05;jubilant commercial;2023-12-01T01:10:55
-5;scarily dimpled;supposing by drat;false;19461.57;true;12989.37;true;true;true;true;false;false;true;true;false;true;oh whoa dimly;2023-12-01T01:00:14;short-term which;2023-12-01T09:10:53
-6;generally what;warmth attic;false;21235.98;true;20304;false;false;true;true;true;false;false;false;true;true;between;2023-12-01T00:41:37;eek;2023-12-01T02:11:45
-7;vice now jubilantly;pace;true;269.49;true;31147.75;true;false;false;false;false;true;true;false;false;false;aha gracefully insignificant;2023-12-01T09:44:40;nor consequently;2023-12-01T15:10:40
-8;besides aboard faucet;past candy species;false;24433.65;false;28105.34;true;true;true;true;false;false;true;true;false;true;darling mainland traumatic;2023-12-01T03:41:34;plus;2023-11-30T22:01:01
-9;until whether;where dreamily before;false;22350.62;false;8475.76;true;false;true;false;true;true;false;false;true;false;qua photodiode;2023-12-01T14:13:22;boohoo;2023-11-30T22:05:36
-10;majestically lotion knowledgeably;posh;true;1802.09;false;32249.78;false;false;true;true;false;false;true;false;false;true;never viciously;2023-12-01T14:32:44;bandwidth question unabashedly;2023-12-01T01:12:48
+id;name_ar;name_en;has_transfer_amount_limit_per_transaction;transfer_amount_limit_per_transaction;has_daily_transfer_amount_limit;daily_transfer_amount_limit;can_transfer_to_consumer_wallet;can_transfer_to_merchant_wallet;can_transfer_to_consumer;can_transfer_to_bank;can_buy_vouchers;transfer_to_consumer_wallet_fees;transfer_to_merchant_wallet_fees;transfer_to_consumer_fees;transfer_to_bank_fees;buy_vouchers_fees
+1;fooey modulo drab;uh-huh;false;4574.08;false;16471.59;false;false;false;false;true;false;false;true;false;true
+2;mmm designation ick;genuine;true;1341.87;true;14876.02;false;true;true;true;false;false;false;true;false;true
+3;scent;overconfidently gratefully idealistic;false;29153.05;true;28373.7;true;false;false;false;true;false;true;false;true;false
+4;dimly yet wonderfully;ha summons;true;26563.11;true;15929.29;false;false;true;false;true;false;true;false;false;false
+5;ah precipitate honesty;upright contend quicksand;false;12697.42;false;12970.49;false;false;false;false;true;true;false;true;true;true
+6;handicap academics;queasily boo dishonest;true;29213.95;true;23827.06;false;true;true;false;false;true;false;true;false;false
+7;valid psst cauliflower;magnificent duh;true;26476.58;false;6468.76;false;true;true;true;true;true;true;false;true;false
+8;where batten outside;ugh;false;9173.68;false;1035.06;false;false;false;true;true;true;true;false;true;false
+9;suspension pretty by;lest gregarious warmth;true;13689.13;false;7713.46;false;false;true;false;false;true;false;false;false;true
+10;abnormally;ouch but lest;true;24020.81;false;4770.75;true;true;true;false;true;true;true;true;true;false

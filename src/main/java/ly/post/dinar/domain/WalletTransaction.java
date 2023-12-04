@@ -1,73 +1,73 @@
 package ly.post.dinar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.WalletAction;
-import ly.post.dinar.domain.enumeration.WalletOwnerType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import ly.post.dinar.domain.enumeration.WalletType;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A WalletTransaction.
  */
-@Table("wallet_transaction")
+@Entity
+@Table(name = "wallet_transaction")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WalletTransaction extends AbstractAuditingEntity<Long> implements Serializable {
+public class WalletTransaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("transaction_no")
+    @Column(name = "transaction_no")
     private String transactionNo;
 
-    @Column("amount")
+    @Column(name = "amount")
     private Float amount;
 
-    @Column("wallet_action")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "wallet_action")
     private WalletAction walletAction;
 
-    @Column("user_previous_transaction_no")
+    @Column(name = "user_previous_transaction_no")
     private String userPreviousTransactionNo;
 
-    @Column("total_before_action")
+    @Column(name = "total_before_action")
     private Float totalBeforeAction;
 
-    @Column("total_after_action")
+    @Column(name = "total_after_action")
     private Float totalAfterAction;
 
-    @Column("payment_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
     private PaymentType paymentType;
 
-    @Column("payment_reference")
+    @Column(name = "payment_reference")
     private String paymentReference;
 
-    @Column("notes")
+    @Column(name = "notes")
     private String notes;
 
-    @Column("owner_id")
-    private Long ownerId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "wallet_owner_type")
+    private WalletType walletOwnerType;
 
-    @Column("wallet_owner_type")
-    private WalletOwnerType walletOwnerType;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
-
-    @Transient
-    @JsonIgnoreProperties(value = { "walletTransactions" }, allowSetters = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "sender", "receiver", "walletTransactions" }, allowSetters = true)
     private Transaction transaction;
 
-    @Column("transaction_id")
-    private Long transactionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(
+        value = { "user", "category", "city", "walletProfile", "bankBranch", "walletTransactions", "beneficiaries" },
+        allowSetters = true
+    )
+    private WalletUser walletUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -201,54 +201,17 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
         this.notes = notes;
     }
 
-    public Long getOwnerId() {
-        return this.ownerId;
-    }
-
-    public WalletTransaction ownerId(Long ownerId) {
-        this.setOwnerId(ownerId);
-        return this;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public WalletOwnerType getWalletOwnerType() {
+    public WalletType getWalletOwnerType() {
         return this.walletOwnerType;
     }
 
-    public WalletTransaction walletOwnerType(WalletOwnerType walletOwnerType) {
+    public WalletTransaction walletOwnerType(WalletType walletOwnerType) {
         this.setWalletOwnerType(walletOwnerType);
         return this;
     }
 
-    public void setWalletOwnerType(WalletOwnerType walletOwnerType) {
+    public void setWalletOwnerType(WalletType walletOwnerType) {
         this.walletOwnerType = walletOwnerType;
-    }
-
-    // Inherited createdBy methods
-    public WalletTransaction createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public WalletTransaction createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public WalletTransaction lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public WalletTransaction lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
     }
 
     public Transaction getTransaction() {
@@ -257,7 +220,6 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
-        this.transactionId = transaction != null ? transaction.getId() : null;
     }
 
     public WalletTransaction transaction(Transaction transaction) {
@@ -265,12 +227,17 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
         return this;
     }
 
-    public Long getTransactionId() {
-        return this.transactionId;
+    public WalletUser getWalletUser() {
+        return this.walletUser;
     }
 
-    public void setTransactionId(Long transaction) {
-        this.transactionId = transaction;
+    public void setWalletUser(WalletUser walletUser) {
+        this.walletUser = walletUser;
+    }
+
+    public WalletTransaction walletUser(WalletUser walletUser) {
+        this.setWalletUser(walletUser);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -306,12 +273,7 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
             ", paymentType='" + getPaymentType() + "'" +
             ", paymentReference='" + getPaymentReference() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", ownerId=" + getOwnerId() +
             ", walletOwnerType='" + getWalletOwnerType() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

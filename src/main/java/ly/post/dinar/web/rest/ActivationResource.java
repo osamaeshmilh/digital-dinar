@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.ActivationCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.ActivationRepository;
+import ly.post.dinar.service.ActivationQueryService;
 import ly.post.dinar.service.ActivationService;
+import ly.post.dinar.service.criteria.ActivationCriteria;
 import ly.post.dinar.service.dto.ActivationDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.Activation}.
@@ -44,9 +42,16 @@ public class ActivationResource {
 
     private final ActivationRepository activationRepository;
 
-    public ActivationResource(ActivationService activationService, ActivationRepository activationRepository) {
+    private final ActivationQueryService activationQueryService;
+
+    public ActivationResource(
+        ActivationService activationService,
+        ActivationRepository activationRepository,
+        ActivationQueryService activationQueryService
+    ) {
         this.activationService = activationService;
         this.activationRepository = activationRepository;
+        this.activationQueryService = activationQueryService;
     }
 
     /**
@@ -57,23 +62,16 @@ public class ActivationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<ActivationDTO>> createActivation(@RequestBody ActivationDTO activationDTO) throws URISyntaxException {
+    public ResponseEntity<ActivationDTO> createActivation(@RequestBody ActivationDTO activationDTO) throws URISyntaxException {
         log.debug("REST request to save Activation : {}", activationDTO);
         if (activationDTO.getId() != null) {
             throw new BadRequestAlertException("A new activation cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return activationService
-            .save(activationDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/activations/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        ActivationDTO result = activationService.save(activationDTO);
+        return ResponseEntity
+            .created(new URI("/api/activations/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -87,7 +85,7 @@ public class ActivationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<ActivationDTO>> updateActivation(
+    public ResponseEntity<ActivationDTO> updateActivation(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ActivationDTO activationDTO
     ) throws URISyntaxException {
@@ -99,23 +97,15 @@ public class ActivationResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return activationRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!activationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return activationService
-                    .update(activationDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        ActivationDTO result = activationService.update(activationDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, activationDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -130,7 +120,7 @@ public class ActivationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<ActivationDTO>> partialUpdateActivation(
+    public ResponseEntity<ActivationDTO> partialUpdateActivation(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ActivationDTO activationDTO
     ) throws URISyntaxException {
@@ -142,55 +132,35 @@ public class ActivationResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return activationRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!activationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<ActivationDTO> result = activationService.partialUpdate(activationDTO);
+        Optional<ActivationDTO> result = activationService.partialUpdate(activationDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, activationDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /activations} : get all the activations.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of activations in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<ActivationDTO>>> getAllActivations(
+    @GetMapping("")
+    public ResponseEntity<List<ActivationDTO>> getAllActivations(
         ActivationCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Activations by criteria: {}", criteria);
-        return activationService
-            .countByCriteria(criteria)
-            .zipWith(activationService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<ActivationDTO> page = activationQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -200,9 +170,9 @@ public class ActivationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countActivations(ActivationCriteria criteria) {
+    public ResponseEntity<Long> countActivations(ActivationCriteria criteria) {
         log.debug("REST request to count Activations by criteria: {}", criteria);
-        return activationService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(activationQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -212,9 +182,9 @@ public class ActivationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the activationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<ActivationDTO>> getActivation(@PathVariable Long id) {
+    public ResponseEntity<ActivationDTO> getActivation(@PathVariable Long id) {
         log.debug("REST request to get Activation : {}", id);
-        Mono<ActivationDTO> activationDTO = activationService.findOne(id);
+        Optional<ActivationDTO> activationDTO = activationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(activationDTO);
     }
 
@@ -225,17 +195,12 @@ public class ActivationResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteActivation(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteActivation(@PathVariable Long id) {
         log.debug("REST request to delete Activation : {}", id);
-        return activationService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        activationService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

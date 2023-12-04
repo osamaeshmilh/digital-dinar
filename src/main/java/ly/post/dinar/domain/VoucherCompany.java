@@ -1,65 +1,60 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A VoucherCompany.
  */
-@Table("voucher_company")
+@Entity
+@Table(name = "voucher_company")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VoucherCompany extends AbstractAuditingEntity<Long> implements Serializable {
+public class VoucherCompany implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("name_ar")
+    @Column(name = "name_ar")
     private String nameAr;
 
-    @Column("name_en")
+    @Column(name = "name_en")
     private String nameEn;
 
-    @Column("mobile_no")
+    @Column(name = "mobile_no")
     private String mobileNo;
 
-    @Column("email")
+    @Column(name = "email")
     private String email;
 
-    @Column("image_file")
+    @Lob
+    @Column(name = "image_file")
     private byte[] imageFile;
 
-    @Column("image_file_content_type")
+    @Column(name = "image_file_content_type")
     private String imageFileContentType;
 
-    @Column("image_url_file")
+    @Column(name = "image_url_file")
     private String imageUrlFile;
 
-    @Column("post_code")
+    @Column(name = "post_code")
     private String postCode;
 
-    @Column("address")
+    @Column(name = "address")
     private String address;
 
-    @Column("notes")
+    @Column(name = "notes")
     private String notes;
 
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
-
-    @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
     private User user;
-
-    @Column("user_id")
-    private Long userId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -206,50 +201,17 @@ public class VoucherCompany extends AbstractAuditingEntity<Long> implements Seri
         this.notes = notes;
     }
 
-    // Inherited createdBy methods
-    public VoucherCompany createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public VoucherCompany createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public VoucherCompany lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public VoucherCompany lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     public User getUser() {
         return this.user;
     }
 
     public void setUser(User user) {
         this.user = user;
-        this.userId = user != null ? user.getId() : null;
     }
 
     public VoucherCompany user(User user) {
         this.setUser(user);
         return this;
-    }
-
-    public Long getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(Long user) {
-        this.userId = user;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -286,10 +248,6 @@ public class VoucherCompany extends AbstractAuditingEntity<Long> implements Seri
             ", postCode='" + getPostCode() + "'" +
             ", address='" + getAddress() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

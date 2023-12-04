@@ -24,30 +24,6 @@
           <dd>
             <span>{{ category.code }}</span>
           </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.category.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ category.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.category.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="category.createdDate">{{ formatDateLong(category.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.category.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ category.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.category.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="category.lastModifiedDate">{{ formatDateLong(category.lastModifiedDate) }}</span>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

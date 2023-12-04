@@ -40,22 +40,6 @@
               <span v-text="t$('digitalDinarApp.setting.value')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'value'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.setting.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.setting.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.setting.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.setting.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -66,10 +50,6 @@
             </td>
             <td>{{ setting.key }}</td>
             <td>{{ setting.value }}</td>
-            <td>{{ setting.createdBy }}</td>
-            <td>{{ formatDateShort(setting.createdDate) || '' }}</td>
-            <td>{{ setting.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(setting.lastModifiedDate) || '' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'SettingView', params: { settingId: setting.id } }" custom v-slot="{ navigate }">

@@ -1,0 +1,10 @@
+{
+  "digitalDinarApp": {
+    "WalletType": {
+      "null": "",
+      "CONSUMER": "CONSUMER",
+      "MERCHANT": "MERCHANT",
+      "POST_OFFICE": "POST_OFFICE"
+    }
+  }
+}

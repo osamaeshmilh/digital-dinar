@@ -1,8 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20231201185456",
+  "changelogDate": "20231204094621",
   "dto": "mapstruct",
-  "enableAudit": true,
   "entityTableName": "wallet_transaction",
   "fields": [
     {
@@ -33,7 +32,7 @@
     {
       "fieldName": "paymentType",
       "fieldType": "PaymentType",
-      "fieldValues": "ADFALI,SADAD,TADAWUL,MOBICASH,EMIZA,MOAMALAT,WALLET,CASH,CHEQUE"
+      "fieldValues": "ADFALI,CASH,CHEQUE,EMIZA,MOAMALAT,MOBICASH,SADAD,TADAWUL,WALLET"
     },
     {
       "fieldName": "paymentReference",
@@ -44,47 +43,9 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "ownerId",
-      "fieldType": "Long"
-    },
-    {
       "fieldName": "walletOwnerType",
-      "fieldType": "WalletOwnerType",
-      "fieldValues": "CONSUMER,MERCHANT"
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "createdBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "createdDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "lastModifiedBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "lastModifiedDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
+      "fieldType": "WalletType",
+      "fieldValues": "CONSUMER,MERCHANT,POST_OFFICE"
     }
   ],
   "jpaMetamodelFiltering": true,
@@ -95,6 +56,13 @@
       "otherEntityName": "transaction",
       "otherEntityRelationshipName": "walletTransaction",
       "relationshipName": "transaction",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "walletUser",
+      "otherEntityRelationshipName": "walletTransaction",
+      "relationshipName": "walletUser",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }

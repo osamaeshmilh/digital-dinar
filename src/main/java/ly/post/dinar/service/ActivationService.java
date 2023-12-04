@@ -1,16 +1,16 @@
 package ly.post.dinar.service;
 
-import ly.post.dinar.domain.criteria.ActivationCriteria;
+import java.util.Optional;
+import ly.post.dinar.domain.Activation;
 import ly.post.dinar.repository.ActivationRepository;
 import ly.post.dinar.service.dto.ActivationDTO;
 import ly.post.dinar.service.mapper.ActivationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Service Implementation for managing {@link ly.post.dinar.domain.Activation}.
@@ -36,9 +36,11 @@ public class ActivationService {
      * @param activationDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<ActivationDTO> save(ActivationDTO activationDTO) {
+    public ActivationDTO save(ActivationDTO activationDTO) {
         log.debug("Request to save Activation : {}", activationDTO);
-        return activationRepository.save(activationMapper.toEntity(activationDTO)).map(activationMapper::toDto);
+        Activation activation = activationMapper.toEntity(activationDTO);
+        activation = activationRepository.save(activation);
+        return activationMapper.toDto(activation);
     }
 
     /**
@@ -47,9 +49,11 @@ public class ActivationService {
      * @param activationDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<ActivationDTO> update(ActivationDTO activationDTO) {
+    public ActivationDTO update(ActivationDTO activationDTO) {
         log.debug("Request to update Activation : {}", activationDTO);
-        return activationRepository.save(activationMapper.toEntity(activationDTO)).map(activationMapper::toDto);
+        Activation activation = activationMapper.toEntity(activationDTO);
+        activation = activationRepository.save(activation);
+        return activationMapper.toDto(activation);
     }
 
     /**
@@ -58,7 +62,7 @@ public class ActivationService {
      * @param activationDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Mono<ActivationDTO> partialUpdate(ActivationDTO activationDTO) {
+    public Optional<ActivationDTO> partialUpdate(ActivationDTO activationDTO) {
         log.debug("Request to partially update Activation : {}", activationDTO);
 
         return activationRepository
@@ -68,7 +72,7 @@ public class ActivationService {
 
                 return existingActivation;
             })
-            .flatMap(activationRepository::save)
+            .map(activationRepository::save)
             .map(activationMapper::toDto);
     }
 
@@ -79,40 +83,9 @@ public class ActivationService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Flux<ActivationDTO> findAll(Pageable pageable) {
+    public Page<ActivationDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Activations");
-        return activationRepository.findAllBy(pageable).map(activationMapper::toDto);
-    }
-
-    /**
-     * Find activations by Criteria.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Flux<ActivationDTO> findByCriteria(ActivationCriteria criteria, Pageable pageable) {
-        log.debug("Request to get all Activations by Criteria");
-        return activationRepository.findByCriteria(criteria, pageable).map(activationMapper::toDto);
-    }
-
-    /**
-     * Find the count of activations by criteria.
-     * @param criteria filtering criteria
-     * @return the count of activations
-     */
-    public Mono<Long> countByCriteria(ActivationCriteria criteria) {
-        log.debug("Request to get the count of all Activations by Criteria");
-        return activationRepository.countByCriteria(criteria);
-    }
-
-    /**
-     * Returns the number of activations available.
-     * @return the number of entities in the database.
-     *
-     */
-    public Mono<Long> countAll() {
-        return activationRepository.count();
+        return activationRepository.findAll(pageable).map(activationMapper::toDto);
     }
 
     /**
@@ -122,7 +95,7 @@ public class ActivationService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Mono<ActivationDTO> findOne(Long id) {
+    public Optional<ActivationDTO> findOne(Long id) {
         log.debug("Request to get Activation : {}", id);
         return activationRepository.findById(id).map(activationMapper::toDto);
     }
@@ -131,10 +104,9 @@ public class ActivationService {
      * Delete the activation by id.
      *
      * @param id the id of the entity.
-     * @return a Mono to signal the deletion
      */
-    public Mono<Void> delete(Long id) {
+    public void delete(Long id) {
         log.debug("Request to delete Activation : {}", id);
-        return activationRepository.deleteById(id);
+        activationRepository.deleteById(id);
     }
 }

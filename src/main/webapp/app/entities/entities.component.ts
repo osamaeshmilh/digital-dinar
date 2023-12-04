@@ -2,8 +2,7 @@ import { defineComponent, provide } from 'vue';
 
 import ActivationService from './activation/activation.service';
 import AttachmentService from './attachment/attachment.service';
-import MerchantService from './merchant/merchant.service';
-import ConsumerService from './consumer/consumer.service';
+import WalletUserService from './wallet-user/wallet-user.service';
 import WalletTransactionService from './wallet-transaction/wallet-transaction.service';
 import BeneficiaryService from './beneficiary/beneficiary.service';
 import WalletProfileService from './wallet-profile/wallet-profile.service';
@@ -19,6 +18,8 @@ import TransactionService from './transaction/transaction.service';
 import VoucherCompanyService from './voucher-company/voucher-company.service';
 import VoucherTypeService from './voucher-type/voucher-type.service';
 import VoucherService from './voucher/voucher.service';
+import BankService from './bank/bank.service';
+import BankBranchService from './bank-branch/bank-branch.service';
 import UserService from '@/entities/user/user.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
@@ -29,8 +30,7 @@ export default defineComponent({
     provide('userService', () => new UserService());
     provide('activationService', () => new ActivationService());
     provide('attachmentService', () => new AttachmentService());
-    provide('merchantService', () => new MerchantService());
-    provide('consumerService', () => new ConsumerService());
+    provide('walletUserService', () => new WalletUserService());
     provide('walletTransactionService', () => new WalletTransactionService());
     provide('beneficiaryService', () => new BeneficiaryService());
     provide('walletProfileService', () => new WalletProfileService());
@@ -46,6 +46,8 @@ export default defineComponent({
     provide('voucherCompanyService', () => new VoucherCompanyService());
     provide('voucherTypeService', () => new VoucherTypeService());
     provide('voucherService', () => new VoucherService());
+    provide('bankService', () => new BankService());
+    provide('bankBranchService', () => new BankBranchService());
     // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
   },
 });

@@ -37,34 +37,10 @@
             <span>{{ voucher.sellTransactionId }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.voucher.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ voucher.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.voucher.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="voucher.createdDate">{{ formatDateLong(voucher.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.voucher.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ voucher.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.voucher.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="voucher.lastModifiedDate">{{ formatDateLong(voucher.lastModifiedDate) }}</span>
-          </dd>
-          <dt>
             <span v-text="t$('digitalDinarApp.voucher.voucherType')"></span>
           </dt>
           <dd>
-            <div v-if="voucher.voucherType.id">
+            <div v-if="voucher.voucherType">
               <router-link :to="{ name: 'VoucherTypeView', params: { voucherTypeId: voucher.voucherType.id } }">{{
                 voucher.voucherType.nameAr
               }}</router-link>
@@ -74,7 +50,7 @@
             <span v-text="t$('digitalDinarApp.voucher.voucherCompany')"></span>
           </dt>
           <dd>
-            <div v-if="voucher.voucherCompany.id">
+            <div v-if="voucher.voucherCompany">
               <router-link :to="{ name: 'VoucherCompanyView', params: { voucherCompanyId: voucher.voucherCompany.id } }">{{
                 voucher.voucherCompany.nameAr
               }}</router-link>

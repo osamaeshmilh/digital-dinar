@@ -1,45 +1,12 @@
 package ly.post.dinar.repository;
 
 import ly.post.dinar.domain.Notification;
-import ly.post.dinar.domain.criteria.NotificationCriteria;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
- * Spring Data R2DBC repository for the Notification entity.
+ * Spring Data JPA repository for the Notification entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface NotificationRepository extends ReactiveCrudRepository<Notification, Long>, NotificationRepositoryInternal {
-    Flux<Notification> findAllBy(Pageable pageable);
-
-    @Override
-    <S extends Notification> Mono<S> save(S entity);
-
-    @Override
-    Flux<Notification> findAll();
-
-    @Override
-    Mono<Notification> findById(Long id);
-
-    @Override
-    Mono<Void> deleteById(Long id);
-}
-
-interface NotificationRepositoryInternal {
-    <S extends Notification> Mono<S> save(S entity);
-
-    Flux<Notification> findAllBy(Pageable pageable);
-
-    Flux<Notification> findAll();
-
-    Mono<Notification> findById(Long id);
-    // this is not supported at the moment because of https://github.com/jhipster/generator-jhipster/issues/18269
-    // Flux<Notification> findAllBy(Pageable pageable, Criteria criteria);
-    Flux<Notification> findByCriteria(NotificationCriteria criteria, Pageable pageable);
-
-    Mono<Long> countByCriteria(NotificationCriteria criteria);
-}
+public interface NotificationRepository extends JpaRepository<Notification, Long>, JpaSpecificationExecutor<Notification> {}

@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import NotificationService from './notification.service';
-import { useValidation, useDateFormat } from '@/shared/composables';
+import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type INotification, Notification } from '@/shared/model/notification.model';
@@ -28,8 +28,6 @@ export default defineComponent({
     const retrieveNotification = async notificationId => {
       try {
         const res = await notificationService().find(notificationId);
-        res.createdDate = new Date(res.createdDate);
-        res.lastModifiedDate = new Date(res.lastModifiedDate);
         notification.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -46,10 +44,6 @@ export default defineComponent({
       title: {},
       description: {},
       userId: {},
-      createdBy: {},
-      createdDate: {},
-      lastModifiedBy: {},
-      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, notification as any);
     v$.value.$validate();
@@ -62,7 +56,6 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       v$,
-      ...useDateFormat({ entityRef: notification }),
       t$,
     };
   },

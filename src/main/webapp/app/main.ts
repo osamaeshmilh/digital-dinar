@@ -12,12 +12,13 @@ import JhiItemCountComponent from './shared/jhi-item-count.vue';
 import JhiSortIndicatorComponent from './shared/sort/jhi-sort-indicator.vue';
 import LoginService from './account/login.service';
 import AccountService from './account/account.service';
-import { setupAxiosInterceptors } from '@/shared/config/axios-interceptor';
-import { useStore, useTranslationStore } from '@/store';
 
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
+import { useTrackerService } from './admin/tracker/tracker.service';
 import TranslationService from '@/locale/translation.service';
+import { setupAxiosInterceptors } from '@/shared/config/axios-interceptor';
+import { useStore, useTranslationStore } from '@/store';
 
 const pinia = createPinia();
 
@@ -153,6 +154,8 @@ const app = createApp({
     provide('translationService', translationService);
     provide('accountService', accountService);
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
+
+    provide('trackerService', useTrackerService());
   },
 });
 

@@ -1,37 +1,34 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Category.
  */
-@Table("category")
+@Entity
+@Table(name = "category")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Category extends AbstractAuditingEntity<Long> implements Serializable {
+public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("name_ar")
+    @Column(name = "name_ar")
     private String nameAr;
 
-    @Column("name_en")
+    @Column(name = "name_en")
     private String nameEn;
 
-    @Column("code")
+    @Column(name = "code")
     private String code;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -87,30 +84,6 @@ public class Category extends AbstractAuditingEntity<Long> implements Serializab
         this.code = code;
     }
 
-    // Inherited createdBy methods
-    public Category createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public Category createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public Category lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public Category lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -138,10 +111,6 @@ public class Category extends AbstractAuditingEntity<Long> implements Serializab
             ", nameAr='" + getNameAr() + "'" +
             ", nameEn='" + getNameEn() + "'" +
             ", code='" + getCode() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

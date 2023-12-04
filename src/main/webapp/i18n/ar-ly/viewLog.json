@@ -19,11 +19,7 @@
       },
       "id": "ID",
       "entityName": "Entity Name",
-      "entityId": "Entity Id",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "entityId": "Entity Id"
     }
   }
 }

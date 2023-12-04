@@ -52,22 +52,6 @@
               <span v-text="t$('digitalDinarApp.voucher.sellTransactionId')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'sellTransactionId'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.voucher.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.voucher.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.voucher.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.voucher.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="row" v-on:click="changeOrder('voucherType.nameAr')">
               <span v-text="t$('digitalDinarApp.voucher.voucherType')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'voucherType.nameAr'"></jhi-sort-indicator>
@@ -89,19 +73,15 @@
             <td>{{ voucher.serialNumber }}</td>
             <td>{{ voucher.isSold }}</td>
             <td>{{ voucher.sellTransactionId }}</td>
-            <td>{{ voucher.createdBy }}</td>
-            <td>{{ formatDateShort(voucher.createdDate) || '' }}</td>
-            <td>{{ voucher.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(voucher.lastModifiedDate) || '' }}</td>
             <td>
-              <div v-if="voucher.voucherType.id">
+              <div v-if="voucher.voucherType">
                 <router-link :to="{ name: 'VoucherTypeView', params: { voucherTypeId: voucher.voucherType.id } }">{{
                   voucher.voucherType.nameAr
                 }}</router-link>
               </div>
             </td>
             <td>
-              <div v-if="voucher.voucherCompany.id">
+              <div v-if="voucher.voucherCompany">
                 <router-link :to="{ name: 'VoucherCompanyView', params: { voucherCompanyId: voucher.voucherCompany.id } }">{{
                   voucher.voucherCompany.nameAr
                 }}</router-link>

@@ -1,41 +1,34 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A City.
  */
-@Table("city")
+@Entity
+@Table(name = "city")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class City extends AbstractAuditingEntity<Long> implements Serializable {
+public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("name_ar")
+    @Column(name = "name_ar")
     private String nameAr;
 
-    @Column("name_en")
+    @Column(name = "name_en")
     private String nameEn;
 
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
-
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
-
-    @Column("country_id")
-    private Long countryId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -78,50 +71,17 @@ public class City extends AbstractAuditingEntity<Long> implements Serializable {
         this.nameEn = nameEn;
     }
 
-    // Inherited createdBy methods
-    public City createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public City createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public City lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public City lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     public Country getCountry() {
         return this.country;
     }
 
     public void setCountry(Country country) {
         this.country = country;
-        this.countryId = country != null ? country.getId() : null;
     }
 
     public City country(Country country) {
         this.setCountry(country);
         return this;
-    }
-
-    public Long getCountryId() {
-        return this.countryId;
-    }
-
-    public void setCountryId(Long country) {
-        this.countryId = country;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -150,10 +110,6 @@ public class City extends AbstractAuditingEntity<Long> implements Serializable {
             "id=" + getId() +
             ", nameAr='" + getNameAr() + "'" +
             ", nameEn='" + getNameEn() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

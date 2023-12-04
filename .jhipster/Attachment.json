@@ -1,8 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20231201185156",
+  "changelogDate": "20231204094421",
   "dto": "mapstruct",
-  "enableAudit": true,
   "entityTableName": "attachment",
   "fields": [
     {
@@ -20,7 +19,7 @@
     {
       "fieldName": "attachmentType",
       "fieldType": "AttachmentType",
-      "fieldValues": "COMMERCIAL_REGISTRY,COMMERCIAL_LICENCE,FACE,FACE_WITH_ID,PASSPORT,ID,DRIVING_LICENCE"
+      "fieldValues": "COMMERCIAL_LICENCE,COMMERCIAL_REGISTRY,DRIVING_LICENCE,FACE,FACE_WITH_ID,ID,PASSPORT"
     },
     {
       "fieldName": "file",
@@ -39,40 +38,6 @@
     {
       "fieldName": "referenceId",
       "fieldType": "Long"
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "createdBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "createdDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "lastModifiedBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "lastModifiedDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
     }
   ],
   "jpaMetamodelFiltering": true,

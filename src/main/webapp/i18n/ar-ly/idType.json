@@ -2,9 +2,9 @@
   "digitalDinarApp": {
     "IdType": {
       "null": "",
-      "PASSPORT": "PASSPORT",
+      "DRIVING_LICENCE": "DRIVING_LICENCE",
       "ID": "ID",
-      "DRIVING_LICENCE": "DRIVING_LICENCE"
+      "PASSPORT": "PASSPORT"
     }
   }
 }

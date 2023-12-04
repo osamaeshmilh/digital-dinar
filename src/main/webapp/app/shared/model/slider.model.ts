@@ -6,10 +6,6 @@ export interface ISlider {
   imageFileContentType?: string | null;
   imageFile?: string | null;
   url?: string | null;
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
 }
 
 export class Slider implements ISlider {
@@ -21,9 +17,5 @@ export class Slider implements ISlider {
     public imageFileContentType?: string | null,
     public imageFile?: string | null,
     public url?: string | null,
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
   ) {}
 }

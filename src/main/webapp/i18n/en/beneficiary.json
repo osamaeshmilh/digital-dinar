@@ -22,18 +22,17 @@
       "arabicLastName": "Arabic Last Name",
       "englishFirstName": "English First Name",
       "englishLastName": "English Last Name",
+      "bankAccountName": "Bank Account Name",
+      "bankAccountNumber": "Bank Account Number",
       "idType": "Id Type",
       "idNo": "Id No",
       "mobileNo": "Mobile No",
       "email": "Email",
       "notes": "Notes",
-      "createdByUserId": "Created By User Id",
       "isVerified": "Is Verified",
       "hasTransferred": "Has Transferred",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "bankBranch": "Bank Branch",
+      "walletUser": "Wallet User"
     }
   }
 }

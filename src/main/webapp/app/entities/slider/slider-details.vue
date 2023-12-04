@@ -45,30 +45,6 @@
           <dd>
             <span>{{ slider.url }}</span>
           </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.slider.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ slider.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.slider.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="slider.createdDate">{{ formatDateLong(slider.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.slider.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ slider.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.slider.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="slider.lastModifiedDate">{{ formatDateLong(slider.lastModifiedDate) }}</span>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

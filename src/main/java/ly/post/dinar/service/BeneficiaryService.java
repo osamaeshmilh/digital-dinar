@@ -1,16 +1,16 @@
 package ly.post.dinar.service;
 
-import ly.post.dinar.domain.criteria.BeneficiaryCriteria;
+import java.util.Optional;
+import ly.post.dinar.domain.Beneficiary;
 import ly.post.dinar.repository.BeneficiaryRepository;
 import ly.post.dinar.service.dto.BeneficiaryDTO;
 import ly.post.dinar.service.mapper.BeneficiaryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Service Implementation for managing {@link ly.post.dinar.domain.Beneficiary}.
@@ -36,9 +36,11 @@ public class BeneficiaryService {
      * @param beneficiaryDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<BeneficiaryDTO> save(BeneficiaryDTO beneficiaryDTO) {
+    public BeneficiaryDTO save(BeneficiaryDTO beneficiaryDTO) {
         log.debug("Request to save Beneficiary : {}", beneficiaryDTO);
-        return beneficiaryRepository.save(beneficiaryMapper.toEntity(beneficiaryDTO)).map(beneficiaryMapper::toDto);
+        Beneficiary beneficiary = beneficiaryMapper.toEntity(beneficiaryDTO);
+        beneficiary = beneficiaryRepository.save(beneficiary);
+        return beneficiaryMapper.toDto(beneficiary);
     }
 
     /**
@@ -47,9 +49,11 @@ public class BeneficiaryService {
      * @param beneficiaryDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<BeneficiaryDTO> update(BeneficiaryDTO beneficiaryDTO) {
+    public BeneficiaryDTO update(BeneficiaryDTO beneficiaryDTO) {
         log.debug("Request to update Beneficiary : {}", beneficiaryDTO);
-        return beneficiaryRepository.save(beneficiaryMapper.toEntity(beneficiaryDTO)).map(beneficiaryMapper::toDto);
+        Beneficiary beneficiary = beneficiaryMapper.toEntity(beneficiaryDTO);
+        beneficiary = beneficiaryRepository.save(beneficiary);
+        return beneficiaryMapper.toDto(beneficiary);
     }
 
     /**
@@ -58,7 +62,7 @@ public class BeneficiaryService {
      * @param beneficiaryDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Mono<BeneficiaryDTO> partialUpdate(BeneficiaryDTO beneficiaryDTO) {
+    public Optional<BeneficiaryDTO> partialUpdate(BeneficiaryDTO beneficiaryDTO) {
         log.debug("Request to partially update Beneficiary : {}", beneficiaryDTO);
 
         return beneficiaryRepository
@@ -68,7 +72,7 @@ public class BeneficiaryService {
 
                 return existingBeneficiary;
             })
-            .flatMap(beneficiaryRepository::save)
+            .map(beneficiaryRepository::save)
             .map(beneficiaryMapper::toDto);
     }
 
@@ -79,40 +83,18 @@ public class BeneficiaryService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Flux<BeneficiaryDTO> findAll(Pageable pageable) {
+    public Page<BeneficiaryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Beneficiaries");
-        return beneficiaryRepository.findAllBy(pageable).map(beneficiaryMapper::toDto);
+        return beneficiaryRepository.findAll(pageable).map(beneficiaryMapper::toDto);
     }
 
     /**
-     * Find beneficiaries by Criteria.
+     * Get all the beneficiaries with eager load of many-to-many relationships.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
-    public Flux<BeneficiaryDTO> findByCriteria(BeneficiaryCriteria criteria, Pageable pageable) {
-        log.debug("Request to get all Beneficiaries by Criteria");
-        return beneficiaryRepository.findByCriteria(criteria, pageable).map(beneficiaryMapper::toDto);
-    }
-
-    /**
-     * Find the count of beneficiaries by criteria.
-     * @param criteria filtering criteria
-     * @return the count of beneficiaries
-     */
-    public Mono<Long> countByCriteria(BeneficiaryCriteria criteria) {
-        log.debug("Request to get the count of all Beneficiaries by Criteria");
-        return beneficiaryRepository.countByCriteria(criteria);
-    }
-
-    /**
-     * Returns the number of beneficiaries available.
-     * @return the number of entities in the database.
-     *
-     */
-    public Mono<Long> countAll() {
-        return beneficiaryRepository.count();
+    public Page<BeneficiaryDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return beneficiaryRepository.findAllWithEagerRelationships(pageable).map(beneficiaryMapper::toDto);
     }
 
     /**
@@ -122,19 +104,18 @@ public class BeneficiaryService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Mono<BeneficiaryDTO> findOne(Long id) {
+    public Optional<BeneficiaryDTO> findOne(Long id) {
         log.debug("Request to get Beneficiary : {}", id);
-        return beneficiaryRepository.findById(id).map(beneficiaryMapper::toDto);
+        return beneficiaryRepository.findOneWithEagerRelationships(id).map(beneficiaryMapper::toDto);
     }
 
     /**
      * Delete the beneficiary by id.
      *
      * @param id the id of the entity.
-     * @return a Mono to signal the deletion
      */
-    public Mono<Void> delete(Long id) {
+    public void delete(Long id) {
         log.debug("Request to delete Beneficiary : {}", id);
-        return beneficiaryRepository.deleteById(id);
+        beneficiaryRepository.deleteById(id);
     }
 }

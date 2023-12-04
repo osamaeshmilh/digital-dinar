@@ -32,19 +32,12 @@
       "notes": "Notes",
       "senderMobileNo": "Sender Mobile No",
       "senderName": "Sender Name",
-      "senderType": "Sender Type",
       "senderIdNo": "Sender Id No",
-      "senderId": "Sender Id",
       "receiverName": "Receiver Name",
       "receiverMobileNo": "Receiver Mobile No",
-      "receiverType": "Receiver Type",
-      "receiverId": "Receiver Id",
       "receiverIdNo": "Receiver Id No",
-      "createdByUserId": "Created By User Id",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date",
+      "sender": "Sender",
+      "receiver": "Receiver",
       "walletTransaction": "Wallet Transaction"
     }
   }

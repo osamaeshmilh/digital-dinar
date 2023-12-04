@@ -1,45 +1,12 @@
 package ly.post.dinar.repository;
 
 import ly.post.dinar.domain.Category;
-import ly.post.dinar.domain.criteria.CategoryCriteria;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
- * Spring Data R2DBC repository for the Category entity.
+ * Spring Data JPA repository for the Category entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CategoryRepository extends ReactiveCrudRepository<Category, Long>, CategoryRepositoryInternal {
-    Flux<Category> findAllBy(Pageable pageable);
-
-    @Override
-    <S extends Category> Mono<S> save(S entity);
-
-    @Override
-    Flux<Category> findAll();
-
-    @Override
-    Mono<Category> findById(Long id);
-
-    @Override
-    Mono<Void> deleteById(Long id);
-}
-
-interface CategoryRepositoryInternal {
-    <S extends Category> Mono<S> save(S entity);
-
-    Flux<Category> findAllBy(Pageable pageable);
-
-    Flux<Category> findAll();
-
-    Mono<Category> findById(Long id);
-    // this is not supported at the moment because of https://github.com/jhipster/generator-jhipster/issues/18269
-    // Flux<Category> findAllBy(Pageable pageable, Criteria criteria);
-    Flux<Category> findByCriteria(CategoryCriteria criteria, Pageable pageable);
-
-    Mono<Long> countByCriteria(CategoryCriteria criteria);
-}
+public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSpecificationExecutor<Category> {}

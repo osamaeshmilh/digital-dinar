@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.WalletTransactionCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.WalletTransactionRepository;
+import ly.post.dinar.service.WalletTransactionQueryService;
 import ly.post.dinar.service.WalletTransactionService;
+import ly.post.dinar.service.criteria.WalletTransactionCriteria;
 import ly.post.dinar.service.dto.WalletTransactionDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.WalletTransaction}.
@@ -44,12 +42,16 @@ public class WalletTransactionResource {
 
     private final WalletTransactionRepository walletTransactionRepository;
 
+    private final WalletTransactionQueryService walletTransactionQueryService;
+
     public WalletTransactionResource(
         WalletTransactionService walletTransactionService,
-        WalletTransactionRepository walletTransactionRepository
+        WalletTransactionRepository walletTransactionRepository,
+        WalletTransactionQueryService walletTransactionQueryService
     ) {
         this.walletTransactionService = walletTransactionService;
         this.walletTransactionRepository = walletTransactionRepository;
+        this.walletTransactionQueryService = walletTransactionQueryService;
     }
 
     /**
@@ -60,24 +62,17 @@ public class WalletTransactionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<WalletTransactionDTO>> createWalletTransaction(@RequestBody WalletTransactionDTO walletTransactionDTO)
+    public ResponseEntity<WalletTransactionDTO> createWalletTransaction(@RequestBody WalletTransactionDTO walletTransactionDTO)
         throws URISyntaxException {
         log.debug("REST request to save WalletTransaction : {}", walletTransactionDTO);
         if (walletTransactionDTO.getId() != null) {
             throw new BadRequestAlertException("A new walletTransaction cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return walletTransactionService
-            .save(walletTransactionDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/wallet-transactions/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        WalletTransactionDTO result = walletTransactionService.save(walletTransactionDTO);
+        return ResponseEntity
+            .created(new URI("/api/wallet-transactions/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -91,7 +86,7 @@ public class WalletTransactionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<WalletTransactionDTO>> updateWalletTransaction(
+    public ResponseEntity<WalletTransactionDTO> updateWalletTransaction(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody WalletTransactionDTO walletTransactionDTO
     ) throws URISyntaxException {
@@ -103,23 +98,15 @@ public class WalletTransactionResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return walletTransactionRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!walletTransactionRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return walletTransactionService
-                    .update(walletTransactionDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        WalletTransactionDTO result = walletTransactionService.update(walletTransactionDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, walletTransactionDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -134,7 +121,7 @@ public class WalletTransactionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<WalletTransactionDTO>> partialUpdateWalletTransaction(
+    public ResponseEntity<WalletTransactionDTO> partialUpdateWalletTransaction(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody WalletTransactionDTO walletTransactionDTO
     ) throws URISyntaxException {
@@ -146,55 +133,35 @@ public class WalletTransactionResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return walletTransactionRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!walletTransactionRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<WalletTransactionDTO> result = walletTransactionService.partialUpdate(walletTransactionDTO);
+        Optional<WalletTransactionDTO> result = walletTransactionService.partialUpdate(walletTransactionDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, walletTransactionDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /wallet-transactions} : get all the walletTransactions.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of walletTransactions in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<WalletTransactionDTO>>> getAllWalletTransactions(
+    @GetMapping("")
+    public ResponseEntity<List<WalletTransactionDTO>> getAllWalletTransactions(
         WalletTransactionCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get WalletTransactions by criteria: {}", criteria);
-        return walletTransactionService
-            .countByCriteria(criteria)
-            .zipWith(walletTransactionService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<WalletTransactionDTO> page = walletTransactionQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -204,9 +171,9 @@ public class WalletTransactionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countWalletTransactions(WalletTransactionCriteria criteria) {
+    public ResponseEntity<Long> countWalletTransactions(WalletTransactionCriteria criteria) {
         log.debug("REST request to count WalletTransactions by criteria: {}", criteria);
-        return walletTransactionService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(walletTransactionQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -216,9 +183,9 @@ public class WalletTransactionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the walletTransactionDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<WalletTransactionDTO>> getWalletTransaction(@PathVariable Long id) {
+    public ResponseEntity<WalletTransactionDTO> getWalletTransaction(@PathVariable Long id) {
         log.debug("REST request to get WalletTransaction : {}", id);
-        Mono<WalletTransactionDTO> walletTransactionDTO = walletTransactionService.findOne(id);
+        Optional<WalletTransactionDTO> walletTransactionDTO = walletTransactionService.findOne(id);
         return ResponseUtil.wrapOrNotFound(walletTransactionDTO);
     }
 
@@ -229,17 +196,12 @@ public class WalletTransactionResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteWalletTransaction(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteWalletTransaction(@PathVariable Long id) {
         log.debug("REST request to delete WalletTransaction : {}", id);
-        return walletTransactionService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        walletTransactionService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

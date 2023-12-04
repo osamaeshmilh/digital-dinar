@@ -2,8 +2,8 @@
   "digitalDinarApp": {
     "Gender": {
       "null": "",
-      "MALE": "MALE",
-      "FEMALE": "FEMALE"
+      "FEMALE": "FEMALE",
+      "MALE": "MALE"
     }
   }
 }

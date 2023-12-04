@@ -1,0 +1,27 @@
+{
+  "digitalDinarApp": {
+    "bankBranch": {
+      "home": {
+        "title": "BankBranches",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Bank Branch",
+        "createOrEditLabel": "Créer ou éditer un Bank Branch",
+        "notFound": "Aucun Bank Branch trouvé"
+      },
+      "created": "Un nouveau Bank Branch a été créé avec l'identifiant { param }",
+      "updated": "Le Bank Branch avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Bank Branch avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Bank Branch { id } ?"
+      },
+      "detail": {
+        "title": "Bank Branch"
+      },
+      "id": "ID",
+      "nameAr": "Name Ar",
+      "namEn": "Nam En",
+      "address": "Address",
+      "bank": "Bank"
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 
 import SliderService from './slider.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useValidation, useDateFormat } from '@/shared/composables';
+import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type ISlider, Slider } from '@/shared/model/slider.model';
@@ -29,8 +29,6 @@ export default defineComponent({
     const retrieveSlider = async sliderId => {
       try {
         const res = await sliderService().find(sliderId);
-        res.createdDate = new Date(res.createdDate);
-        res.lastModifiedDate = new Date(res.lastModifiedDate);
         slider.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -51,10 +49,6 @@ export default defineComponent({
       imageFileUrl: {},
       imageFile: {},
       url: {},
-      createdBy: {},
-      createdDate: {},
-      lastModifiedBy: {},
-      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, slider as any);
     v$.value.$validate();
@@ -68,7 +62,6 @@ export default defineComponent({
       currentLanguage,
       ...dataUtils,
       v$,
-      ...useDateFormat({ entityRef: slider }),
       t$,
     };
   },

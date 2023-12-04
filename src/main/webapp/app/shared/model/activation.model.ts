@@ -6,10 +6,6 @@ export interface IActivation {
   sentOn?: Date | null;
   validUntil?: Date | null;
   isUsed?: boolean | null;
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
 }
 
 export class Activation implements IActivation {
@@ -21,10 +17,6 @@ export class Activation implements IActivation {
     public sentOn?: Date | null,
     public validUntil?: Date | null,
     public isUsed?: boolean | null,
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
   ) {
     this.isUsed = this.isUsed ?? false;
   }

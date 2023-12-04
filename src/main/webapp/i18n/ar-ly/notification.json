@@ -20,11 +20,7 @@
       "id": "ID",
       "title": "Title",
       "description": "Description",
-      "userId": "User Id",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "userId": "User Id"
     }
   }
 }

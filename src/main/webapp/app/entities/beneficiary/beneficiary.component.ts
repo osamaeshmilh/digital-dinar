@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 
 import BeneficiaryService from './beneficiary.service';
 import { type IBeneficiary } from '@/shared/model/beneficiary.model';
-import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,7 +10,6 @@ export default defineComponent({
   name: 'Beneficiary',
   setup() {
     const { t: t$ } = useI18n();
-    const dateFormat = useDateFormat();
     const beneficiaryService = inject('beneficiaryService', () => new BeneficiaryService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -118,7 +116,6 @@ export default defineComponent({
       isFetching,
       retrieveBeneficiarys,
       clear,
-      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

@@ -18,30 +18,6 @@
           <dd>
             <span>{{ viewLog.entityId }}</span>
           </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.viewLog.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ viewLog.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.viewLog.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="viewLog.createdDate">{{ formatDateLong(viewLog.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.viewLog.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ viewLog.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.viewLog.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="viewLog.lastModifiedDate">{{ formatDateLong(viewLog.lastModifiedDate) }}</span>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

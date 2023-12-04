@@ -1,45 +1,40 @@
 package ly.post.dinar.repository;
 
+import java.util.List;
+import java.util.Optional;
 import ly.post.dinar.domain.Beneficiary;
-import ly.post.dinar.domain.criteria.BeneficiaryCriteria;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
- * Spring Data R2DBC repository for the Beneficiary entity.
+ * Spring Data JPA repository for the Beneficiary entity.
  */
-@SuppressWarnings("unused")
 @Repository
-public interface BeneficiaryRepository extends ReactiveCrudRepository<Beneficiary, Long>, BeneficiaryRepositoryInternal {
-    Flux<Beneficiary> findAllBy(Pageable pageable);
+public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Long>, JpaSpecificationExecutor<Beneficiary> {
+    default Optional<Beneficiary> findOneWithEagerRelationships(Long id) {
+        return this.findOneWithToOneRelationships(id);
+    }
 
-    @Override
-    <S extends Beneficiary> Mono<S> save(S entity);
+    default List<Beneficiary> findAllWithEagerRelationships() {
+        return this.findAllWithToOneRelationships();
+    }
 
-    @Override
-    Flux<Beneficiary> findAll();
+    default Page<Beneficiary> findAllWithEagerRelationships(Pageable pageable) {
+        return this.findAllWithToOneRelationships(pageable);
+    }
 
-    @Override
-    Mono<Beneficiary> findById(Long id);
+    @Query(
+        value = "select beneficiary from Beneficiary beneficiary left join fetch beneficiary.bankBranch",
+        countQuery = "select count(beneficiary) from Beneficiary beneficiary"
+    )
+    Page<Beneficiary> findAllWithToOneRelationships(Pageable pageable);
 
-    @Override
-    Mono<Void> deleteById(Long id);
-}
+    @Query("select beneficiary from Beneficiary beneficiary left join fetch beneficiary.bankBranch")
+    List<Beneficiary> findAllWithToOneRelationships();
 
-interface BeneficiaryRepositoryInternal {
-    <S extends Beneficiary> Mono<S> save(S entity);
-
-    Flux<Beneficiary> findAllBy(Pageable pageable);
-
-    Flux<Beneficiary> findAll();
-
-    Mono<Beneficiary> findById(Long id);
-    // this is not supported at the moment because of https://github.com/jhipster/generator-jhipster/issues/18269
-    // Flux<Beneficiary> findAllBy(Pageable pageable, Criteria criteria);
-    Flux<Beneficiary> findByCriteria(BeneficiaryCriteria criteria, Pageable pageable);
-
-    Mono<Long> countByCriteria(BeneficiaryCriteria criteria);
+    @Query("select beneficiary from Beneficiary beneficiary left join fetch beneficiary.bankBranch where beneficiary.id =:id")
+    Optional<Beneficiary> findOneWithToOneRelationships(@Param("id") Long id);
 }

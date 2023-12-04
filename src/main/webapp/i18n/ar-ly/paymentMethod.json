@@ -27,11 +27,7 @@
       "details": "Details",
       "feePercentage": "Fee Percentage",
       "paymentType": "Payment Type",
-      "notes": "Notes",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "notes": "Notes"
     }
   }
 }

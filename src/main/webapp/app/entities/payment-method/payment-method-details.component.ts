@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 
 import PaymentMethodService from './payment-method.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useDateFormat } from '@/shared/composables';
 import { type IPaymentMethod } from '@/shared/model/payment-method.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -12,7 +11,6 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'PaymentMethodDetails',
   setup() {
-    const dateFormat = useDateFormat();
     const paymentMethodService = inject('paymentMethodService', () => new PaymentMethodService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -38,7 +36,6 @@ export default defineComponent({
     }
 
     return {
-      ...dateFormat,
       alertService,
       paymentMethod,
 

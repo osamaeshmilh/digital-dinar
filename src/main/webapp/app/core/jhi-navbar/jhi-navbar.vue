@@ -53,6 +53,10 @@
             <font-awesome-icon icon="users" />
             <span v-text="t$('global.menu.admin.userManagement')"></span>
           </b-dropdown-item>
+          <b-dropdown-item to="/admin/tracker" active-class="active">
+            <font-awesome-icon icon="eye" />
+            <span v-text="t$('global.menu.admin.tracker')"></span>
+          </b-dropdown-item>
           <b-dropdown-item to="/admin/metrics" active-class="active">
             <font-awesome-icon icon="tachometer-alt" />
             <span v-text="t$('global.menu.admin.metrics')"></span>
@@ -142,7 +146,7 @@
 }
 
 .jh-navbar {
-  background-color: #0c3b6e;
+  background-color: #353d47;
   padding: 0.2em 1em;
 }
 
@@ -156,7 +160,7 @@
 .jh-navbar .dropdown-item.active,
 .jh-navbar .dropdown-item.active:focus,
 .jh-navbar .dropdown-item.active:hover {
-  background-color: #0c3b6e;
+  background-color: #353d47;
 }
 
 .jh-navbar .dropdown-toggle::after {

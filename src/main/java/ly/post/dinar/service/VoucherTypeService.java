@@ -1,16 +1,16 @@
 package ly.post.dinar.service;
 
-import ly.post.dinar.domain.criteria.VoucherTypeCriteria;
+import java.util.Optional;
+import ly.post.dinar.domain.VoucherType;
 import ly.post.dinar.repository.VoucherTypeRepository;
 import ly.post.dinar.service.dto.VoucherTypeDTO;
 import ly.post.dinar.service.mapper.VoucherTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Service Implementation for managing {@link ly.post.dinar.domain.VoucherType}.
@@ -36,9 +36,11 @@ public class VoucherTypeService {
      * @param voucherTypeDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<VoucherTypeDTO> save(VoucherTypeDTO voucherTypeDTO) {
+    public VoucherTypeDTO save(VoucherTypeDTO voucherTypeDTO) {
         log.debug("Request to save VoucherType : {}", voucherTypeDTO);
-        return voucherTypeRepository.save(voucherTypeMapper.toEntity(voucherTypeDTO)).map(voucherTypeMapper::toDto);
+        VoucherType voucherType = voucherTypeMapper.toEntity(voucherTypeDTO);
+        voucherType = voucherTypeRepository.save(voucherType);
+        return voucherTypeMapper.toDto(voucherType);
     }
 
     /**
@@ -47,9 +49,11 @@ public class VoucherTypeService {
      * @param voucherTypeDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<VoucherTypeDTO> update(VoucherTypeDTO voucherTypeDTO) {
+    public VoucherTypeDTO update(VoucherTypeDTO voucherTypeDTO) {
         log.debug("Request to update VoucherType : {}", voucherTypeDTO);
-        return voucherTypeRepository.save(voucherTypeMapper.toEntity(voucherTypeDTO)).map(voucherTypeMapper::toDto);
+        VoucherType voucherType = voucherTypeMapper.toEntity(voucherTypeDTO);
+        voucherType = voucherTypeRepository.save(voucherType);
+        return voucherTypeMapper.toDto(voucherType);
     }
 
     /**
@@ -58,7 +62,7 @@ public class VoucherTypeService {
      * @param voucherTypeDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Mono<VoucherTypeDTO> partialUpdate(VoucherTypeDTO voucherTypeDTO) {
+    public Optional<VoucherTypeDTO> partialUpdate(VoucherTypeDTO voucherTypeDTO) {
         log.debug("Request to partially update VoucherType : {}", voucherTypeDTO);
 
         return voucherTypeRepository
@@ -68,7 +72,7 @@ public class VoucherTypeService {
 
                 return existingVoucherType;
             })
-            .flatMap(voucherTypeRepository::save)
+            .map(voucherTypeRepository::save)
             .map(voucherTypeMapper::toDto);
     }
 
@@ -79,31 +83,9 @@ public class VoucherTypeService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Flux<VoucherTypeDTO> findAll(Pageable pageable) {
+    public Page<VoucherTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all VoucherTypes");
-        return voucherTypeRepository.findAllBy(pageable).map(voucherTypeMapper::toDto);
-    }
-
-    /**
-     * Find voucherTypes by Criteria.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Flux<VoucherTypeDTO> findByCriteria(VoucherTypeCriteria criteria, Pageable pageable) {
-        log.debug("Request to get all VoucherTypes by Criteria");
-        return voucherTypeRepository.findByCriteria(criteria, pageable).map(voucherTypeMapper::toDto);
-    }
-
-    /**
-     * Find the count of voucherTypes by criteria.
-     * @param criteria filtering criteria
-     * @return the count of voucherTypes
-     */
-    public Mono<Long> countByCriteria(VoucherTypeCriteria criteria) {
-        log.debug("Request to get the count of all VoucherTypes by Criteria");
-        return voucherTypeRepository.countByCriteria(criteria);
+        return voucherTypeRepository.findAll(pageable).map(voucherTypeMapper::toDto);
     }
 
     /**
@@ -111,17 +93,8 @@ public class VoucherTypeService {
      *
      * @return the list of entities.
      */
-    public Flux<VoucherTypeDTO> findAllWithEagerRelationships(Pageable pageable) {
+    public Page<VoucherTypeDTO> findAllWithEagerRelationships(Pageable pageable) {
         return voucherTypeRepository.findAllWithEagerRelationships(pageable).map(voucherTypeMapper::toDto);
-    }
-
-    /**
-     * Returns the number of voucherTypes available.
-     * @return the number of entities in the database.
-     *
-     */
-    public Mono<Long> countAll() {
-        return voucherTypeRepository.count();
     }
 
     /**
@@ -131,7 +104,7 @@ public class VoucherTypeService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Mono<VoucherTypeDTO> findOne(Long id) {
+    public Optional<VoucherTypeDTO> findOne(Long id) {
         log.debug("Request to get VoucherType : {}", id);
         return voucherTypeRepository.findOneWithEagerRelationships(id).map(voucherTypeMapper::toDto);
     }
@@ -140,10 +113,9 @@ public class VoucherTypeService {
      * Delete the voucherType by id.
      *
      * @param id the id of the entity.
-     * @return a Mono to signal the deletion
      */
-    public Mono<Void> delete(Long id) {
+    public void delete(Long id) {
         log.debug("Request to delete VoucherType : {}", id);
-        return voucherTypeRepository.deleteById(id);
+        voucherTypeRepository.deleteById(id);
     }
 }

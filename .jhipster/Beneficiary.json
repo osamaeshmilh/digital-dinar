@@ -1,8 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20231201185556",
+  "changelogDate": "20231204094721",
   "dto": "mapstruct",
-  "enableAudit": true,
   "entityTableName": "beneficiary",
   "fields": [
     {
@@ -22,9 +21,17 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "bankAccountName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccountNumber",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "idType",
       "fieldType": "IdType",
-      "fieldValues": "PASSPORT,ID,DRIVING_LICENCE"
+      "fieldValues": "DRIVING_LICENCE,ID,PASSPORT"
     },
     {
       "fieldName": "idNo",
@@ -43,56 +50,33 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "createdByUserId",
-      "fieldType": "Long"
-    },
-    {
       "fieldName": "isVerified",
       "fieldType": "Boolean"
     },
     {
       "fieldName": "hasTransferred",
       "fieldType": "Boolean"
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "createdBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "createdDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "lastModifiedBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "lastModifiedDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
     }
   ],
   "jpaMetamodelFiltering": true,
   "name": "Beneficiary",
   "pagination": "pagination",
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "bankBranch",
+      "relationshipName": "bankBranch",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "walletUser",
+      "otherEntityRelationshipName": "beneficiary",
+      "relationshipName": "walletUser",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceClass"
 }

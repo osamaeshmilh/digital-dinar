@@ -1,0 +1,218 @@
+{
+  "applications": "*",
+  "changelogDate": "20231204094521",
+  "dto": "mapstruct",
+  "entityTableName": "wallet_user",
+  "fields": [
+    {
+      "fieldName": "arabicFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arabicMiddleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arabicLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishMiddleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "englishLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "commercialRegistryNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "commercialLicenceNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "commercialName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "birthPlace",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationalNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "registerNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "FEMALE,MALE"
+    },
+    {
+      "fieldName": "idType",
+      "fieldType": "IdType",
+      "fieldValues": "DRIVING_LICENCE,ID,PASSPORT"
+    },
+    {
+      "fieldName": "idNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "verifiedByEmailOtp",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "verifiedByMobileOtp",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nidStatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isForeign",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isMobileConnectedWithNid",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isKYCVerified",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "walletType",
+      "fieldType": "WalletType",
+      "fieldValues": "CONSUMER,MERCHANT,POST_OFFICE"
+    },
+    {
+      "fieldName": "walletStatus",
+      "fieldType": "WalletStatus",
+      "fieldValues": "ACTIVE,DEACTIVATED,PENDING_KYC,STOLEN,SUSPENDED"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "imageUrlFile",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "postCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lat",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "lng",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccountName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccountNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccountIBAN",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAccountSWIFT",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "WalletUser",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "walletUser",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "category",
+      "relationshipName": "category",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "city",
+      "relationshipName": "city",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "walletProfile",
+      "relationshipName": "walletProfile",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "bankBranch",
+      "relationshipName": "bankBranch",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "walletTransaction",
+      "otherEntityRelationshipName": "walletUser",
+      "relationshipName": "walletTransaction",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "beneficiary",
+      "otherEntityRelationshipName": "walletUser",
+      "relationshipName": "beneficiary",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

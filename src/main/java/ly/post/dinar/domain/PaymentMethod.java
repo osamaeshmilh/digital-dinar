@@ -1,62 +1,61 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 import ly.post.dinar.domain.enumeration.PaymentType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A PaymentMethod.
  */
-@Table("payment_method")
+@Entity
+@Table(name = "payment_method")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class PaymentMethod extends AbstractAuditingEntity<Long> implements Serializable {
+public class PaymentMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("name")
+    @Column(name = "name")
     private String name;
 
-    @Column("name_ar")
+    @Column(name = "name_ar")
     private String nameAr;
 
-    @Column("name_en")
+    @Column(name = "name_en")
     private String nameEn;
 
-    @Column("menu_order")
+    @Column(name = "menu_order")
     private Integer menuOrder;
 
-    @Column("image_file_url")
+    @Column(name = "image_file_url")
     private String imageFileUrl;
 
-    @Column("image_file")
+    @Lob
+    @Column(name = "image_file")
     private byte[] imageFile;
 
-    @Column("image_file_content_type")
+    @Column(name = "image_file_content_type")
     private String imageFileContentType;
 
-    @Column("details")
+    @Column(name = "details")
     private String details;
 
-    @Column("fee_percentage")
+    @Column(name = "fee_percentage")
     private Float feePercentage;
 
-    @Column("payment_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
     private PaymentType paymentType;
 
-    @Column("notes")
+    @Column(name = "notes")
     private String notes;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -216,30 +215,6 @@ public class PaymentMethod extends AbstractAuditingEntity<Long> implements Seria
         this.notes = notes;
     }
 
-    // Inherited createdBy methods
-    public PaymentMethod createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public PaymentMethod createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public PaymentMethod lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public PaymentMethod lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -275,10 +250,6 @@ public class PaymentMethod extends AbstractAuditingEntity<Long> implements Seria
             ", feePercentage=" + getFeePercentage() +
             ", paymentType='" + getPaymentType() + "'" +
             ", notes='" + getNotes() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

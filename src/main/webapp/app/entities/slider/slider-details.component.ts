@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 
 import SliderService from './slider.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useDateFormat } from '@/shared/composables';
 import { type ISlider } from '@/shared/model/slider.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -12,7 +11,6 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'SliderDetails',
   setup() {
-    const dateFormat = useDateFormat();
     const sliderService = inject('sliderService', () => new SliderService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -38,7 +36,6 @@ export default defineComponent({
     }
 
     return {
-      ...dateFormat,
       alertService,
       slider,
 

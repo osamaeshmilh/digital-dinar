@@ -1,108 +1,106 @@
 package ly.post.dinar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.TransactionStatus;
 import ly.post.dinar.domain.enumeration.TransactionType;
-import ly.post.dinar.domain.enumeration.WalletOwnerType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Transaction.
  */
-@Table("transaction")
+@Entity
+@Table(name = "transaction")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Transaction extends AbstractAuditingEntity<Long> implements Serializable {
+public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("transaction_reference")
+    @Column(name = "transaction_reference")
     private String transactionReference;
 
-    @Column("transaction_secret")
+    @Column(name = "transaction_secret")
     private String transactionSecret;
 
-    @Column("transaction_otp")
+    @Column(name = "transaction_otp")
     private String transactionOtp;
 
-    @Column("payment_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
     private PaymentType paymentType;
 
-    @Column("transaction_status")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_status")
     private TransactionStatus transactionStatus;
 
-    @Column("transaction_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type")
     private TransactionType transactionType;
 
-    @Column("vendor_reference")
+    @Column(name = "vendor_reference")
     private String vendorReference;
 
-    @Column("vendor_message")
+    @Column(name = "vendor_message")
     private String vendorMessage;
 
-    @Column("amount")
+    @Column(name = "amount")
     private Float amount;
 
-    @Column("fees")
+    @Column(name = "fees")
     private Float fees;
 
-    @Column("total")
+    @Column(name = "total")
     private Float total;
 
-    @Column("notes")
+    @Column(name = "notes")
     private String notes;
 
-    @Column("sender_mobile_no")
+    @Column(name = "sender_mobile_no")
     private String senderMobileNo;
 
-    @Column("sender_name")
+    @Column(name = "sender_name")
     private String senderName;
 
-    @Column("sender_type")
-    private WalletOwnerType senderType;
-
-    @Column("sender_id_no")
+    @Column(name = "sender_id_no")
     private String senderIdNo;
 
-    @Column("sender_id")
-    private Long senderId;
-
-    @Column("receiver_name")
+    @Column(name = "receiver_name")
     private String receiverName;
 
-    @Column("receiver_mobile_no")
+    @Column(name = "receiver_mobile_no")
     private String receiverMobileNo;
 
-    @Column("receiver_type")
-    private WalletOwnerType receiverType;
-
-    @Column("receiver_id")
-    private Long receiverId;
-
-    @Column("receiver_id_no")
+    @Column(name = "receiver_id_no")
     private String receiverIdNo;
 
-    @Column("created_by_user_id")
-    private Long createdByUserId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(
+        value = { "user", "category", "city", "walletProfile", "bankBranch", "walletTransactions", "beneficiaries" },
+        allowSetters = true
+    )
+    private WalletUser sender;
 
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(
+        value = { "user", "category", "city", "walletProfile", "bankBranch", "walletTransactions", "beneficiaries" },
+        allowSetters = true
+    )
+    private WalletUser receiver;
 
-    @Transient
-    @JsonIgnoreProperties(value = { "transaction" }, allowSetters = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaction")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "transaction", "walletUser" }, allowSetters = true)
     private Set<WalletTransaction> walletTransactions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -302,19 +300,6 @@ public class Transaction extends AbstractAuditingEntity<Long> implements Seriali
         this.senderName = senderName;
     }
 
-    public WalletOwnerType getSenderType() {
-        return this.senderType;
-    }
-
-    public Transaction senderType(WalletOwnerType senderType) {
-        this.setSenderType(senderType);
-        return this;
-    }
-
-    public void setSenderType(WalletOwnerType senderType) {
-        this.senderType = senderType;
-    }
-
     public String getSenderIdNo() {
         return this.senderIdNo;
     }
@@ -326,19 +311,6 @@ public class Transaction extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setSenderIdNo(String senderIdNo) {
         this.senderIdNo = senderIdNo;
-    }
-
-    public Long getSenderId() {
-        return this.senderId;
-    }
-
-    public Transaction senderId(Long senderId) {
-        this.setSenderId(senderId);
-        return this;
-    }
-
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
     }
 
     public String getReceiverName() {
@@ -367,32 +339,6 @@ public class Transaction extends AbstractAuditingEntity<Long> implements Seriali
         this.receiverMobileNo = receiverMobileNo;
     }
 
-    public WalletOwnerType getReceiverType() {
-        return this.receiverType;
-    }
-
-    public Transaction receiverType(WalletOwnerType receiverType) {
-        this.setReceiverType(receiverType);
-        return this;
-    }
-
-    public void setReceiverType(WalletOwnerType receiverType) {
-        this.receiverType = receiverType;
-    }
-
-    public Long getReceiverId() {
-        return this.receiverId;
-    }
-
-    public Transaction receiverId(Long receiverId) {
-        this.setReceiverId(receiverId);
-        return this;
-    }
-
-    public void setReceiverId(Long receiverId) {
-        this.receiverId = receiverId;
-    }
-
     public String getReceiverIdNo() {
         return this.receiverIdNo;
     }
@@ -406,40 +352,29 @@ public class Transaction extends AbstractAuditingEntity<Long> implements Seriali
         this.receiverIdNo = receiverIdNo;
     }
 
-    public Long getCreatedByUserId() {
-        return this.createdByUserId;
+    public WalletUser getSender() {
+        return this.sender;
     }
 
-    public Transaction createdByUserId(Long createdByUserId) {
-        this.setCreatedByUserId(createdByUserId);
+    public void setSender(WalletUser walletUser) {
+        this.sender = walletUser;
+    }
+
+    public Transaction sender(WalletUser walletUser) {
+        this.setSender(walletUser);
         return this;
     }
 
-    public void setCreatedByUserId(Long createdByUserId) {
-        this.createdByUserId = createdByUserId;
+    public WalletUser getReceiver() {
+        return this.receiver;
     }
 
-    // Inherited createdBy methods
-    public Transaction createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
+    public void setReceiver(WalletUser walletUser) {
+        this.receiver = walletUser;
     }
 
-    // Inherited createdDate methods
-    public Transaction createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public Transaction lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public Transaction lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
+    public Transaction receiver(WalletUser walletUser) {
+        this.setReceiver(walletUser);
         return this;
     }
 
@@ -512,19 +447,10 @@ public class Transaction extends AbstractAuditingEntity<Long> implements Seriali
             ", notes='" + getNotes() + "'" +
             ", senderMobileNo='" + getSenderMobileNo() + "'" +
             ", senderName='" + getSenderName() + "'" +
-            ", senderType='" + getSenderType() + "'" +
             ", senderIdNo='" + getSenderIdNo() + "'" +
-            ", senderId=" + getSenderId() +
             ", receiverName='" + getReceiverName() + "'" +
             ", receiverMobileNo='" + getReceiverMobileNo() + "'" +
-            ", receiverType='" + getReceiverType() + "'" +
-            ", receiverId=" + getReceiverId() +
             ", receiverIdNo='" + getReceiverIdNo() + "'" +
-            ", createdByUserId=" + getCreatedByUserId() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

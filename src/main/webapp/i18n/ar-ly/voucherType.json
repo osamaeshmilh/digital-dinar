@@ -23,10 +23,6 @@
       "slug": "Slug",
       "amount": "Amount",
       "menuOrder": "Menu Order",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date",
       "voucherCompany": "Voucher Company"
     }
   }

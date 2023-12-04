@@ -1,0 +1,67 @@
+{
+  "digitalDinarApp": {
+    "walletUser": {
+      "home": {
+        "title": "Wallet Users",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Wallet User",
+        "createOrEditLabel": "Create or edit a Wallet User",
+        "notFound": "No Wallet Users found"
+      },
+      "created": "A new Wallet User is created with identifier { param }",
+      "updated": "A Wallet User is updated with identifier { param }",
+      "deleted": "A Wallet User is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Wallet User { id }?"
+      },
+      "detail": {
+        "title": "Wallet User"
+      },
+      "id": "ID",
+      "arabicFirstName": "Arabic First Name",
+      "arabicMiddleName": "Arabic Middle Name",
+      "arabicLastName": "Arabic Last Name",
+      "englishFirstName": "English First Name",
+      "englishMiddleName": "English Middle Name",
+      "englishLastName": "English Last Name",
+      "commercialRegistryNo": "Commercial Registry No",
+      "commercialLicenceNo": "Commercial Licence No",
+      "commercialName": "Commercial Name",
+      "birthDate": "Birth Date",
+      "birthPlace": "Birth Place",
+      "nationalNo": "National No",
+      "registerNo": "Register No",
+      "gender": "Gender",
+      "idType": "Id Type",
+      "idNo": "Id No",
+      "mobileNo": "Mobile No",
+      "verifiedByEmailOtp": "Verified By Email Otp",
+      "verifiedByMobileOtp": "Verified By Mobile Otp",
+      "email": "Email",
+      "nidStatus": "Nid Status",
+      "isForeign": "Is Foreign",
+      "isMobileConnectedWithNid": "Is Mobile Connected With Nid",
+      "isKYCVerified": "Is KYC Verified",
+      "walletType": "Wallet Type",
+      "walletStatus": "Wallet Status",
+      "imageFile": "Image File",
+      "imageUrlFile": "Image Url File",
+      "postCode": "Post Code",
+      "address": "Address",
+      "lat": "Lat",
+      "lng": "Lng",
+      "notes": "Notes",
+      "bankAccountName": "Bank Account Name",
+      "bankAccountNumber": "Bank Account Number",
+      "bankAccountIBAN": "Bank Account IBAN",
+      "bankAccountSWIFT": "Bank Account SWIFT",
+      "user": "User",
+      "category": "Category",
+      "city": "City",
+      "walletProfile": "Wallet Profile",
+      "bankBranch": "Bank Branch",
+      "walletTransaction": "Wallet Transaction",
+      "beneficiary": "Beneficiary"
+    }
+  }
+}

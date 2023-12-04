@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 import PaymentMethodService from './payment-method.service';
 import { type IPaymentMethod } from '@/shared/model/payment-method.model';
 import useDataUtils from '@/shared/data/data-utils.service';
-import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -12,7 +11,6 @@ export default defineComponent({
   name: 'PaymentMethod',
   setup() {
     const { t: t$ } = useI18n();
-    const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
     const paymentMethodService = inject('paymentMethodService', () => new PaymentMethodService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -120,7 +118,6 @@ export default defineComponent({
       isFetching,
       retrievePaymentMethods,
       clear,
-      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

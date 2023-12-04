@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 
 import TransactionService from './transaction.service';
 import { type ITransaction } from '@/shared/model/transaction.model';
-import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,7 +10,6 @@ export default defineComponent({
   name: 'Transaction',
   setup() {
     const { t: t$ } = useI18n();
-    const dateFormat = useDateFormat();
     const transactionService = inject('transactionService', () => new TransactionService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -118,7 +116,6 @@ export default defineComponent({
       isFetching,
       retrieveTransactions,
       clear,
-      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

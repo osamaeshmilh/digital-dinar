@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 
 import SettingService from './setting.service';
 import { type ISetting } from '@/shared/model/setting.model';
-import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,7 +10,6 @@ export default defineComponent({
   name: 'Setting',
   setup() {
     const { t: t$ } = useI18n();
-    const dateFormat = useDateFormat();
     const settingService = inject('settingService', () => new SettingService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -118,7 +116,6 @@ export default defineComponent({
       isFetching,
       retrieveSettings,
       clear,
-      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

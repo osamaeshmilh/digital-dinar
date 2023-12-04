@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 
 import CityService from './city.service';
 import { type ICity } from '@/shared/model/city.model';
-import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -11,7 +10,6 @@ export default defineComponent({
   name: 'City',
   setup() {
     const { t: t$ } = useI18n();
-    const dateFormat = useDateFormat();
     const cityService = inject('cityService', () => new CityService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -118,7 +116,6 @@ export default defineComponent({
       isFetching,
       retrieveCitys,
       clear,
-      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

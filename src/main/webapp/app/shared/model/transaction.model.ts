@@ -1,9 +1,9 @@
+import { type IWalletUser } from '@/shared/model/wallet-user.model';
 import { type IWalletTransaction } from '@/shared/model/wallet-transaction.model';
 
 import { type PaymentType } from '@/shared/model/enumerations/payment-type.model';
 import { type TransactionStatus } from '@/shared/model/enumerations/transaction-status.model';
 import { type TransactionType } from '@/shared/model/enumerations/transaction-type.model';
-import { type WalletOwnerType } from '@/shared/model/enumerations/wallet-owner-type.model';
 export interface ITransaction {
   id?: number;
   transactionReference?: string | null;
@@ -20,19 +20,12 @@ export interface ITransaction {
   notes?: string | null;
   senderMobileNo?: string | null;
   senderName?: string | null;
-  senderType?: keyof typeof WalletOwnerType | null;
   senderIdNo?: string | null;
-  senderId?: number | null;
   receiverName?: string | null;
   receiverMobileNo?: string | null;
-  receiverType?: keyof typeof WalletOwnerType | null;
-  receiverId?: number | null;
   receiverIdNo?: string | null;
-  createdByUserId?: number | null;
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
+  sender?: IWalletUser | null;
+  receiver?: IWalletUser | null;
   walletTransactions?: IWalletTransaction[] | null;
 }
 
@@ -53,19 +46,12 @@ export class Transaction implements ITransaction {
     public notes?: string | null,
     public senderMobileNo?: string | null,
     public senderName?: string | null,
-    public senderType?: keyof typeof WalletOwnerType | null,
     public senderIdNo?: string | null,
-    public senderId?: number | null,
     public receiverName?: string | null,
     public receiverMobileNo?: string | null,
-    public receiverType?: keyof typeof WalletOwnerType | null,
-    public receiverId?: number | null,
     public receiverIdNo?: string | null,
-    public createdByUserId?: number | null,
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
+    public sender?: IWalletUser | null,
+    public receiver?: IWalletUser | null,
     public walletTransactions?: IWalletTransaction[] | null,
   ) {}
 }

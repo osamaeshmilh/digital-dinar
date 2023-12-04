@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import CategoryService from './category.service';
-import { useValidation, useDateFormat } from '@/shared/composables';
+import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import { type ICategory, Category } from '@/shared/model/category.model';
@@ -28,8 +28,6 @@ export default defineComponent({
     const retrieveCategory = async categoryId => {
       try {
         const res = await categoryService().find(categoryId);
-        res.createdDate = new Date(res.createdDate);
-        res.lastModifiedDate = new Date(res.lastModifiedDate);
         category.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -46,10 +44,6 @@ export default defineComponent({
       nameAr: {},
       nameEn: {},
       code: {},
-      createdBy: {},
-      createdDate: {},
-      lastModifiedBy: {},
-      lastModifiedDate: {},
     };
     const v$ = useVuelidate(validationRules, category as any);
     v$.value.$validate();
@@ -62,7 +56,6 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       v$,
-      ...useDateFormat({ entityRef: category }),
       t$,
     };
   },

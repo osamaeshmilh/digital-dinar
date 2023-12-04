@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import CategoryService from './category.service';
-import { useDateFormat } from '@/shared/composables';
 import { type ICategory } from '@/shared/model/category.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -11,7 +10,6 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'CategoryDetails',
   setup() {
-    const dateFormat = useDateFormat();
     const categoryService = inject('categoryService', () => new CategoryService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -35,7 +33,6 @@ export default defineComponent({
     }
 
     return {
-      ...dateFormat,
       alertService,
       category,
 

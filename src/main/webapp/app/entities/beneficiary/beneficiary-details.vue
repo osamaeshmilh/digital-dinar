@@ -31,6 +31,18 @@
             <span>{{ beneficiary.englishLastName }}</span>
           </dd>
           <dt>
+            <span v-text="t$('digitalDinarApp.beneficiary.bankAccountName')"></span>
+          </dt>
+          <dd>
+            <span>{{ beneficiary.bankAccountName }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('digitalDinarApp.beneficiary.bankAccountNumber')"></span>
+          </dt>
+          <dd>
+            <span>{{ beneficiary.bankAccountNumber }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('digitalDinarApp.beneficiary.idType')"></span>
           </dt>
           <dd>
@@ -61,12 +73,6 @@
             <span>{{ beneficiary.notes }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.beneficiary.createdByUserId')"></span>
-          </dt>
-          <dd>
-            <span>{{ beneficiary.createdByUserId }}</span>
-          </dd>
-          <dt>
             <span v-text="t$('digitalDinarApp.beneficiary.isVerified')"></span>
           </dt>
           <dd>
@@ -79,28 +85,24 @@
             <span>{{ beneficiary.hasTransferred }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.beneficiary.createdBy')"></span>
+            <span v-text="t$('digitalDinarApp.beneficiary.bankBranch')"></span>
           </dt>
           <dd>
-            <span>{{ beneficiary.createdBy }}</span>
+            <div v-if="beneficiary.bankBranch">
+              <router-link :to="{ name: 'BankBranchView', params: { bankBranchId: beneficiary.bankBranch.id } }">{{
+                beneficiary.bankBranch.nameAr
+              }}</router-link>
+            </div>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.beneficiary.createdDate')"></span>
+            <span v-text="t$('digitalDinarApp.beneficiary.walletUser')"></span>
           </dt>
           <dd>
-            <span v-if="beneficiary.createdDate">{{ formatDateLong(beneficiary.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.beneficiary.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ beneficiary.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.beneficiary.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="beneficiary.lastModifiedDate">{{ formatDateLong(beneficiary.lastModifiedDate) }}</span>
+            <div v-if="beneficiary.walletUser">
+              <router-link :to="{ name: 'WalletUserView', params: { walletUserId: beneficiary.walletUser.id } }">{{
+                beneficiary.walletUser.id
+              }}</router-link>
+            </div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

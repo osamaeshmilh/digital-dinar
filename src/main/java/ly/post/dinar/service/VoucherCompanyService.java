@@ -1,16 +1,16 @@
 package ly.post.dinar.service;
 
-import ly.post.dinar.domain.criteria.VoucherCompanyCriteria;
+import java.util.Optional;
+import ly.post.dinar.domain.VoucherCompany;
 import ly.post.dinar.repository.VoucherCompanyRepository;
 import ly.post.dinar.service.dto.VoucherCompanyDTO;
 import ly.post.dinar.service.mapper.VoucherCompanyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Service Implementation for managing {@link ly.post.dinar.domain.VoucherCompany}.
@@ -36,9 +36,11 @@ public class VoucherCompanyService {
      * @param voucherCompanyDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<VoucherCompanyDTO> save(VoucherCompanyDTO voucherCompanyDTO) {
+    public VoucherCompanyDTO save(VoucherCompanyDTO voucherCompanyDTO) {
         log.debug("Request to save VoucherCompany : {}", voucherCompanyDTO);
-        return voucherCompanyRepository.save(voucherCompanyMapper.toEntity(voucherCompanyDTO)).map(voucherCompanyMapper::toDto);
+        VoucherCompany voucherCompany = voucherCompanyMapper.toEntity(voucherCompanyDTO);
+        voucherCompany = voucherCompanyRepository.save(voucherCompany);
+        return voucherCompanyMapper.toDto(voucherCompany);
     }
 
     /**
@@ -47,9 +49,11 @@ public class VoucherCompanyService {
      * @param voucherCompanyDTO the entity to save.
      * @return the persisted entity.
      */
-    public Mono<VoucherCompanyDTO> update(VoucherCompanyDTO voucherCompanyDTO) {
+    public VoucherCompanyDTO update(VoucherCompanyDTO voucherCompanyDTO) {
         log.debug("Request to update VoucherCompany : {}", voucherCompanyDTO);
-        return voucherCompanyRepository.save(voucherCompanyMapper.toEntity(voucherCompanyDTO)).map(voucherCompanyMapper::toDto);
+        VoucherCompany voucherCompany = voucherCompanyMapper.toEntity(voucherCompanyDTO);
+        voucherCompany = voucherCompanyRepository.save(voucherCompany);
+        return voucherCompanyMapper.toDto(voucherCompany);
     }
 
     /**
@@ -58,7 +62,7 @@ public class VoucherCompanyService {
      * @param voucherCompanyDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Mono<VoucherCompanyDTO> partialUpdate(VoucherCompanyDTO voucherCompanyDTO) {
+    public Optional<VoucherCompanyDTO> partialUpdate(VoucherCompanyDTO voucherCompanyDTO) {
         log.debug("Request to partially update VoucherCompany : {}", voucherCompanyDTO);
 
         return voucherCompanyRepository
@@ -68,7 +72,7 @@ public class VoucherCompanyService {
 
                 return existingVoucherCompany;
             })
-            .flatMap(voucherCompanyRepository::save)
+            .map(voucherCompanyRepository::save)
             .map(voucherCompanyMapper::toDto);
     }
 
@@ -79,40 +83,9 @@ public class VoucherCompanyService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Flux<VoucherCompanyDTO> findAll(Pageable pageable) {
+    public Page<VoucherCompanyDTO> findAll(Pageable pageable) {
         log.debug("Request to get all VoucherCompanies");
-        return voucherCompanyRepository.findAllBy(pageable).map(voucherCompanyMapper::toDto);
-    }
-
-    /**
-     * Find voucherCompanies by Criteria.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Flux<VoucherCompanyDTO> findByCriteria(VoucherCompanyCriteria criteria, Pageable pageable) {
-        log.debug("Request to get all VoucherCompanies by Criteria");
-        return voucherCompanyRepository.findByCriteria(criteria, pageable).map(voucherCompanyMapper::toDto);
-    }
-
-    /**
-     * Find the count of voucherCompanies by criteria.
-     * @param criteria filtering criteria
-     * @return the count of voucherCompanies
-     */
-    public Mono<Long> countByCriteria(VoucherCompanyCriteria criteria) {
-        log.debug("Request to get the count of all VoucherCompanies by Criteria");
-        return voucherCompanyRepository.countByCriteria(criteria);
-    }
-
-    /**
-     * Returns the number of voucherCompanies available.
-     * @return the number of entities in the database.
-     *
-     */
-    public Mono<Long> countAll() {
-        return voucherCompanyRepository.count();
+        return voucherCompanyRepository.findAll(pageable).map(voucherCompanyMapper::toDto);
     }
 
     /**
@@ -122,7 +95,7 @@ public class VoucherCompanyService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Mono<VoucherCompanyDTO> findOne(Long id) {
+    public Optional<VoucherCompanyDTO> findOne(Long id) {
         log.debug("Request to get VoucherCompany : {}", id);
         return voucherCompanyRepository.findById(id).map(voucherCompanyMapper::toDto);
     }
@@ -131,10 +104,9 @@ public class VoucherCompanyService {
      * Delete the voucherCompany by id.
      *
      * @param id the id of the entity.
-     * @return a Mono to signal the deletion
      */
-    public Mono<Void> delete(Long id) {
+    public void delete(Long id) {
         log.debug("Request to delete VoucherCompany : {}", id);
-        return voucherCompanyRepository.deleteById(id);
+        voucherCompanyRepository.deleteById(id);
     }
 }

@@ -19,11 +19,7 @@
       },
       "id": "ID",
       "key": "Key",
-      "value": "Value",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date"
+      "value": "Value"
     }
   }
 }

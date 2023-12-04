@@ -91,22 +91,10 @@
             <span>{{ transaction.senderName }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.transaction.senderType')"></span>
-          </dt>
-          <dd>
-            <span v-text="t$('digitalDinarApp.WalletOwnerType.' + transaction.senderType)"></span>
-          </dd>
-          <dt>
             <span v-text="t$('digitalDinarApp.transaction.senderIdNo')"></span>
           </dt>
           <dd>
             <span>{{ transaction.senderIdNo }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.transaction.senderId')"></span>
-          </dt>
-          <dd>
-            <span>{{ transaction.senderId }}</span>
           </dd>
           <dt>
             <span v-text="t$('digitalDinarApp.transaction.receiverName')"></span>
@@ -121,52 +109,30 @@
             <span>{{ transaction.receiverMobileNo }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.transaction.receiverType')"></span>
-          </dt>
-          <dd>
-            <span v-text="t$('digitalDinarApp.WalletOwnerType.' + transaction.receiverType)"></span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.transaction.receiverId')"></span>
-          </dt>
-          <dd>
-            <span>{{ transaction.receiverId }}</span>
-          </dd>
-          <dt>
             <span v-text="t$('digitalDinarApp.transaction.receiverIdNo')"></span>
           </dt>
           <dd>
             <span>{{ transaction.receiverIdNo }}</span>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.transaction.createdByUserId')"></span>
+            <span v-text="t$('digitalDinarApp.transaction.sender')"></span>
           </dt>
           <dd>
-            <span>{{ transaction.createdByUserId }}</span>
+            <div v-if="transaction.sender">
+              <router-link :to="{ name: 'WalletUserView', params: { walletUserId: transaction.sender.id } }">{{
+                transaction.sender.id
+              }}</router-link>
+            </div>
           </dd>
           <dt>
-            <span v-text="t$('digitalDinarApp.transaction.createdBy')"></span>
+            <span v-text="t$('digitalDinarApp.transaction.receiver')"></span>
           </dt>
           <dd>
-            <span>{{ transaction.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.transaction.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="transaction.createdDate">{{ formatDateLong(transaction.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.transaction.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ transaction.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.transaction.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="transaction.lastModifiedDate">{{ formatDateLong(transaction.lastModifiedDate) }}</span>
+            <div v-if="transaction.receiver">
+              <router-link :to="{ name: 'WalletUserView', params: { walletUserId: transaction.receiver.id } }">{{
+                transaction.receiver.id
+              }}</router-link>
+            </div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

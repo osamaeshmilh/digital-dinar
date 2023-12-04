@@ -4,27 +4,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import ly.post.dinar.domain.criteria.CityCriteria;
+import java.util.Optional;
 import ly.post.dinar.repository.CityRepository;
+import ly.post.dinar.service.CityQueryService;
 import ly.post.dinar.service.CityService;
+import ly.post.dinar.service.criteria.CityCriteria;
 import ly.post.dinar.service.dto.CityDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link ly.post.dinar.domain.City}.
@@ -44,9 +42,12 @@ public class CityResource {
 
     private final CityRepository cityRepository;
 
-    public CityResource(CityService cityService, CityRepository cityRepository) {
+    private final CityQueryService cityQueryService;
+
+    public CityResource(CityService cityService, CityRepository cityRepository, CityQueryService cityQueryService) {
         this.cityService = cityService;
         this.cityRepository = cityRepository;
+        this.cityQueryService = cityQueryService;
     }
 
     /**
@@ -57,23 +58,16 @@ public class CityResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<CityDTO>> createCity(@RequestBody CityDTO cityDTO) throws URISyntaxException {
+    public ResponseEntity<CityDTO> createCity(@RequestBody CityDTO cityDTO) throws URISyntaxException {
         log.debug("REST request to save City : {}", cityDTO);
         if (cityDTO.getId() != null) {
             throw new BadRequestAlertException("A new city cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return cityService
-            .save(cityDTO)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/cities/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        CityDTO result = cityService.save(cityDTO);
+        return ResponseEntity
+            .created(new URI("/api/cities/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -87,10 +81,8 @@ public class CityResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<CityDTO>> updateCity(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody CityDTO cityDTO
-    ) throws URISyntaxException {
+    public ResponseEntity<CityDTO> updateCity(@PathVariable(value = "id", required = false) final Long id, @RequestBody CityDTO cityDTO)
+        throws URISyntaxException {
         log.debug("REST request to update City : {}, {}", id, cityDTO);
         if (cityDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -99,23 +91,15 @@ public class CityResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return cityRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!cityRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return cityService
-                    .update(cityDTO)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        CityDTO result = cityService.update(cityDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cityDTO.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -130,7 +114,7 @@ public class CityResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<CityDTO>> partialUpdateCity(
+    public ResponseEntity<CityDTO> partialUpdateCity(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CityDTO cityDTO
     ) throws URISyntaxException {
@@ -142,55 +126,35 @@ public class CityResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return cityRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!cityRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                Mono<CityDTO> result = cityService.partialUpdate(cityDTO);
+        Optional<CityDTO> result = cityService.partialUpdate(cityDTO);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cityDTO.getId().toString())
+        );
     }
 
     /**
      * {@code GET  /cities} : get all the cities.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cities in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<List<CityDTO>>> getAllCities(
+    @GetMapping("")
+    public ResponseEntity<List<CityDTO>> getAllCities(
         CityCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Cities by criteria: {}", criteria);
-        return cityService
-            .countByCriteria(criteria)
-            .zipWith(cityService.findByCriteria(criteria, pageable).collectList())
-            .map(countWithEntities ->
-                ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2())
-            );
+
+        Page<CityDTO> page = cityQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -200,9 +164,9 @@ public class CityResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public Mono<ResponseEntity<Long>> countCities(CityCriteria criteria) {
+    public ResponseEntity<Long> countCities(CityCriteria criteria) {
         log.debug("REST request to count Cities by criteria: {}", criteria);
-        return cityService.countByCriteria(criteria).map(count -> ResponseEntity.status(HttpStatus.OK).body(count));
+        return ResponseEntity.ok().body(cityQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -212,9 +176,9 @@ public class CityResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the cityDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<CityDTO>> getCity(@PathVariable Long id) {
+    public ResponseEntity<CityDTO> getCity(@PathVariable Long id) {
         log.debug("REST request to get City : {}", id);
-        Mono<CityDTO> cityDTO = cityService.findOne(id);
+        Optional<CityDTO> cityDTO = cityService.findOne(id);
         return ResponseUtil.wrapOrNotFound(cityDTO);
     }
 
@@ -225,17 +189,12 @@ public class CityResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteCity(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         log.debug("REST request to delete City : {}", id);
-        return cityService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        cityService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

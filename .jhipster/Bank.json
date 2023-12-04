@@ -1,0 +1,26 @@
+{
+  "applications": "*",
+  "changelogDate": "20231204100121",
+  "dto": "mapstruct",
+  "entityTableName": "bank",
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "namEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "swiftCode",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Bank",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -57,30 +57,6 @@
           <dd>
             <span>{{ attachment.referenceId }}</span>
           </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.attachment.createdBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ attachment.createdBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.attachment.createdDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="attachment.createdDate">{{ formatDateLong(attachment.createdDate) }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.attachment.lastModifiedBy')"></span>
-          </dt>
-          <dd>
-            <span>{{ attachment.lastModifiedBy }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('digitalDinarApp.attachment.lastModifiedDate')"></span>
-          </dt>
-          <dd>
-            <span v-if="attachment.lastModifiedDate">{{ formatDateLong(attachment.lastModifiedDate) }}</span>
-          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.back')"></span>

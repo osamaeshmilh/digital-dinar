@@ -1,8 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20231201185756",
+  "changelogDate": "20231204094921",
   "dto": "mapstruct",
-  "enableAudit": true,
   "entityTableName": "payment_method",
   "fields": [
     {
@@ -41,45 +40,11 @@
     {
       "fieldName": "paymentType",
       "fieldType": "PaymentType",
-      "fieldValues": "ADFALI,SADAD,TADAWUL,MOBICASH,EMIZA,MOAMALAT,WALLET,CASH,CHEQUE"
+      "fieldValues": "ADFALI,CASH,CHEQUE,EMIZA,MOAMALAT,MOBICASH,SADAD,TADAWUL,WALLET"
     },
     {
       "fieldName": "notes",
       "fieldType": "String"
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "createdBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "createdDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "columnType": "varchar(50)",
-      "fieldName": "lastModifiedBy",
-      "fieldType": "String",
-      "nullable": false,
-      "readonly": true
-    },
-    {
-      "auditField": true,
-      "autoGenerate": true,
-      "fieldName": "lastModifiedDate",
-      "fieldType": "Instant",
-      "nullable": false,
-      "readonly": true
     }
   ],
   "jpaMetamodelFiltering": true,

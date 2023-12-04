@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20231204100221",
+  "dto": "mapstruct",
+  "entityTableName": "bank_branch",
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "namEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "BankBranch",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nameAr",
+      "otherEntityName": "bank",
+      "relationshipName": "bank",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

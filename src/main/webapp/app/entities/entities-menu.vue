@@ -8,13 +8,9 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.attachment')"></span>
     </b-dropdown-item>
-    <b-dropdown-item to="/merchant">
+    <b-dropdown-item to="/wallet-user">
       <font-awesome-icon icon="asterisk" />
-      <span v-text="t$('global.menu.entities.merchant')"></span>
-    </b-dropdown-item>
-    <b-dropdown-item to="/consumer">
-      <font-awesome-icon icon="asterisk" />
-      <span v-text="t$('global.menu.entities.consumer')"></span>
+      <span v-text="t$('global.menu.entities.walletUser')"></span>
     </b-dropdown-item>
     <b-dropdown-item to="/wallet-transaction">
       <font-awesome-icon icon="asterisk" />
@@ -75,6 +71,14 @@
     <b-dropdown-item to="/voucher">
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.voucher')"></span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/bank">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="t$('global.menu.entities.bank')"></span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/bank-branch">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="t$('global.menu.entities.bankBranch')"></span>
     </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>

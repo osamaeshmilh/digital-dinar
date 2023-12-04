@@ -1,9 +1,0 @@
-{
-  "digitalDinarApp": {
-    "WalletOwnerType": {
-      "null": "",
-      "CONSUMER": "CONSUMER",
-      "MERCHANT": "MERCHANT"
-    }
-  }
-}

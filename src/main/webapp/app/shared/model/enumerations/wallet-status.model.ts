@@ -1,0 +1,11 @@
+export enum WalletStatus {
+  ACTIVE = 'ACTIVE',
+
+  DEACTIVATED = 'DEACTIVATED',
+
+  PENDING_KYC = 'PENDING_KYC',
+
+  STOLEN = 'STOLEN',
+
+  SUSPENDED = 'SUSPENDED',
+}

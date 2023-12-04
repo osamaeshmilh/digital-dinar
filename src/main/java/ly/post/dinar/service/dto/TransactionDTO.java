@@ -1,12 +1,10 @@
 package ly.post.dinar.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 import ly.post.dinar.domain.enumeration.PaymentType;
 import ly.post.dinar.domain.enumeration.TransactionStatus;
 import ly.post.dinar.domain.enumeration.TransactionType;
-import ly.post.dinar.domain.enumeration.WalletOwnerType;
 
 /**
  * A DTO for the {@link ly.post.dinar.domain.Transaction} entity.
@@ -44,31 +42,17 @@ public class TransactionDTO implements Serializable {
 
     private String senderName;
 
-    private WalletOwnerType senderType;
-
     private String senderIdNo;
-
-    private Long senderId;
 
     private String receiverName;
 
     private String receiverMobileNo;
 
-    private WalletOwnerType receiverType;
-
-    private Long receiverId;
-
     private String receiverIdNo;
 
-    private Long createdByUserId;
+    private WalletUserDTO sender;
 
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
+    private WalletUserDTO receiver;
 
     public Long getId() {
         return id;
@@ -190,28 +174,12 @@ public class TransactionDTO implements Serializable {
         this.senderName = senderName;
     }
 
-    public WalletOwnerType getSenderType() {
-        return senderType;
-    }
-
-    public void setSenderType(WalletOwnerType senderType) {
-        this.senderType = senderType;
-    }
-
     public String getSenderIdNo() {
         return senderIdNo;
     }
 
     public void setSenderIdNo(String senderIdNo) {
         this.senderIdNo = senderIdNo;
-    }
-
-    public Long getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
     }
 
     public String getReceiverName() {
@@ -230,22 +198,6 @@ public class TransactionDTO implements Serializable {
         this.receiverMobileNo = receiverMobileNo;
     }
 
-    public WalletOwnerType getReceiverType() {
-        return receiverType;
-    }
-
-    public void setReceiverType(WalletOwnerType receiverType) {
-        this.receiverType = receiverType;
-    }
-
-    public Long getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(Long receiverId) {
-        this.receiverId = receiverId;
-    }
-
     public String getReceiverIdNo() {
         return receiverIdNo;
     }
@@ -254,44 +206,20 @@ public class TransactionDTO implements Serializable {
         this.receiverIdNo = receiverIdNo;
     }
 
-    public Long getCreatedByUserId() {
-        return createdByUserId;
+    public WalletUserDTO getSender() {
+        return sender;
     }
 
-    public void setCreatedByUserId(Long createdByUserId) {
-        this.createdByUserId = createdByUserId;
+    public void setSender(WalletUserDTO sender) {
+        this.sender = sender;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public WalletUserDTO getReceiver() {
+        return receiver;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    public void setReceiver(WalletUserDTO receiver) {
+        this.receiver = receiver;
     }
 
     @Override
@@ -334,19 +262,12 @@ public class TransactionDTO implements Serializable {
             ", notes='" + getNotes() + "'" +
             ", senderMobileNo='" + getSenderMobileNo() + "'" +
             ", senderName='" + getSenderName() + "'" +
-            ", senderType='" + getSenderType() + "'" +
             ", senderIdNo='" + getSenderIdNo() + "'" +
-            ", senderId=" + getSenderId() +
             ", receiverName='" + getReceiverName() + "'" +
             ", receiverMobileNo='" + getReceiverMobileNo() + "'" +
-            ", receiverType='" + getReceiverType() + "'" +
-            ", receiverId=" + getReceiverId() +
             ", receiverIdNo='" + getReceiverIdNo() + "'" +
-            ", createdByUserId=" + getCreatedByUserId() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
+            ", sender=" + getSender() +
+            ", receiver=" + getReceiver() +
             "}";
     }
 }

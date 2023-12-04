@@ -1,46 +1,44 @@
 package ly.post.dinar.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Slider.
  */
-@Table("slider")
+@Entity
+@Table(name = "slider")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Slider extends AbstractAuditingEntity<Long> implements Serializable {
+public class Slider implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("details")
+    @Column(name = "details")
     private String details;
 
-    @Column("menu_order")
+    @Column(name = "menu_order")
     private Integer menuOrder;
 
-    @Column("image_file_url")
+    @Column(name = "image_file_url")
     private String imageFileUrl;
 
-    @Column("image_file")
+    @Lob
+    @Column(name = "image_file")
     private byte[] imageFile;
 
-    @Column("image_file_content_type")
+    @Column(name = "image_file_content_type")
     private String imageFileContentType;
 
-    @Column("url")
+    @Column(name = "url")
     private String url;
-
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -135,30 +133,6 @@ public class Slider extends AbstractAuditingEntity<Long> implements Serializable
         this.url = url;
     }
 
-    // Inherited createdBy methods
-    public Slider createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
-        return this;
-    }
-
-    // Inherited createdDate methods
-    public Slider createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    // Inherited lastModifiedBy methods
-    public Slider lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
-        return this;
-    }
-
-    // Inherited lastModifiedDate methods
-    public Slider lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -189,10 +163,6 @@ public class Slider extends AbstractAuditingEntity<Long> implements Serializable
             ", imageFile='" + getImageFile() + "'" +
             ", imageFileContentType='" + getImageFileContentType() + "'" +
             ", url='" + getUrl() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

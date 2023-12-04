@@ -68,22 +68,6 @@
               <span v-text="t$('digitalDinarApp.voucherCompany.notes')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'notes'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('createdBy')">
-              <span v-text="t$('digitalDinarApp.voucherCompany.createdBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('createdDate')">
-              <span v-text="t$('digitalDinarApp.voucherCompany.createdDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedBy')">
-              <span v-text="t$('digitalDinarApp.voucherCompany.lastModifiedBy')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="row" v-on:click="changeOrder('lastModifiedDate')">
-              <span v-text="t$('digitalDinarApp.voucherCompany.lastModifiedDate')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="row" v-on:click="changeOrder('user.id')">
               <span v-text="t$('digitalDinarApp.voucherCompany.user')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'user.id'"></jhi-sort-indicator>
@@ -116,10 +100,6 @@
             <td>{{ voucherCompany.postCode }}</td>
             <td>{{ voucherCompany.address }}</td>
             <td>{{ voucherCompany.notes }}</td>
-            <td>{{ voucherCompany.createdBy }}</td>
-            <td>{{ formatDateShort(voucherCompany.createdDate) || '' }}</td>
-            <td>{{ voucherCompany.lastModifiedBy }}</td>
-            <td>{{ formatDateShort(voucherCompany.lastModifiedDate) || '' }}</td>
             <td>
               {{ voucherCompany.user ? voucherCompany.user.id : '' }}
             </td>

@@ -1,0 +1,106 @@
+@use "vuetify/settings" with (
+  // Global
+  $body-font-family: initial,
+  $heading-font-family: inherit,
+  $font-size-root: 16px,
+  $border-radius-root: 6px,
+  $grid-breakpoints: (
+    "xs": 0,
+    "sm": 576px,
+    "md": 768px,
+    "lg": 992px,
+    "xl": 1400px,
+  ),
+  $typography: (
+    "h1": (
+      "letter-spacing": 0,
+      "font-weight": 700,
+    ),
+    "h2": (
+      "letter-spacing": 0,
+      "font-weight": 700,
+    ),
+    "h3": (
+      "letter-spacing": 0,
+      "font-weight": 700,
+    ),
+    "h4": (
+      "letter-spacing": 0,
+      "font-weight": 500,
+    ),
+    "h5": (
+      "letter-spacing": 0,
+      "font-weight": 500,
+    ),
+    "h6": (
+      "font-weight": 500,
+      "letter-spacing": 0,
+    ),
+    "subtitle-1": (
+      "letter-spacing": 0,
+    ),
+    "subtitle-2": (
+      "letter-spacing": 0,
+    ),
+    "caption": (
+      "letter-spacing": 0,
+    ),
+    "overline": (
+      "letter-spacing": 0,
+    ),
+    "button": (
+      "text-transform": capitalize,
+      "letter-spacing": 0,
+      "font-weight": 400,
+      "size": 14px,
+    ),
+    "body-1": (
+      'size': 14px,
+      'weight': 400,
+      'line-height': 1.25rem,
+      'letter-spacing': 0,
+      'font-family': inherit,
+      'text-transform': none,
+    ),
+    "body-2": (
+      'size': 14px,
+      'weight': 400,
+      'line-height': 1.25rem,
+      'letter-spacing': 0,
+      'font-family': inherit,
+      'text-transform': none
+    ),
+  ),
+  // Cards
+  $card-title-text-overflow: initial,
+  $card-title-white-space: break-spaces,
+  $card-subtitle-text-overflow: initial,
+  $card-subtitle-white-space: break-spaces,
+  $card-title-letter-spacing: 0,
+  $card-title-word-break: inherit,
+  $card-border-radius: 6px,
+  $card-prepend-padding-inline-end: 10px,
+  // Lists
+  $list-density: ('default': 0, 'comfortable': -2, 'compact': -4),
+  $list-indent-size: 0px,
+  $list-item-icon-margin-end: 16px,
+  $list-item-nav-title-font-weight: 400,
+  $list-item-nav-title-font-size: 0.9rem,
+  $list-item-icon-opacity: 0.35,
+  $list-item-padding: 0 12px,
+  // Alerts
+  $alert-title-font-size: 14px,
+  $alert-append-margin-inline-start: 20px,
+  // Tooltips
+  $tooltip-background-color: black,
+  $tooltip-padding: 2px 8px,
+  // 
+  $breadcrumbs-item-link-text-decoration: none,
+  $text-field-border-radius: 6px,
+  $field-outline-opacity: 0.2,
+  $chip-disabled-opacity: 0.65,
+  $navigation-drawer-border-width: 0px,
+  $banner-prepend-margin-end: 12px,
+  
+  
+);

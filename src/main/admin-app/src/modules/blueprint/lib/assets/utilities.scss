@@ -1,0 +1,135 @@
+// Helper methods
+@function to-string($value) {
+  @return inspect($value);
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+
+  @return $string;
+}
+
+// Positioin
+$positions-list: fixed absolute static relative sticky;
+@each $position in $positions-list {
+  .pos-#{$position} {
+    position: #{$position} !important;
+  }
+}
+
+// Height
+// $sizes-list: 25 50 75 100;
+// $size-unit: '%';
+// @each $size in $sizes-list {
+//   .h-#{$size} {
+//     height: #{$size}#{$size-unit} !important;
+//   }
+// }
+
+// // Width
+// @each $size in $sizes-list {
+//   .w-#{$size} {
+//     width: #{$size}#{$size-unit} !important;
+//   }
+// }
+
+// Font Size
+$fontSizeStart: 0.1;
+$fontSizeEnd: 5;
+$fontUnit: 'rem';
+
+@while $fontSizeStart <=$fontSizeEnd {
+  $iSafe: str-replace(to-string($fontSizeStart), '.', '_');
+  .fs-#{$iSafe} {
+    font-size: #{$fontSizeStart}#{$fontUnit} !important;
+  }
+  $fontSizeStart: $fontSizeStart + 0.05;
+}
+
+// Letter Spacing
+$letterSpacingStart: -2;
+$letterSpacingEnd: 2;
+
+@while $letterSpacingStart <=$letterSpacingEnd {
+  $iSafe: str-replace(to-string($letterSpacingStart), '.', '_');
+
+  .ls-#{$iSafe} {
+    letter-spacing: #{$letterSpacingStart}px !important;
+  }
+
+  $letterSpacingStart: $letterSpacingStart + 0.1;
+}
+
+// Line Height
+$lineHeightStart: 0;
+$lineHeightEnd: 40;
+
+@while $lineHeightStart <=$lineHeightEnd {
+  $iSafe: str-replace(to-string($lineHeightStart), '.', '_');
+
+  .lh-#{$iSafe} {
+    line-height: #{$lineHeightStart}px !important;
+  }
+
+  $lineHeightStart: $lineHeightStart + 0.1;
+}
+
+// top, right, bottom, left
+$max: 100;
+$step: 5;
+
+@for $value from $step through $max {
+  .v-locale--is-ltr {
+    .right-#{$value} {
+      right: #{$value}px !important;
+    }
+  }
+  .v-locale--is-rtl {
+    .right-#{$value} {
+      left: #{$value}px !important;
+    }
+  }
+}
+@for $value from $step through $max {
+  .v-locale--is-ltr {
+    .left-#{$value} {
+      left: #{$value}px !important;
+    }
+  }
+  .v-locale--is-rtl {
+    .left-#{$value} {
+      right: #{$value}px !important;
+    }
+  }
+}
+@for $value from $step through $max {
+  .top-#{$value} {
+    top: #{$value}px !important;
+  }
+}
+@for $value from $step through $max {
+  .bottom-#{$value} {
+    bottom: #{$value}px !important;
+  }
+}
+
+
+$opacityStart: 0.1;
+$opacityEnd: 1;
+
+@while $opacityStart <=$opacityEnd {
+  $iSafe: str-replace(to-string($opacityStart), '.', '_');
+  .op-#{$iSafe} {
+    opacity: #{$opacityStart} !important;
+  }
+  $opacityStart: $opacityStart + 0.1;
+}

@@ -4,7 +4,7 @@ useHead({ title: $t('pages.login.title') })
 
 const { rules, validate, errors } = useValidation()
 const loading = computed(
-  () => hasOrmModel('auth') && ormModel('auth').loading('login')
+  () => hasOrmModel('auth') && ormModel('auth').loading('login'),
 )
 const model = ref({
   username: '',
@@ -14,7 +14,7 @@ const model = ref({
 const login = (e) => {
   validate(e).then(
     (valid) =>
-      valid && ormApi('auth').login({ data: model.value, errorBag: errors })
+      valid && ormApi('auth').login({ data: model.value, errorBag: errors }),
   )
 }
 </script>

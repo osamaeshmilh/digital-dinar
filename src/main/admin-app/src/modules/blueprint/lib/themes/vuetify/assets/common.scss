@@ -80,6 +80,12 @@
   --v-high-emphasis-opacity: 0.3;
 }
 
+.bp-layout-nav-drawer--dark {
+  .v-list-item .v-list-item-title  {
+    line-height: 36px;
+    font-weight: bold;
+  }
+}
 .bp-layout-nav-drawer:not(.bp-layout-nav-drawer--dark) {
   .v-list-item:not(.v-list-item--active) .v-list-item-title {
     color: rgba(0,0,0,0.65);

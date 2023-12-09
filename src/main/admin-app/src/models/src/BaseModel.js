@@ -39,7 +39,7 @@ export default class BaseModel extends Model {
   static getState(key = false, defaultValue = false) {
     return key
       ? computed(() =>
-          _get(this.store().state.entities[this.entity], key, defaultValue)
+          _get(this.store().state.entities[this.entity], key, defaultValue),
         ).value
       : computed(() => this.store().state.entities[this.entity]).value
   }

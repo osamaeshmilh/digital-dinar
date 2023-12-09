@@ -64,7 +64,7 @@ const onDrawerInput = (e) => ($theme.miniDrawer = e)
       v-bind="{
         nav: true,
         density: 'comfortable',
-        color: 'primary',
+        color: 'secondary',
         ...props.listAttrs,
       }"
     >
@@ -73,7 +73,7 @@ const onDrawerInput = (e) => ($theme.miniDrawer = e)
           <slot :name="`${item.title}-item`" v-bind="{ item }">
             <BpLayoutNavDrawerItem
               :key="`navItem-${i}`"
-              class="bp-nav-drawer--item"
+              class="bp-nav-drawer--item text-white"
               v-bind="{ item, ...props.itemAttrs }"
             />
           </slot>

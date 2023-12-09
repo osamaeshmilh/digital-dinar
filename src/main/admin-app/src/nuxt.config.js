@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   blueprint: {
+    singleEntryBuild: true,
     plugins: { dayjs: true },
-    // theme: { routes: false },
     axios: {
       props: { errorMessage: ['data.title', 'data.message'] },
     },
@@ -19,11 +19,11 @@ export default defineNuxtConfig({
       },
     },
   },
-  // nitro: {
-  //   output: {
-  //     publicDir: '',
-  //   },
-  // },
+  nitro: {
+    output: {
+      publicDir: '../dist',
+    },
+  },
   modules: ['./modules/blueprint/module.js'],
   ssr: false,
   sourcemap: {server: false},

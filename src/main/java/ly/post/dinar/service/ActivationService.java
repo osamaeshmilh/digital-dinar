@@ -127,68 +127,27 @@ public class ActivationService {
     }
 
     public void sendEmailOTP(String email) {
-        Activation newActivation;
-        Optional<Activation> activationOptional = activationRepository.findByEmail(email);
+        Activation newActivation = activationRepository.findByEmail(email).orElseGet(() -> createNewActivationForEmail(email));
 
-        newActivation = activationOptional.orElseGet(Activation::new);
-        String code = RandomStringUtils.randomNumeric(4);
-        newActivation.setEmail(email);
-        newActivation.setCode(code);
-        newActivation.setIsUsed(false);
-        newActivation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));
-        Activation result = activationRepository.save(newActivation);
-
-        User user = new User();
-        user.setEmail(email);
-        user.setLogin(email);
-        user.setResetKey(result.getCode());
-        mailService.sendOtpMail(user);
+        generateAndSaveActivationCode(newActivation);
+        sendActivationEmail(newActivation);
     }
 
     public void sendSMSOTP(String mobileNo) {
-        Activation newActivation;
-        Optional<Activation> activationOptional = activationRepository.findFirstByMobileNoContains(mobileNo);
+        Activation newActivation = activationRepository
+            .findFirstByMobileNoContains(mobileNo)
+            .orElseGet(() -> createNewActivationForMobile(mobileNo));
 
-        newActivation = activationOptional.orElseGet(Activation::new);
-        String code = RandomStringUtils.randomNumeric(4);
-        newActivation.setMobileNo(mobileNo);
-        newActivation.setCode(code);
-        newActivation.setIsUsed(false);
-        newActivation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));
-        Activation result = activationRepository.save(newActivation);
-        smsService.sendSMS(result.getMobileNo(), result.getCode());
+        generateAndSaveActivationCode(newActivation);
+        sendActivationSMS(newActivation);
     }
 
-    public Optional<Activation> checkCodeWithEmail(String email, String otp) {
-        Optional<Activation> activationOptional = activationRepository.findByEmailAndCode(email, otp);
-        if (!activationOptional.isPresent()) {
-            throw new BadRequestAlertException("OTP and Email not match!", "", "EMAIL_CODE_NOT_MATCH");
-        }
-        if (activationOptional.get().getIsUsed()) {
-            throw new BadRequestAlertException("OTP Already Used!", "", "OTP_USED");
-        }
-        if (Instant.now().isAfter(activationOptional.get().getValidUntil())) {
-            throw new BadRequestAlertException("OTP Expired!", "", "OTP_Expired");
-        }
-        activationOptional.get().setIsUsed(true);
-        save(activationMapper.toDto(activationOptional.get()));
-        return activationOptional;
+    public Activation checkCodeWithEmail(String email, String otp) {
+        return checkCode(activationRepository.findByEmailAndCode(email, otp), "EMAIL_CODE_NOT_MATCH");
     }
 
-    public Optional<Activation> checkCodeWithMobileNo(String mobileNo, String otp) {
-        Optional<Activation> activationOptional = activationRepository.findFirstByMobileNoContainsAndCode(mobileNo, otp);
-        if (!activationOptional.isPresent()) {
-            throw new BadRequestAlertException("OTP and Mobile not match!", "", "MOBILE_CODE_NOT_MATCH");
-        }
-        if (activationOptional.get().getIsUsed()) {
-            throw new BadRequestAlertException("OTP Already Used!", "", "OTP_USED");
-        }
-        if (Instant.now().isAfter(activationOptional.get().getValidUntil())) {
-            throw new BadRequestAlertException("OTP Expired!", "", "OTP_Expired");
-        }
-        activationOptional.get().setIsUsed(true);
-        save(activationMapper.toDto(activationOptional.get()));
-        return activationOptional;
+    public Activation checkCodeWithMobileNo(String mobileNo, String otp) {
+        return checkCode(activationRepository.findFirstByMobileNoContainsAndCode(mobileNo, otp), "MOBILE_CODE_NOT_MATCH");
     }
 
     public void sendSMSAndEmailOTP(String mobileNo, String email) {
@@ -196,31 +155,76 @@ public class ActivationService {
         String commonCode = RandomStringUtils.randomNumeric(4);
 
         // Create or Update Email Activation
-        Optional<Activation> emailActivationOptional = activationRepository.findByEmail(email);
-        Activation emailActivation = emailActivationOptional.orElseGet(Activation::new);
-        emailActivation.setEmail(email);
-        emailActivation.setCode(commonCode);
-        emailActivation.setIsUsed(false);
-        emailActivation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));
-        activationRepository.save(emailActivation);
+        Activation emailActivation = activationRepository.findByEmail(email).orElseGet(() -> createNewActivationForEmail(email));
+
+        updateActivation(emailActivation, commonCode);
 
         // Create or Update SMS Activation
-        Optional<Activation> smsActivationOptional = activationRepository.findFirstByMobileNoContains(mobileNo);
-        Activation smsActivation = smsActivationOptional.orElseGet(Activation::new);
-        smsActivation.setMobileNo(mobileNo);
-        smsActivation.setCode(commonCode);
-        smsActivation.setIsUsed(false);
-        smsActivation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));
-        activationRepository.save(smsActivation);
+        Activation smsActivation = activationRepository
+            .findFirstByMobileNoContains(mobileNo)
+            .orElseGet(() -> createNewActivationForMobile(mobileNo));
+
+        updateActivation(smsActivation, commonCode);
 
         // Send OTP via SMS
-        smsService.sendSMS(mobileNo, commonCode);
+        sendActivationSMS(smsActivation);
 
         // Send OTP via Email
+        sendActivationEmail(emailActivation);
+    }
+
+    private Activation createNewActivationForEmail(String email) {
+        Activation newActivation = new Activation();
+        newActivation.setEmail(email);
+        return newActivation;
+    }
+
+    private Activation createNewActivationForMobile(String mobileNo) {
+        Activation newActivation = new Activation();
+        newActivation.setMobileNo(mobileNo);
+        return newActivation;
+    }
+
+    private void generateAndSaveActivationCode(Activation activation) {
+        String code = RandomStringUtils.randomNumeric(4);
+        activation.setCode(code);
+        activation.setIsUsed(false);
+        activation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));
+        activationRepository.save(activation);
+    }
+
+    private void updateActivation(Activation activation, String commonCode) {
+        activation.setCode(commonCode);
+        activation.setIsUsed(false);
+        activation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));
+        activationRepository.save(activation);
+    }
+
+    private Activation checkCode(Optional<Activation> activationOptional, String errorKey) {
+        return activationOptional
+            .map(activation -> {
+                if (activation.getIsUsed()) {
+                    throw new BadRequestAlertException("OTP Already Used!", "", "OTP_USED");
+                }
+                if (Instant.now().isAfter(activation.getValidUntil())) {
+                    throw new BadRequestAlertException("OTP Expired!", "", "OTP_Expired");
+                }
+                activation.setIsUsed(true);
+                activationRepository.save(activation);
+                return activation;
+            })
+            .orElseThrow(() -> new BadRequestAlertException("OTP and Email not match!", "", errorKey));
+    }
+
+    private void sendActivationEmail(Activation activation) {
         User user = new User();
-        user.setEmail(email);
-        user.setLogin(email);
-        user.setResetKey(commonCode);
+        user.setEmail(activation.getEmail());
+        user.setLogin(activation.getEmail());
+        user.setResetKey(activation.getCode());
         mailService.sendOtpMail(user);
+    }
+
+    private void sendActivationSMS(Activation activation) {
+        smsService.sendSMS(activation.getMobileNo(), activation.getCode());
     }
 }

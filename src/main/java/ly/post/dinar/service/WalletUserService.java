@@ -155,21 +155,24 @@ public class WalletUserService {
     }
 
     public WalletUser findOneByUser() {
-        if (userService.getUserWithAuthorities().isPresent()) return walletUserRepository.findByUser(
-            userService.getUserWithAuthorities().get()
-        ); else throw new BadRequestAlertException("WalletUser User Not Found !", "", "CUSTOMER_NOT_FOUND");
+        return userService
+            .getUserWithAuthorities()
+            .map(walletUserRepository::findByUser)
+            .orElseThrow(() -> new BadRequestAlertException("WalletUser User Not Found!", "", "CUSTOMER_NOT_FOUND"));
     }
 
     public WalletUserDTO findOneDTOByUser() {
-        if (userService.getUserWithAuthorities().isPresent()) return walletUserMapper.toDto(
-            walletUserRepository.findByUser(userService.getUserWithAuthorities().get())
-        ); else throw new BadRequestAlertException("WalletUser User Not Found !", "", "CUSTOMER_NOT_FOUND");
+        return userService
+            .getUserWithAuthorities()
+            .map(walletUserRepository::findByUser)
+            .map(walletUserMapper::toDto)
+            .orElseThrow(() -> new BadRequestAlertException("WalletUser User Not Found!", "", "CUSTOMER_NOT_FOUND"));
     }
 
     public User findOneUser() {
-        if (userService.getUserWithAuthorities().isPresent()) return userService
+        return userService
             .getUserWithAuthorities()
-            .get(); else throw new BadRequestAlertException("WalletUser User Not Found !", "", "CUSTOMER_NOT_FOUND");
+            .orElseThrow(() -> new BadRequestAlertException("WalletUser User Not Found!", "", "USER_NOT_FOUND"));
     }
 
     //    public Optional<WalletUserDTO> findOneByWalletPublicKey(String walletPublicKey) {

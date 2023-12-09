@@ -167,6 +167,8 @@ public class WalletUserCriteria implements Serializable, Criteria {
 
     private StringFilter bankAccountSWIFT;
 
+    private StringFilter walletPublicKey;
+
     private StringFilter createdBy;
 
     private InstantFilter createdDate;
@@ -231,6 +233,7 @@ public class WalletUserCriteria implements Serializable, Criteria {
         this.bankAccountNumber = other.bankAccountNumber == null ? null : other.bankAccountNumber.copy();
         this.bankAccountIBAN = other.bankAccountIBAN == null ? null : other.bankAccountIBAN.copy();
         this.bankAccountSWIFT = other.bankAccountSWIFT == null ? null : other.bankAccountSWIFT.copy();
+        this.walletPublicKey = other.walletPublicKey == null ? null : other.walletPublicKey.copy();
         this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
         this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
@@ -805,6 +808,21 @@ public class WalletUserCriteria implements Serializable, Criteria {
         this.bankAccountSWIFT = bankAccountSWIFT;
     }
 
+    public StringFilter getWalletPublicKey() {
+        return walletPublicKey;
+    }
+
+    public StringFilter walletPublicKey() {
+        if (walletPublicKey == null) {
+            walletPublicKey = new StringFilter();
+        }
+        return walletPublicKey;
+    }
+
+    public void setWalletPublicKey(StringFilter walletPublicKey) {
+        this.walletPublicKey = walletPublicKey;
+    }
+
     public StringFilter getCreatedBy() {
         return createdBy;
     }
@@ -1025,6 +1043,7 @@ public class WalletUserCriteria implements Serializable, Criteria {
             Objects.equals(bankAccountNumber, that.bankAccountNumber) &&
             Objects.equals(bankAccountIBAN, that.bankAccountIBAN) &&
             Objects.equals(bankAccountSWIFT, that.bankAccountSWIFT) &&
+            Objects.equals(walletPublicKey, that.walletPublicKey) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdDate, that.createdDate) &&
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
@@ -1080,6 +1099,7 @@ public class WalletUserCriteria implements Serializable, Criteria {
             bankAccountNumber,
             bankAccountIBAN,
             bankAccountSWIFT,
+            walletPublicKey,
             createdBy,
             createdDate,
             lastModifiedBy,
@@ -1136,6 +1156,7 @@ public class WalletUserCriteria implements Serializable, Criteria {
             (bankAccountNumber != null ? "bankAccountNumber=" + bankAccountNumber + ", " : "") +
             (bankAccountIBAN != null ? "bankAccountIBAN=" + bankAccountIBAN + ", " : "") +
             (bankAccountSWIFT != null ? "bankAccountSWIFT=" + bankAccountSWIFT + ", " : "") +
+            (walletPublicKey != null ? "walletPublicKey=" + walletPublicKey + ", " : "") +
             (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
             (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +

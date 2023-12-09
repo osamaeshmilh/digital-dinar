@@ -45,7 +45,7 @@ public interface WalletUserRepository extends JpaRepository<WalletUser, Long>, J
 
     WalletUser findByUser(User user);
 
-    //    Optional<WalletUser> findTopByWalletPublicKey(String walletPublicKey);
+    Optional<WalletUser> findTopByWalletPublicKey(String walletPublicKey);
 
     Optional<WalletUser> findFirstByMobileNoContaining(String mobileNo);
 

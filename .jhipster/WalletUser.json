@@ -159,6 +159,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "walletPublicKey",
+      "fieldType": "String"
+    },
+    {
       "auditField": true,
       "autoGenerate": true,
       "columnType": "varchar(50)",

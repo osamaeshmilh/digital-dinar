@@ -65,7 +65,8 @@ let config = defineConfig({
       ['/api', '/management', '/v3/api-docs'].map(res => [
         res,
         {
-          target: 'http://154.73.128.220:8080',
+          target: 'http://localhost:8080',
+          // target: 'http://154.73.128.220:8080',
         },
       ]),
     ),

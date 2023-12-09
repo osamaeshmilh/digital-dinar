@@ -149,10 +149,20 @@ public class WalletUser extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "bank_account_swift")
     private String bankAccountSWIFT;
 
-    // Inherited createdBy definition
-    // Inherited createdDate definition
-    // Inherited lastModifiedBy definition
-    // Inherited lastModifiedDate definition
+    @Column(name = "wallet_public_key")
+    private String walletPublicKey;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Column(name = "last_modified_by")
+    private String lastModifiedBy;
+
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
@@ -691,6 +701,19 @@ public class WalletUser extends AbstractAuditingEntity<Long> implements Serializ
         this.bankAccountSWIFT = bankAccountSWIFT;
     }
 
+    public String getWalletPublicKey() {
+        return this.walletPublicKey;
+    }
+
+    public WalletUser walletPublicKey(String walletPublicKey) {
+        this.setWalletPublicKey(walletPublicKey);
+        return this;
+    }
+
+    public void setWalletPublicKey(String walletPublicKey) {
+        this.walletPublicKey = walletPublicKey;
+    }
+
     // Inherited createdBy methods
     public WalletUser createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
@@ -904,6 +927,7 @@ public class WalletUser extends AbstractAuditingEntity<Long> implements Serializ
             ", bankAccountNumber='" + getBankAccountNumber() + "'" +
             ", bankAccountIBAN='" + getBankAccountIBAN() + "'" +
             ", bankAccountSWIFT='" + getBankAccountSWIFT() + "'" +
+            ", walletPublicKey='" + getWalletPublicKey() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

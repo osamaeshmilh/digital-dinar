@@ -94,6 +94,8 @@ public class WalletUserDTO implements Serializable {
 
     private String bankAccountSWIFT;
 
+    private String walletPublicKey;
+
     private String createdBy;
 
     private Instant createdDate;
@@ -424,6 +426,14 @@ public class WalletUserDTO implements Serializable {
         this.bankAccountSWIFT = bankAccountSWIFT;
     }
 
+    public String getWalletPublicKey() {
+        return walletPublicKey;
+    }
+
+    public void setWalletPublicKey(String walletPublicKey) {
+        this.walletPublicKey = walletPublicKey;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -559,6 +569,7 @@ public class WalletUserDTO implements Serializable {
             ", bankAccountNumber='" + getBankAccountNumber() + "'" +
             ", bankAccountIBAN='" + getBankAccountIBAN() + "'" +
             ", bankAccountSWIFT='" + getBankAccountSWIFT() + "'" +
+            ", walletPublicKey='" + getWalletPublicKey() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

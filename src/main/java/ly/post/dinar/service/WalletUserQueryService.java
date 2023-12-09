@@ -201,6 +201,9 @@ public class WalletUserQueryService extends QueryService<WalletUser> {
             if (criteria.getBankAccountSWIFT() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBankAccountSWIFT(), WalletUser_.bankAccountSWIFT));
             }
+            if (criteria.getWalletPublicKey() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getWalletPublicKey(), WalletUser_.walletPublicKey));
+            }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), WalletUser_.createdBy));
             }

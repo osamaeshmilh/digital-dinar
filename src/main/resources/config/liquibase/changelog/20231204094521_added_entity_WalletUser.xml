@@ -128,6 +128,9 @@
             <column name="bank_account_swift" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="wallet_public_key" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -216,6 +219,7 @@
             <column name="bank_account_number" type="string"/>
             <column name="bank_account_iban" type="string"/>
             <column name="bank_account_swift" type="string"/>
+            <column name="wallet_public_key" type="string"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="date"/>
             <column name="last_modified_by" type="string"/>

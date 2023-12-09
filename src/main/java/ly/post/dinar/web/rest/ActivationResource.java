@@ -160,7 +160,7 @@ public class ActivationResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of activations in body.
      */
-    @GetMapping("")
+    @GetMapping("activations")
     public ResponseEntity<List<ActivationDTO>> getAllActivations(
         ActivationCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable

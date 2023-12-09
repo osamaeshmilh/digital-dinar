@@ -1,10 +1,16 @@
 package ly.post.dinar.service;
 
 import java.util.Optional;
+import java.util.UUID;
+import ly.post.dinar.domain.User;
 import ly.post.dinar.domain.WalletUser;
 import ly.post.dinar.repository.WalletUserRepository;
+import ly.post.dinar.security.AuthoritiesConstants;
 import ly.post.dinar.service.dto.WalletUserDTO;
 import ly.post.dinar.service.mapper.WalletUserMapper;
+import ly.post.dinar.service.utils.FileTools;
+import ly.post.dinar.web.rest.errors.BadRequestAlertException;
+import ly.post.dinar.web.rest.vm.ManagedUserVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -25,9 +31,12 @@ public class WalletUserService {
 
     private final WalletUserMapper walletUserMapper;
 
-    public WalletUserService(WalletUserRepository walletUserRepository, WalletUserMapper walletUserMapper) {
+    private final UserService userService;
+
+    public WalletUserService(WalletUserRepository walletUserRepository, WalletUserMapper walletUserMapper, UserService userService) {
         this.walletUserRepository = walletUserRepository;
         this.walletUserMapper = walletUserMapper;
+        this.userService = userService;
     }
 
     /**
@@ -117,5 +126,67 @@ public class WalletUserService {
     public void delete(Long id) {
         log.debug("Request to delete WalletUser : {}", id);
         walletUserRepository.deleteById(id);
+    }
+
+    public WalletUserDTO create(WalletUserDTO walletUserDTO) {
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        managedUserVM.setFirstName(walletUserDTO.getArabicFirstName());
+        managedUserVM.setFirstName(walletUserDTO.getArabicLastName());
+        managedUserVM.setEmail(walletUserDTO.getEmail());
+        managedUserVM.setLogin(walletUserDTO.getEmail());
+        //managedUserVM.setMobileNo(walletUserDTO.getMobileNo());
+        //User user = userService.createAndAssignUserWithPassword(managedUserVM, AuthoritiesConstants.USER, walletUserDTO.getNewPassword());
+
+        WalletUser walletUser = walletUserMapper.toEntity(walletUserDTO);
+        //walletUser.setUser(user);
+        //walletUser.setWalletPublicKey(UUID.randomUUID().toString());
+        walletUser.setIsKYCVerified(false);
+
+        if (walletUserDTO.getImageFile() != null) {
+            String filePath = FileTools.upload(walletUser.getImageFile(), walletUser.getImageFileContentType(), "walletUser");
+            walletUser.setImageFile(null);
+            walletUser.setImageFileContentType(walletUserDTO.getImageFileContentType());
+            walletUser.setImageUrlFile(filePath);
+        }
+
+        walletUser = walletUserRepository.save(walletUser);
+
+        return walletUserMapper.toDto(walletUser);
+    }
+
+    public WalletUser findOneByUser() {
+        if (userService.getUserWithAuthorities().isPresent()) return walletUserRepository.findByUser(
+            userService.getUserWithAuthorities().get()
+        ); else throw new BadRequestAlertException("WalletUser User Not Found !", "", "CUSTOMER_NOT_FOUND");
+    }
+
+    public WalletUserDTO findOneDTOByUser() {
+        if (userService.getUserWithAuthorities().isPresent()) return walletUserMapper.toDto(
+            walletUserRepository.findByUser(userService.getUserWithAuthorities().get())
+        ); else throw new BadRequestAlertException("WalletUser User Not Found !", "", "CUSTOMER_NOT_FOUND");
+    }
+
+    public User findOneUser() {
+        if (userService.getUserWithAuthorities().isPresent()) return userService
+            .getUserWithAuthorities()
+            .get(); else throw new BadRequestAlertException("WalletUser User Not Found !", "", "CUSTOMER_NOT_FOUND");
+    }
+
+    //    public Optional<WalletUserDTO> findOneByWalletPublicKey(String walletPublicKey) {
+    //        return walletUserRepository.findTopByWalletPublicKey(walletPublicKey).map(walletUserMapper::toDto);
+    //    }
+
+    public Optional<WalletUserDTO> findOneByMobileNo(String mobileNo) {
+        return walletUserRepository.findFirstByMobileNoContaining(mobileNo).map(walletUserMapper::toDto);
+    }
+
+    public Optional<WalletUserDTO> findOneByEmail(String email) {
+        return walletUserRepository.findFirstByEmail(email).map(walletUserMapper::toDto);
+    }
+
+    public void verifyUser(User user) {
+        WalletUserDTO walletUserDTO = walletUserMapper.toDto(walletUserRepository.findByUser(user));
+        walletUserDTO.setIsKYCVerified(true);
+        save(walletUserDTO);
     }
 }

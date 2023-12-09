@@ -5,11 +5,15 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import ly.post.dinar.domain.WalletUser;
 import ly.post.dinar.repository.ActivationRepository;
+import ly.post.dinar.security.AuthoritiesConstants;
 import ly.post.dinar.service.ActivationQueryService;
 import ly.post.dinar.service.ActivationService;
+import ly.post.dinar.service.WalletUserService;
 import ly.post.dinar.service.criteria.ActivationCriteria;
 import ly.post.dinar.service.dto.ActivationDTO;
+import ly.post.dinar.service.dto.WalletUserDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -28,7 +33,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Activation}.
  */
 @RestController
-@RequestMapping("/api/activations")
+@RequestMapping("/api")
 public class ActivationResource {
 
     private final Logger log = LoggerFactory.getLogger(ActivationResource.class);
@@ -44,14 +49,18 @@ public class ActivationResource {
 
     private final ActivationQueryService activationQueryService;
 
+    private final WalletUserService walletUserService;
+
     public ActivationResource(
         ActivationService activationService,
         ActivationRepository activationRepository,
-        ActivationQueryService activationQueryService
+        ActivationQueryService activationQueryService,
+        WalletUserService walletUserService
     ) {
         this.activationService = activationService;
         this.activationRepository = activationRepository;
         this.activationQueryService = activationQueryService;
+        this.walletUserService = walletUserService;
     }
 
     /**
@@ -61,7 +70,7 @@ public class ActivationResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new activationDTO, or with status {@code 400 (Bad Request)} if the activation has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/activations")
     public ResponseEntity<ActivationDTO> createActivation(@RequestBody ActivationDTO activationDTO) throws URISyntaxException {
         log.debug("REST request to save Activation : {}", activationDTO);
         if (activationDTO.getId() != null) {
@@ -84,7 +93,7 @@ public class ActivationResource {
      * or with status {@code 500 (Internal Server Error)} if the activationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/activations/{id}")
     public ResponseEntity<ActivationDTO> updateActivation(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ActivationDTO activationDTO
@@ -119,7 +128,7 @@ public class ActivationResource {
      * or with status {@code 500 (Internal Server Error)} if the activationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/activations/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ActivationDTO> partialUpdateActivation(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ActivationDTO activationDTO
@@ -169,7 +178,7 @@ public class ActivationResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/activations/count")
     public ResponseEntity<Long> countActivations(ActivationCriteria criteria) {
         log.debug("REST request to count Activations by criteria: {}", criteria);
         return ResponseEntity.ok().body(activationQueryService.countByCriteria(criteria));
@@ -181,7 +190,7 @@ public class ActivationResource {
      * @param id the id of the activationDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the activationDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/activations/{id}")
     public ResponseEntity<ActivationDTO> getActivation(@PathVariable Long id) {
         log.debug("REST request to get Activation : {}", id);
         Optional<ActivationDTO> activationDTO = activationService.findOne(id);
@@ -194,7 +203,7 @@ public class ActivationResource {
      * @param id the id of the activationDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/activations/{id}")
     public ResponseEntity<Void> deleteActivation(@PathVariable Long id) {
         log.debug("REST request to delete Activation : {}", id);
         activationService.delete(id);
@@ -202,5 +211,52 @@ public class ActivationResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping(path = "/public/activation/email-otp")
+    public void sendEmailOTP(@RequestParam String email) {
+        if (walletUserService.findOneByEmail(email).isPresent()) {
+            throw new BadRequestAlertException("Email Already Used!", ENTITY_NAME, "EMAIL_USED");
+        }
+        activationService.sendEmailOTP(email);
+    }
+
+    @PostMapping(path = "/public/activation/sms-otp")
+    public void sendSmsOTP(@RequestParam String mobileNo) {
+        if (walletUserService.findOneByMobileNo(mobileNo).isPresent()) {
+            throw new BadRequestAlertException("Mobile Number Already Used!", ENTITY_NAME, "MOBILE_USED");
+        }
+        activationService.sendSMSOTP(mobileNo);
+    }
+
+    @PostMapping(path = "/public/activation/sms-and-email-otp")
+    public void sendOTPEmailAndSms(@RequestParam String mobileNo, @RequestParam String email) {
+        if (walletUserService.findOneByMobileNo(mobileNo).isPresent()) {
+            throw new BadRequestAlertException("Mobile Number Already Used!", ENTITY_NAME, "MOBILE_USED");
+        }
+        if (walletUserService.findOneByEmail(email).isPresent()) {
+            throw new BadRequestAlertException("Email Already Used!", ENTITY_NAME, "EMAIL_USED");
+        }
+        activationService.sendSMSAndEmailOTP(mobileNo, email);
+    }
+
+    @PostMapping(path = "/activation/wallet-user/send-otp")
+    public void sendSmsOTPToCurrentUser() {
+        WalletUserDTO currentUser = walletUserService.findOneDTOByUser();
+        boolean isMobileVerified = currentUser.getVerifiedByMobileOtp();
+        boolean isEmailVerified = currentUser.getVerifiedByEmailOtp();
+
+        if (isMobileVerified && isEmailVerified) {
+            activationService.sendSMSAndEmailOTP(currentUser.getMobileNo(), currentUser.getEmail());
+            return;
+        }
+
+        if (isMobileVerified) {
+            activationService.sendSMSOTP(currentUser.getMobileNo());
+        }
+
+        if (isEmailVerified) {
+            activationService.sendEmailOTP(currentUser.getEmail());
+        }
     }
 }

@@ -2,6 +2,7 @@ package ly.post.dinar.repository;
 
 import java.util.List;
 import java.util.Optional;
+import ly.post.dinar.domain.User;
 import ly.post.dinar.domain.WalletUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,4 +42,12 @@ public interface WalletUserRepository extends JpaRepository<WalletUser, Long>, J
         "select walletUser from WalletUser walletUser left join fetch walletUser.category left join fetch walletUser.city left join fetch walletUser.walletProfile left join fetch walletUser.bankBranch where walletUser.id =:id"
     )
     Optional<WalletUser> findOneWithToOneRelationships(@Param("id") Long id);
+
+    WalletUser findByUser(User user);
+
+    //    Optional<WalletUser> findTopByWalletPublicKey(String walletPublicKey);
+
+    Optional<WalletUser> findFirstByMobileNoContaining(String mobileNo);
+
+    Optional<WalletUser> findFirstByEmail(String email);
 }

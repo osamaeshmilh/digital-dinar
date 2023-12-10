@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Country}.
  */
 @RestController
-@RequestMapping("/api/countries")
+@RequestMapping("/api")
 public class CountryResource {
 
     private final Logger log = LoggerFactory.getLogger(CountryResource.class);
@@ -57,7 +57,7 @@ public class CountryResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new countryDTO, or with status {@code 400 (Bad Request)} if the country has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/countries")
     public ResponseEntity<CountryDTO> createCountry(@RequestBody CountryDTO countryDTO) throws URISyntaxException {
         log.debug("REST request to save Country : {}", countryDTO);
         if (countryDTO.getId() != null) {
@@ -80,7 +80,7 @@ public class CountryResource {
      * or with status {@code 500 (Internal Server Error)} if the countryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/countries/{id}")
     public ResponseEntity<CountryDTO> updateCountry(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CountryDTO countryDTO
@@ -115,7 +115,7 @@ public class CountryResource {
      * or with status {@code 500 (Internal Server Error)} if the countryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/countries/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CountryDTO> partialUpdateCountry(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CountryDTO countryDTO
@@ -147,7 +147,7 @@ public class CountryResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of countries in body.
      */
-    @GetMapping("")
+    @GetMapping("/countries")
     public ResponseEntity<List<CountryDTO>> getAllCountries(
         CountryCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -165,7 +165,7 @@ public class CountryResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/countries/count")
     public ResponseEntity<Long> countCountries(CountryCriteria criteria) {
         log.debug("REST request to count Countries by criteria: {}", criteria);
         return ResponseEntity.ok().body(countryQueryService.countByCriteria(criteria));
@@ -177,7 +177,7 @@ public class CountryResource {
      * @param id the id of the countryDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the countryDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/countries/{id}")
     public ResponseEntity<CountryDTO> getCountry(@PathVariable Long id) {
         log.debug("REST request to get Country : {}", id);
         Optional<CountryDTO> countryDTO = countryService.findOne(id);
@@ -190,7 +190,7 @@ public class CountryResource {
      * @param id the id of the countryDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/countries/{id}")
     public ResponseEntity<Void> deleteCountry(@PathVariable Long id) {
         log.debug("REST request to delete Country : {}", id);
         countryService.delete(id);
@@ -198,5 +198,30 @@ public class CountryResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/countries")
+    public ResponseEntity<List<CountryDTO>> getAllCountriesPublic(
+        CountryCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Countries by criteria: {}", criteria);
+
+        Page<CountryDTO> page = countryQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/countries/count")
+    public ResponseEntity<Long> countCountriesPublic(CountryCriteria criteria) {
+        log.debug("REST request to count Countries by criteria: {}", criteria);
+        return ResponseEntity.ok().body(countryQueryService.countByCriteria(criteria));
+    }
+
+    @GetMapping("/public/countries/{id}")
+    public ResponseEntity<CountryDTO> getCountryPublic(@PathVariable Long id) {
+        log.debug("REST request to get Country : {}", id);
+        Optional<CountryDTO> countryDTO = countryService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(countryDTO);
     }
 }

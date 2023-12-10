@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Notification}.
  */
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/api")
 public class NotificationResource {
 
     private final Logger log = LoggerFactory.getLogger(NotificationResource.class);
@@ -61,7 +61,7 @@ public class NotificationResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new notificationDTO, or with status {@code 400 (Bad Request)} if the notification has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/notifications")
     public ResponseEntity<NotificationDTO> createNotification(@RequestBody NotificationDTO notificationDTO) throws URISyntaxException {
         log.debug("REST request to save Notification : {}", notificationDTO);
         if (notificationDTO.getId() != null) {
@@ -84,7 +84,7 @@ public class NotificationResource {
      * or with status {@code 500 (Internal Server Error)} if the notificationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/notifications/{id}")
     public ResponseEntity<NotificationDTO> updateNotification(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NotificationDTO notificationDTO
@@ -119,7 +119,7 @@ public class NotificationResource {
      * or with status {@code 500 (Internal Server Error)} if the notificationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/notifications/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<NotificationDTO> partialUpdateNotification(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NotificationDTO notificationDTO
@@ -151,7 +151,7 @@ public class NotificationResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of notifications in body.
      */
-    @GetMapping("")
+    @GetMapping("/notifications")
     public ResponseEntity<List<NotificationDTO>> getAllNotifications(
         NotificationCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -169,7 +169,7 @@ public class NotificationResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/notifications/count")
     public ResponseEntity<Long> countNotifications(NotificationCriteria criteria) {
         log.debug("REST request to count Notifications by criteria: {}", criteria);
         return ResponseEntity.ok().body(notificationQueryService.countByCriteria(criteria));
@@ -181,7 +181,7 @@ public class NotificationResource {
      * @param id the id of the notificationDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the notificationDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/notifications/{id}")
     public ResponseEntity<NotificationDTO> getNotification(@PathVariable Long id) {
         log.debug("REST request to get Notification : {}", id);
         Optional<NotificationDTO> notificationDTO = notificationService.findOne(id);
@@ -194,7 +194,7 @@ public class NotificationResource {
      * @param id the id of the notificationDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/notifications/{id}")
     public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
         log.debug("REST request to delete Notification : {}", id);
         notificationService.delete(id);
@@ -202,5 +202,11 @@ public class NotificationResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/notifications/wallet-user/{id}/notify")
+    public ResponseEntity<Void> sendNotification(@PathVariable Long id, @RequestBody String message) {
+        notificationService.sendNotificationToCustomer(id, "Notification", message);
+        return ResponseEntity.ok().build();
     }
 }

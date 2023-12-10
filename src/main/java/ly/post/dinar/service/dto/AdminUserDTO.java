@@ -41,6 +41,10 @@ public class AdminUserDTO implements Serializable {
     @Size(min = 2, max = 10)
     private String langKey;
 
+    private String mobileNo;
+
+    private String firebaseId;
+
     private String createdBy;
 
     private Instant createdDate;
@@ -192,5 +196,21 @@ public class AdminUserDTO implements Serializable {
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
             "}";
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 }

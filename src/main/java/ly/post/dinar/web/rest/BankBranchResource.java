@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.BankBranch}.
  */
 @RestController
-@RequestMapping("/api/bank-branches")
+@RequestMapping("/api")
 public class BankBranchResource {
 
     private final Logger log = LoggerFactory.getLogger(BankBranchResource.class);
@@ -61,7 +61,7 @@ public class BankBranchResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bankBranchDTO, or with status {@code 400 (Bad Request)} if the bankBranch has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/bank-branches")
     public ResponseEntity<BankBranchDTO> createBankBranch(@RequestBody BankBranchDTO bankBranchDTO) throws URISyntaxException {
         log.debug("REST request to save BankBranch : {}", bankBranchDTO);
         if (bankBranchDTO.getId() != null) {
@@ -84,7 +84,7 @@ public class BankBranchResource {
      * or with status {@code 500 (Internal Server Error)} if the bankBranchDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/bank-branches/{id}")
     public ResponseEntity<BankBranchDTO> updateBankBranch(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchDTO bankBranchDTO
@@ -119,7 +119,7 @@ public class BankBranchResource {
      * or with status {@code 500 (Internal Server Error)} if the bankBranchDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/bank-branches/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<BankBranchDTO> partialUpdateBankBranch(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchDTO bankBranchDTO
@@ -151,7 +151,7 @@ public class BankBranchResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankBranches in body.
      */
-    @GetMapping("")
+    @GetMapping("/bank-branches")
     public ResponseEntity<List<BankBranchDTO>> getAllBankBranches(
         BankBranchCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -169,7 +169,7 @@ public class BankBranchResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/bank-branches/count")
     public ResponseEntity<Long> countBankBranches(BankBranchCriteria criteria) {
         log.debug("REST request to count BankBranches by criteria: {}", criteria);
         return ResponseEntity.ok().body(bankBranchQueryService.countByCriteria(criteria));
@@ -181,7 +181,7 @@ public class BankBranchResource {
      * @param id the id of the bankBranchDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankBranchDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/bank-branches/{id}")
     public ResponseEntity<BankBranchDTO> getBankBranch(@PathVariable Long id) {
         log.debug("REST request to get BankBranch : {}", id);
         Optional<BankBranchDTO> bankBranchDTO = bankBranchService.findOne(id);
@@ -194,7 +194,7 @@ public class BankBranchResource {
      * @param id the id of the bankBranchDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/bank-branches/{id}")
     public ResponseEntity<Void> deleteBankBranch(@PathVariable Long id) {
         log.debug("REST request to delete BankBranch : {}", id);
         bankBranchService.delete(id);
@@ -202,5 +202,29 @@ public class BankBranchResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/bank-branches")
+    public ResponseEntity<List<BankBranchDTO>> getAllBankBranchesPublic(
+        BankBranchCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get BankBranches by criteria: {}", criteria);
+        Page<BankBranchDTO> page = bankBranchQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/bank-branches/count")
+    public ResponseEntity<Long> countBankBranchesPublic(BankBranchCriteria criteria) {
+        log.debug("REST request to count BankBranches by criteria: {}", criteria);
+        return ResponseEntity.ok().body(bankBranchQueryService.countByCriteria(criteria));
+    }
+
+    @GetMapping("/public/bank-branches/{id}")
+    public ResponseEntity<BankBranchDTO> getBankBranchPublic(@PathVariable Long id) {
+        log.debug("REST request to get BankBranch : {}", id);
+        Optional<BankBranchDTO> bankBranchDTO = bankBranchService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(bankBranchDTO);
     }
 }

@@ -29,6 +29,8 @@
                 <constraints nullable="false" />
             </column>
             <column name="lang_key" type="varchar(10)"/>
+            <column name="mobile_no" type="varchar(256)"/>
+            <column name="firebase_id" type="varchar(256)"/>
             <column name="activation_key" type="varchar(20)"/>
             <column name="reset_key" type="varchar(20)"/>
             <column name="created_by" type="varchar(50)">

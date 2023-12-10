@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Slider}.
  */
 @RestController
-@RequestMapping("/api/sliders")
+@RequestMapping("/api")
 public class SliderResource {
 
     private final Logger log = LoggerFactory.getLogger(SliderResource.class);
@@ -57,7 +57,7 @@ public class SliderResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new sliderDTO, or with status {@code 400 (Bad Request)} if the slider has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/sliders")
     public ResponseEntity<SliderDTO> createSlider(@RequestBody SliderDTO sliderDTO) throws URISyntaxException {
         log.debug("REST request to save Slider : {}", sliderDTO);
         if (sliderDTO.getId() != null) {
@@ -80,7 +80,7 @@ public class SliderResource {
      * or with status {@code 500 (Internal Server Error)} if the sliderDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/sliders/{id}")
     public ResponseEntity<SliderDTO> updateSlider(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SliderDTO sliderDTO
@@ -115,7 +115,7 @@ public class SliderResource {
      * or with status {@code 500 (Internal Server Error)} if the sliderDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/sliders/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<SliderDTO> partialUpdateSlider(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SliderDTO sliderDTO
@@ -147,7 +147,7 @@ public class SliderResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of sliders in body.
      */
-    @GetMapping("")
+    @GetMapping("/sliders")
     public ResponseEntity<List<SliderDTO>> getAllSliders(
         SliderCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -165,7 +165,7 @@ public class SliderResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/sliders/count")
     public ResponseEntity<Long> countSliders(SliderCriteria criteria) {
         log.debug("REST request to count Sliders by criteria: {}", criteria);
         return ResponseEntity.ok().body(sliderQueryService.countByCriteria(criteria));
@@ -177,7 +177,7 @@ public class SliderResource {
      * @param id the id of the sliderDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sliderDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/sliders/{id}")
     public ResponseEntity<SliderDTO> getSlider(@PathVariable Long id) {
         log.debug("REST request to get Slider : {}", id);
         Optional<SliderDTO> sliderDTO = sliderService.findOne(id);
@@ -190,7 +190,7 @@ public class SliderResource {
      * @param id the id of the sliderDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/sliders/{id}")
     public ResponseEntity<Void> deleteSlider(@PathVariable Long id) {
         log.debug("REST request to delete Slider : {}", id);
         sliderService.delete(id);
@@ -198,5 +198,30 @@ public class SliderResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/sliders")
+    public ResponseEntity<List<SliderDTO>> getAllSlidersPublic(
+        SliderCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Sliders by criteria: {}", criteria);
+
+        Page<SliderDTO> page = sliderQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/sliders/count")
+    public ResponseEntity<Long> countSlidersPublic(SliderCriteria criteria) {
+        log.debug("REST request to count Sliders by criteria: {}", criteria);
+        return ResponseEntity.ok().body(sliderQueryService.countByCriteria(criteria));
+    }
+
+    @GetMapping("/public/sliders/{id}")
+    public ResponseEntity<SliderDTO> getSliderPublic(@PathVariable Long id) {
+        log.debug("REST request to get Slider : {}", id);
+        Optional<SliderDTO> sliderDTO = sliderService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(sliderDTO);
     }
 }

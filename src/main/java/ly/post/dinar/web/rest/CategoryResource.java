@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Category}.
  */
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api")
 public class CategoryResource {
 
     private final Logger log = LoggerFactory.getLogger(CategoryResource.class);
@@ -61,7 +61,7 @@ public class CategoryResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new categoryDTO, or with status {@code 400 (Bad Request)} if the category has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/categories")
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
         log.debug("REST request to save Category : {}", categoryDTO);
         if (categoryDTO.getId() != null) {
@@ -84,7 +84,7 @@ public class CategoryResource {
      * or with status {@code 500 (Internal Server Error)} if the categoryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/categories/{id}")
     public ResponseEntity<CategoryDTO> updateCategory(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CategoryDTO categoryDTO
@@ -119,7 +119,7 @@ public class CategoryResource {
      * or with status {@code 500 (Internal Server Error)} if the categoryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/categories/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CategoryDTO> partialUpdateCategory(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CategoryDTO categoryDTO
@@ -151,7 +151,7 @@ public class CategoryResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of categories in body.
      */
-    @GetMapping("")
+    @GetMapping("/categories")
     public ResponseEntity<List<CategoryDTO>> getAllCategories(
         CategoryCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -169,7 +169,7 @@ public class CategoryResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/categories/count")
     public ResponseEntity<Long> countCategories(CategoryCriteria criteria) {
         log.debug("REST request to count Categories by criteria: {}", criteria);
         return ResponseEntity.ok().body(categoryQueryService.countByCriteria(criteria));
@@ -181,7 +181,7 @@ public class CategoryResource {
      * @param id the id of the categoryDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the categoryDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryDTO> getCategory(@PathVariable Long id) {
         log.debug("REST request to get Category : {}", id);
         Optional<CategoryDTO> categoryDTO = categoryService.findOne(id);
@@ -194,7 +194,7 @@ public class CategoryResource {
      * @param id the id of the categoryDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/categories/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         log.debug("REST request to delete Category : {}", id);
         categoryService.delete(id);
@@ -202,5 +202,30 @@ public class CategoryResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/categories")
+    public ResponseEntity<List<CategoryDTO>> getAllCategoriesPublic(
+        CategoryCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Categories by criteria: {}", criteria);
+
+        Page<CategoryDTO> page = categoryQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/categories/count")
+    public ResponseEntity<Long> countCategoriesPublic(CategoryCriteria criteria) {
+        log.debug("REST request to count Categories by criteria: {}", criteria);
+        return ResponseEntity.ok().body(categoryQueryService.countByCriteria(criteria));
+    }
+
+    @GetMapping("/public/categories/{id}")
+    public ResponseEntity<CategoryDTO> getCategoryPublic(@PathVariable Long id) {
+        log.debug("REST request to get Category : {}", id);
+        Optional<CategoryDTO> categoryDTO = categoryService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(categoryDTO);
     }
 }

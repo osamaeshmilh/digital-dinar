@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.PaymentMethod}.
  */
 @RestController
-@RequestMapping("/api/payment-methods")
+@RequestMapping("/api")
 public class PaymentMethodResource {
 
     private final Logger log = LoggerFactory.getLogger(PaymentMethodResource.class);
@@ -61,7 +61,7 @@ public class PaymentMethodResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new paymentMethodDTO, or with status {@code 400 (Bad Request)} if the paymentMethod has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/payment-methods")
     public ResponseEntity<PaymentMethodDTO> createPaymentMethod(@RequestBody PaymentMethodDTO paymentMethodDTO) throws URISyntaxException {
         log.debug("REST request to save PaymentMethod : {}", paymentMethodDTO);
         if (paymentMethodDTO.getId() != null) {
@@ -84,7 +84,7 @@ public class PaymentMethodResource {
      * or with status {@code 500 (Internal Server Error)} if the paymentMethodDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/payment-methods/{id}")
     public ResponseEntity<PaymentMethodDTO> updatePaymentMethod(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PaymentMethodDTO paymentMethodDTO
@@ -119,7 +119,7 @@ public class PaymentMethodResource {
      * or with status {@code 500 (Internal Server Error)} if the paymentMethodDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/payment-methods/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<PaymentMethodDTO> partialUpdatePaymentMethod(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PaymentMethodDTO paymentMethodDTO
@@ -151,7 +151,7 @@ public class PaymentMethodResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of paymentMethods in body.
      */
-    @GetMapping("")
+    @GetMapping("/payment-methods")
     public ResponseEntity<List<PaymentMethodDTO>> getAllPaymentMethods(
         PaymentMethodCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -169,7 +169,7 @@ public class PaymentMethodResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/payment-methods/count")
     public ResponseEntity<Long> countPaymentMethods(PaymentMethodCriteria criteria) {
         log.debug("REST request to count PaymentMethods by criteria: {}", criteria);
         return ResponseEntity.ok().body(paymentMethodQueryService.countByCriteria(criteria));
@@ -181,7 +181,7 @@ public class PaymentMethodResource {
      * @param id the id of the paymentMethodDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the paymentMethodDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/payment-methods/{id}")
     public ResponseEntity<PaymentMethodDTO> getPaymentMethod(@PathVariable Long id) {
         log.debug("REST request to get PaymentMethod : {}", id);
         Optional<PaymentMethodDTO> paymentMethodDTO = paymentMethodService.findOne(id);
@@ -194,7 +194,7 @@ public class PaymentMethodResource {
      * @param id the id of the paymentMethodDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/payment-methods/{id}")
     public ResponseEntity<Void> deletePaymentMethod(@PathVariable Long id) {
         log.debug("REST request to delete PaymentMethod : {}", id);
         paymentMethodService.delete(id);
@@ -202,5 +202,30 @@ public class PaymentMethodResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/payment-methods")
+    public ResponseEntity<List<PaymentMethodDTO>> getAllPaymentMethodsPublic(
+        PaymentMethodCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get PaymentMethods by criteria: {}", criteria);
+
+        Page<PaymentMethodDTO> page = paymentMethodQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/payment-methods/count")
+    public ResponseEntity<Long> countPaymentMethodsPublic(PaymentMethodCriteria criteria) {
+        log.debug("REST request to count PaymentMethods by criteria: {}", criteria);
+        return ResponseEntity.ok().body(paymentMethodQueryService.countByCriteria(criteria));
+    }
+
+    @GetMapping("/public/payment-methods/{id}")
+    public ResponseEntity<PaymentMethodDTO> getPaymentMethodPublic(@PathVariable Long id) {
+        log.debug("REST request to get PaymentMethod : {}", id);
+        Optional<PaymentMethodDTO> paymentMethodDTO = paymentMethodService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(paymentMethodDTO);
     }
 }

@@ -1,12 +1,17 @@
 package ly.post.dinar.service;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import java.util.Optional;
 import ly.post.dinar.domain.Notification;
 import ly.post.dinar.repository.NotificationRepository;
 import ly.post.dinar.service.dto.NotificationDTO;
+import ly.post.dinar.service.dto.WalletUserDTO;
 import ly.post.dinar.service.mapper.NotificationMapper;
+import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,9 +30,20 @@ public class NotificationService {
 
     private final NotificationMapper notificationMapper;
 
-    public NotificationService(NotificationRepository notificationRepository, NotificationMapper notificationMapper) {
+    private final WalletUserService walletUserService;
+
+    private final UserService userService;
+
+    public NotificationService(
+        NotificationRepository notificationRepository,
+        NotificationMapper notificationMapper,
+        WalletUserService walletUserService,
+        UserService userService
+    ) {
         this.notificationRepository = notificationRepository;
         this.notificationMapper = notificationMapper;
+        this.walletUserService = walletUserService;
+        this.userService = userService;
     }
 
     /**
@@ -108,5 +124,49 @@ public class NotificationService {
     public void delete(Long id) {
         log.debug("Request to delete Notification : {}", id);
         notificationRepository.deleteById(id);
+    }
+
+    public void sendNotificationToCustomer(Long walletUserId, String title, String message) {
+        final String FIREBASE_API_KEY = "AsIct0U:-LmSZ35-";
+        Optional<WalletUserDTO> walletUserDTO = walletUserService.findOne(walletUserId);
+        log.debug("Sending notification to Customer: {}", walletUserId);
+
+        if (walletUserDTO.isPresent()) {
+            String firebaseId = userService.getUserWithAuthoritiesById(walletUserDTO.get().getUser().getId()).get().getFirebaseId();
+
+            log.debug("Firebase ID: {}", firebaseId);
+
+            try {
+                JSONObject jsonInput = new JSONObject();
+                jsonInput.put("to", firebaseId);
+
+                JSONObject notification = new JSONObject();
+                notification.put("title", title);
+                notification.put("body", message);
+                jsonInput.put("notification", notification);
+
+                HttpResponse<String> response = Unirest
+                    .post("https://fcm.googleapis.com/fcm/send")
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "key=" + FIREBASE_API_KEY)
+                    .body(jsonInput.toString())
+                    .asString();
+
+                NotificationDTO notificationDTO = new NotificationDTO();
+                notificationDTO.setTitle(title);
+                notificationDTO.setDescription(message);
+                notificationDTO.setUserId(walletUserId);
+
+                save(notificationDTO);
+
+                log.debug("Firebase response: {}", response.getBody());
+            } catch (Exception ex) {
+                log.error("Error sending Firebase notification", ex);
+                throw new BadRequestAlertException("Failed to send notification", ex.toString(), "idnotfound");
+            }
+        } else {
+            log.warn("Wallet User not found: {}", walletUserId);
+            throw new BadRequestAlertException("Wallet User not found", "USER_NOT_FOUND", "idnotfound");
+        }
     }
 }

@@ -109,4 +109,8 @@ public class SettingService {
         log.debug("Request to delete Setting : {}", id);
         settingRepository.deleteById(id);
     }
+
+    public Optional<SettingDTO> getSettingDtoByKey(String key) {
+        return settingRepository.findByKey(key).map(settingMapper::toDto);
+    }
 }

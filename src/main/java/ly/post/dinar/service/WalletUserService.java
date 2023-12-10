@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 import ly.post.dinar.domain.User;
 import ly.post.dinar.domain.WalletUser;
+import ly.post.dinar.domain.enumeration.ReferenceType;
+import ly.post.dinar.domain.enumeration.WalletType;
 import ly.post.dinar.repository.WalletUserRepository;
 import ly.post.dinar.security.AuthoritiesConstants;
 import ly.post.dinar.service.dto.WalletUserDTO;
@@ -33,10 +35,18 @@ public class WalletUserService {
 
     private final UserService userService;
 
-    public WalletUserService(WalletUserRepository walletUserRepository, WalletUserMapper walletUserMapper, UserService userService) {
+    private final AttachmentService attachmentService;
+
+    public WalletUserService(
+        WalletUserRepository walletUserRepository,
+        WalletUserMapper walletUserMapper,
+        UserService userService,
+        AttachmentService attachmentService
+    ) {
         this.walletUserRepository = walletUserRepository;
         this.walletUserMapper = walletUserMapper;
         this.userService = userService;
+        this.attachmentService = attachmentService;
     }
 
     /**
@@ -129,17 +139,19 @@ public class WalletUserService {
     }
 
     public WalletUserDTO create(WalletUserDTO walletUserDTO) {
+        String role = walletUserDTO.getWalletType() == WalletType.CONSUMER ? AuthoritiesConstants.CONSUMER : AuthoritiesConstants.MERCHANT;
         ManagedUserVM managedUserVM = new ManagedUserVM();
         managedUserVM.setFirstName(walletUserDTO.getArabicFirstName());
         managedUserVM.setFirstName(walletUserDTO.getArabicLastName());
         managedUserVM.setEmail(walletUserDTO.getEmail());
         managedUserVM.setLogin(walletUserDTO.getEmail());
-        //managedUserVM.setMobileNo(walletUserDTO.getMobileNo());
-        //User user = userService.createAndAssignUserWithPassword(managedUserVM, AuthoritiesConstants.USER, walletUserDTO.getNewPassword());
+        managedUserVM.setMobileNo(walletUserDTO.getMobileNo());
+
+        User user = userService.createAndAssignUserWithPassword(managedUserVM, role, walletUserDTO.getNewPassword());
 
         WalletUser walletUser = walletUserMapper.toEntity(walletUserDTO);
-        //walletUser.setUser(user);
-        //walletUser.setWalletPublicKey(UUID.randomUUID().toString());
+        walletUser.setUser(user);
+        walletUser.setWalletPublicKey(UUID.randomUUID().toString());
         walletUser.setIsKYCVerified(false);
 
         if (walletUserDTO.getImageFile() != null) {
@@ -150,6 +162,15 @@ public class WalletUserService {
         }
 
         walletUser = walletUserRepository.save(walletUser);
+
+        WalletUser finalWalletUser = walletUser;
+        walletUserDTO
+            .getAttachments()
+            .forEach(attachmentDTO -> {
+                attachmentDTO.setReferenceId(finalWalletUser.getId());
+                attachmentDTO.setReferenceType(ReferenceType.WALLET_USER);
+                attachmentService.save(attachmentDTO);
+            });
 
         return walletUserMapper.toDto(walletUser);
     }

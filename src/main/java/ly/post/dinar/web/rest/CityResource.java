@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.City}.
  */
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping("/api")
 public class CityResource {
 
     private final Logger log = LoggerFactory.getLogger(CityResource.class);
@@ -57,7 +57,7 @@ public class CityResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new cityDTO, or with status {@code 400 (Bad Request)} if the city has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/cities")
     public ResponseEntity<CityDTO> createCity(@RequestBody CityDTO cityDTO) throws URISyntaxException {
         log.debug("REST request to save City : {}", cityDTO);
         if (cityDTO.getId() != null) {
@@ -80,7 +80,7 @@ public class CityResource {
      * or with status {@code 500 (Internal Server Error)} if the cityDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/cities/{id}")
     public ResponseEntity<CityDTO> updateCity(@PathVariable(value = "id", required = false) final Long id, @RequestBody CityDTO cityDTO)
         throws URISyntaxException {
         log.debug("REST request to update City : {}, {}", id, cityDTO);
@@ -113,7 +113,7 @@ public class CityResource {
      * or with status {@code 500 (Internal Server Error)} if the cityDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/cities/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CityDTO> partialUpdateCity(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CityDTO cityDTO
@@ -145,7 +145,7 @@ public class CityResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cities in body.
      */
-    @GetMapping("")
+    @GetMapping("/cities")
     public ResponseEntity<List<CityDTO>> getAllCities(
         CityCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -163,7 +163,7 @@ public class CityResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/cities/count")
     public ResponseEntity<Long> countCities(CityCriteria criteria) {
         log.debug("REST request to count Cities by criteria: {}", criteria);
         return ResponseEntity.ok().body(cityQueryService.countByCriteria(criteria));
@@ -175,7 +175,7 @@ public class CityResource {
      * @param id the id of the cityDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the cityDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/cities/{id}")
     public ResponseEntity<CityDTO> getCity(@PathVariable Long id) {
         log.debug("REST request to get City : {}", id);
         Optional<CityDTO> cityDTO = cityService.findOne(id);
@@ -188,7 +188,7 @@ public class CityResource {
      * @param id the id of the cityDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/cities/{id}")
     public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         log.debug("REST request to delete City : {}", id);
         cityService.delete(id);
@@ -196,5 +196,30 @@ public class CityResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/cities")
+    public ResponseEntity<List<CityDTO>> getAllCitiesPublic(
+        CityCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Cities by criteria: {}", criteria);
+
+        Page<CityDTO> page = cityQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/cities/count")
+    public ResponseEntity<Long> countCitiesPublic(CityCriteria criteria) {
+        log.debug("REST request to count Cities by criteria: {}", criteria);
+        return ResponseEntity.ok().body(cityQueryService.countByCriteria(criteria));
+    }
+
+    @GetMapping("/public/cities/{id}")
+    public ResponseEntity<CityDTO> getCityPublic(@PathVariable Long id) {
+        log.debug("REST request to get City : {}", id);
+        Optional<CityDTO> cityDTO = cityService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(cityDTO);
     }
 }

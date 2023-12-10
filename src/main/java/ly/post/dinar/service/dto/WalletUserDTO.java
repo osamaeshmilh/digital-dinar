@@ -4,7 +4,9 @@ import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import ly.post.dinar.domain.enumeration.Gender;
 import ly.post.dinar.domain.enumeration.IdType;
 import ly.post.dinar.domain.enumeration.WalletStatus;
@@ -113,6 +115,12 @@ public class WalletUserDTO implements Serializable {
     private WalletProfileDTO walletProfile;
 
     private BankBranchDTO bankBranch;
+
+    private String newPassword;
+
+    private String otp;
+
+    private Set<AttachmentDTO> attachments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -580,5 +588,29 @@ public class WalletUserDTO implements Serializable {
             ", walletProfile=" + getWalletProfile() +
             ", bankBranch=" + getBankBranch() +
             "}";
+    }
+
+    public Set<AttachmentDTO> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Set<AttachmentDTO> attachments) {
+        this.attachments = attachments;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 }

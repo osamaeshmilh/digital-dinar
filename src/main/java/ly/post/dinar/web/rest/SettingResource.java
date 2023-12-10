@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Setting}.
  */
 @RestController
-@RequestMapping("/api/settings")
+@RequestMapping("/api")
 public class SettingResource {
 
     private final Logger log = LoggerFactory.getLogger(SettingResource.class);
@@ -57,7 +57,7 @@ public class SettingResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new settingDTO, or with status {@code 400 (Bad Request)} if the setting has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/settings")
     public ResponseEntity<SettingDTO> createSetting(@RequestBody SettingDTO settingDTO) throws URISyntaxException {
         log.debug("REST request to save Setting : {}", settingDTO);
         if (settingDTO.getId() != null) {
@@ -80,7 +80,7 @@ public class SettingResource {
      * or with status {@code 500 (Internal Server Error)} if the settingDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/settings/{id}")
     public ResponseEntity<SettingDTO> updateSetting(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SettingDTO settingDTO
@@ -115,7 +115,7 @@ public class SettingResource {
      * or with status {@code 500 (Internal Server Error)} if the settingDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/settings/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<SettingDTO> partialUpdateSetting(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SettingDTO settingDTO
@@ -147,7 +147,7 @@ public class SettingResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of settings in body.
      */
-    @GetMapping("")
+    @GetMapping("/settings")
     public ResponseEntity<List<SettingDTO>> getAllSettings(
         SettingCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -165,7 +165,7 @@ public class SettingResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/settings/count")
     public ResponseEntity<Long> countSettings(SettingCriteria criteria) {
         log.debug("REST request to count Settings by criteria: {}", criteria);
         return ResponseEntity.ok().body(settingQueryService.countByCriteria(criteria));
@@ -190,7 +190,7 @@ public class SettingResource {
      * @param id the id of the settingDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/settings/{id}")
     public ResponseEntity<Void> deleteSetting(@PathVariable Long id) {
         log.debug("REST request to delete Setting : {}", id);
         settingService.delete(id);
@@ -198,5 +198,12 @@ public class SettingResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/public/settings/by-key/{key}")
+    public ResponseEntity<SettingDTO> getSettingByKey(@PathVariable String key) {
+        log.debug("REST request to get Setting : {}", key);
+        Optional<SettingDTO> settingDTO = settingService.getSettingDtoByKey(key);
+        return ResponseUtil.wrapOrNotFound(settingDTO);
     }
 }

@@ -1,5 +1,6 @@
 package ly.post.dinar.repository;
 
+import java.util.Optional;
 import ly.post.dinar.domain.Setting;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SettingRepository extends JpaRepository<Setting, Long>, JpaSpecificationExecutor<Setting> {}
+public interface SettingRepository extends JpaRepository<Setting, Long>, JpaSpecificationExecutor<Setting> {
+    Optional<Setting> findByKey(String key);
+}

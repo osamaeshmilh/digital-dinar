@@ -65,6 +65,14 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     private String langKey;
 
     @Size(max = 256)
+    @Column(name = "mobile_no", length = 256)
+    private String mobileNo;
+
+    @Size(max = 256)
+    @Column(name = "firebase_id", length = 256)
+    private String firebaseId;
+
+    @Size(max = 256)
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
@@ -227,5 +235,21 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
             "}";
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 }

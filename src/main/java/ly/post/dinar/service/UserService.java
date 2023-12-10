@@ -13,6 +13,7 @@ import ly.post.dinar.security.AuthoritiesConstants;
 import ly.post.dinar.security.SecurityUtils;
 import ly.post.dinar.service.dto.AdminUserDTO;
 import ly.post.dinar.service.dto.UserDTO;
+import ly.post.dinar.web.rest.vm.ManagedUserVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -323,5 +324,56 @@ public class UserService {
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getUserWithAuthoritiesById(Long id) {
+        return userRepository.findOneWithAuthoritiesById(id);
+    }
+
+    public User createAndAssignUserWithPassword(AdminUserDTO userDTO, String role, String newPassword) {
+        userRepository
+            .findOneByLogin(userDTO.getLogin().toLowerCase())
+            .ifPresent(existingUser -> {
+                boolean removed = removeNonActivatedUser(existingUser);
+                if (!removed) {
+                    throw new UsernameAlreadyUsedException();
+                }
+            });
+        userRepository
+            .findOneByEmailIgnoreCase(userDTO.getEmail())
+            .ifPresent(existingUser -> {
+                boolean removed = removeNonActivatedUser(existingUser);
+                if (!removed) {
+                    throw new EmailAlreadyUsedException();
+                }
+            });
+        User newUser = new User();
+        //String password = RandomStringUtils.randomNumeric(8);
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        // new user gets initially a generated password
+        newUser.setPassword(encryptedPassword);
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
+        newUser.setMobileNo(userDTO.getMobileNo());
+        //TODO :: LANG
+        newUser.setLangKey("en");
+        if (userDTO.getEmail() != null) {
+            newUser.setEmail(userDTO.getEmail().toLowerCase());
+        }
+
+        newUser.setImageUrl(userDTO.getImageUrl());
+        newUser.setLangKey(userDTO.getLangKey());
+        // new user is not active
+        newUser.setActivated(true);
+        // new user gets registration key
+        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        Set<Authority> authorities = new HashSet<>();
+        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        authorityRepository.findById(role).ifPresent(authorities::add);
+        newUser.setAuthorities(authorities);
+        userRepository.save(newUser);
+        return newUser;
     }
 }

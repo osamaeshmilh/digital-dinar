@@ -5,6 +5,7 @@ import ly.post.dinar.domain.Attachment;
 import ly.post.dinar.repository.AttachmentRepository;
 import ly.post.dinar.service.dto.AttachmentDTO;
 import ly.post.dinar.service.mapper.AttachmentMapper;
+import ly.post.dinar.service.utils.FileTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,18 @@ public class AttachmentService {
     public AttachmentDTO save(AttachmentDTO attachmentDTO) {
         log.debug("Request to save Attachment : {}", attachmentDTO);
         Attachment attachment = attachmentMapper.toEntity(attachmentDTO);
+
+        if (attachmentDTO.getFile() != null) {
+            String filePath = FileTools.upload(
+                attachment.getFile(),
+                attachment.getFileContentType(),
+                "attachment" + "_" + attachmentDTO.getAttachmentType().toString()
+            );
+            attachment.setFile(null);
+            attachment.setFileContentType(attachmentDTO.getFileContentType());
+            attachment.setFileUrl(filePath);
+        }
+
         attachment = attachmentRepository.save(attachment);
         return attachmentMapper.toDto(attachment);
     }

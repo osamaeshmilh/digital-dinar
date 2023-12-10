@@ -27,13 +27,13 @@ public class SMSService {
             //                uri = "http://156.38.58.240:8911/cgi-bin/sendsms?username=etlby&password=etybl&from=17878&to=" + phone + "&text=" + text;
             //            }
             else {
-                throw new BadRequestAlertException("SMS not supported for this number!", "", "SMS_NOT_SUPPORTED");
+                //throw new BadRequestAlertException("SMS not supported for this number!", "", "SMS_NOT_SUPPORTED");
             }
             System.out.println(uri);
             RestTemplate restTemplate = new RestTemplate();
             String response = restTemplate.getForObject(uri, String.class);
         } catch (Exception e) {
-            throw new BadRequestAlertException("SMS Fail!", "", "SMS_FAIL");
+            //throw new BadRequestAlertException("SMS Fail!", "", "SMS_FAIL");
         }
     }
 }

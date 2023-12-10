@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Bank}.
  */
 @RestController
-@RequestMapping("/api/banks")
+@RequestMapping("/api")
 public class BankResource {
 
     private final Logger log = LoggerFactory.getLogger(BankResource.class);
@@ -57,7 +57,7 @@ public class BankResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bankDTO, or with status {@code 400 (Bad Request)} if the bank has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/banks")
     public ResponseEntity<BankDTO> createBank(@RequestBody BankDTO bankDTO) throws URISyntaxException {
         log.debug("REST request to save Bank : {}", bankDTO);
         if (bankDTO.getId() != null) {
@@ -80,7 +80,7 @@ public class BankResource {
      * or with status {@code 500 (Internal Server Error)} if the bankDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/banks/{id}")
     public ResponseEntity<BankDTO> updateBank(@PathVariable(value = "id", required = false) final Long id, @RequestBody BankDTO bankDTO)
         throws URISyntaxException {
         log.debug("REST request to update Bank : {}, {}", id, bankDTO);
@@ -113,7 +113,7 @@ public class BankResource {
      * or with status {@code 500 (Internal Server Error)} if the bankDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/banks/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<BankDTO> partialUpdateBank(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankDTO bankDTO
@@ -145,7 +145,7 @@ public class BankResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of banks in body.
      */
-    @GetMapping("")
+    @GetMapping("/banks")
     public ResponseEntity<List<BankDTO>> getAllBanks(
         BankCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -163,7 +163,7 @@ public class BankResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/banks/count")
     public ResponseEntity<Long> countBanks(BankCriteria criteria) {
         log.debug("REST request to count Banks by criteria: {}", criteria);
         return ResponseEntity.ok().body(bankQueryService.countByCriteria(criteria));
@@ -175,7 +175,7 @@ public class BankResource {
      * @param id the id of the bankDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/banks/{id}")
     public ResponseEntity<BankDTO> getBank(@PathVariable Long id) {
         log.debug("REST request to get Bank : {}", id);
         Optional<BankDTO> bankDTO = bankService.findOne(id);
@@ -188,7 +188,7 @@ public class BankResource {
      * @param id the id of the bankDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/banks/{id}")
     public ResponseEntity<Void> deleteBank(@PathVariable Long id) {
         log.debug("REST request to delete Bank : {}", id);
         bankService.delete(id);
@@ -196,5 +196,36 @@ public class BankResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET  /banks/:id} : get the "id" bank.
+     *
+     * @param id the id of the bankDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/public/banks/{id}")
+    public ResponseEntity<BankDTO> getBankPublic(@PathVariable Long id) {
+        log.debug("REST request to get Bank : {}", id);
+        Optional<BankDTO> bankDTO = bankService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(bankDTO);
+    }
+
+    @GetMapping("/public/banks")
+    public ResponseEntity<List<BankDTO>> getAllBanksPublic(
+        BankCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Banks by criteria: {}", criteria);
+
+        Page<BankDTO> page = bankQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/public/banks/count")
+    public ResponseEntity<Long> countBanksPublic(BankCriteria criteria) {
+        log.debug("REST request to count Banks by criteria: {}", criteria);
+        return ResponseEntity.ok().body(bankQueryService.countByCriteria(criteria));
     }
 }

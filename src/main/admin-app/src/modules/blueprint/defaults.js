@@ -114,8 +114,8 @@ export default {
   },
   axios: {
     args: {
-      withCredentials: true,
-      timeout: 20000,
+      withCredentials: false,
+      timeout: 40000,
       baseURL: process.env.BP_PROXY_BASE_URL
         ? '/backend'
         : process.env.API_BASE_URL,

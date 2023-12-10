@@ -31,6 +31,10 @@ export default defineNuxtPlugin(async (app) => {
     })
 
   app.$axios.interceptors.request.use((config, ...args) => {
+    if (process.server) {
+      config.baseURL = process.env.ETRAVEL_API_BASE_URL
+    }
+
     if (axiosOptions.onRequest) {
       return axiosOptions.onRequest(config, ...args)
     } else {
@@ -53,7 +57,7 @@ export default defineNuxtPlugin(async (app) => {
       const mergedErrorHandler = _merge(
         {},
         axiosOptions,
-        error.config?.bpConfig?.error,
+        error.config?.bpConfig?.error
       )
 
       // If there is an error handler, call it.
@@ -73,13 +77,20 @@ export default defineNuxtPlugin(async (app) => {
       }
 
       // Get the error message from the response.
-      const errorMessage = _get(error.response, axiosOptions.props.errorMessage)
+      const errorMessage =
+        _get(error.response, axiosOptions.props.errorMessage?.[0]) ||
+        _get(error.response, axiosOptions.props.errorMessage?.[1])
       // Get the error alert key from the request config.
       const errorAlertKey = error.config?.bpConfig?.error?.alertKey || 'global'
 
       // If there is an error message, display it to the user.
-      if (errorMessage) {
-        app.$alerts.error(errorMessage, errorAlertKey)
+      if (errorMessage && !error.config.silence) {
+        app.$alerts.error(errorMessage, errorAlertKey, {
+          title:
+            _get(error.response, 'data.detail') ||
+            _get(error.response, 'data.entityName') ||
+            _get(error.response, 'data.errorKey'),
+        })
       }
 
       // Handle specific errors.
@@ -96,7 +107,7 @@ export default defineNuxtPlugin(async (app) => {
               .request(bpOptions.auth.endpoints.csrf)
               .then(() => app.$axios.request(error.config))
           } else {
-            if (!errorMessage) {
+            if (!errorMessage && !error.config.silence) {
               app.$alerts.error(app.$t('errors.other'), errorAlertKey)
             }
           }
@@ -115,9 +126,11 @@ export default defineNuxtPlugin(async (app) => {
           // Set the error bag on the error object.
           error.errorBag = handleValidation(
             error.response,
-            error.config.errorBag || {},
+            error.config.errorBag || {}
           )
           break
+        case 429:
+          throw createError({ fatal: true, statusCode: 429 })
         case 404:
           // If this is a GET request and the request config has a "notFound" property,
           // throw an error with the specified status code and message.
@@ -130,14 +143,14 @@ export default defineNuxtPlugin(async (app) => {
           break
         default:
           // If there is no error message, display a generic error message to the user.
-          if (!errorMessage) {
+          if (!errorMessage && !error.config.silence) {
             app.$alerts.error(app.$t('errors.other'), errorAlertKey)
           }
       }
 
       // Return a rejected promise with the error object.
       return Promise.reject(error)
-    },
+    }
   )
 })
 
@@ -148,7 +161,7 @@ const configDefaults = {
       if (needsRewrite) {
         data = Object.entries(data).reduce(
           (pv, [k, v]) => _merge(pv, _set({}, k, v)),
-          {},
+          {}
         )
       }
       return JSON.stringify(data)

@@ -4,7 +4,8 @@ export default {
     transactions: 'المعاملات المالية',
     merchants: 'التجار',
     paymentMethods: 'طرق الدفع',
-    banners: 'الإعلانات',
+    sliders: 'الإعلانات',
+    beneficiaries: 'المستهلكين',
   },
   attributes: {
     username: 'اسم المستخدم',

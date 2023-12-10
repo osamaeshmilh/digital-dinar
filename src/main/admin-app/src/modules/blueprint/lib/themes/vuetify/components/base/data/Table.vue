@@ -16,7 +16,7 @@
       :key="index"
       #[slot]="data"
     >
-      <slot :name="slot" v-bind="{ data, item: data.item.raw }"></slot>
+      <slot :name="slot" v-bind="{ data, item: data.item }"></slot>
     </template>
   </v-data-table-server>
 </template>

@@ -30,19 +30,51 @@ export default [
     attrs: { class: 'mt-4' },
   },
   {
-    icon: 'mdi-chart-bar',
+    icon: 'mdi-store',
     title: 'navigation.merchants',
     to: '/merchants',
   },
   {
-    icon: 'mdi-chart-bar',
+    icon: 'mdi-account-multiple',
+    title: 'navigation.beneficiaries',
+    to: '/beneficiaries',
+  },
+  {
+    icon: 'mdi-credit-card',
     title: 'navigation.paymentMethods',
     to: '/payment-methods',
   },
   {
-    icon: 'mdi-chart-bar',
-    title: 'navigation.banners',
-    to: '/banners',
+    icon: 'mdi-wallet',
+    title: 'navigation.wallet',
+    children: [
+      {
+        title: 'navigation.transactions',
+        to: '/wallet/transactions',
+      },
+      {
+        title: 'navigation.users',
+        to: '/wallet/users',
+      },
+      {
+        title: 'navigation.profiles',
+        to: '/wallet/profiles',
+      },
+    ],
+  },
+  {
+    icon: 'mdi-bank',
+    title: 'navigation.banks',
+    children: [
+      {
+        title: 'labels.all',
+        to: '/banks/all',
+      },
+      {
+        title: 'navigation.branches',
+        to: '/banks/branches',
+      },
+    ],
   },
   {
     icon: 'mdi-ticket-percent',
@@ -50,17 +82,27 @@ export default [
     children: [
       {
         title: 'labels.all',
-        to: '/voucher-management/vouchers',
+        to: '/vouchers/all',
       },
       {
         title: 'navigation.companies',
-        to: '/voucher-management/companies',
+        to: '/vouchers/companies',
       },
       {
         title: 'navigation.types',
-        to: '/voucher-management/types',
+        to: '/vouchers/types',
       },
     ],
+  },
+  {
+    icon: 'mdi-bell',
+    title: 'navigation.notifications',
+    to: '/notifications',
+  },
+  {
+    icon: 'mdi-play-box',
+    title: 'navigation.sliders',
+    to: '/sliders',
   },
   {
     icon: 'mdi-cog',

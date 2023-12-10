@@ -132,7 +132,10 @@ public class NotificationService {
         log.debug("Sending notification to Customer: {}", walletUserId);
 
         if (walletUserDTO.isPresent()) {
-            String firebaseId = userService.getUserWithAuthoritiesById(walletUserDTO.get().getUser().getId()).get().getFirebaseId();
+            String firebaseId = userService
+                .getUserWithAuthoritiesById(walletUserDTO.get().getUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found"))
+                .getFirebaseId();
 
             log.debug("Firebase ID: {}", firebaseId);
 

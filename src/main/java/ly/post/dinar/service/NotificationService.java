@@ -128,48 +128,41 @@ public class NotificationService {
 
     public void sendNotificationToCustomer(Long walletUserId, String title, String message) {
         final String FIREBASE_API_KEY = "AsIct0U:-LmSZ35-";
-        Optional<WalletUserDTO> walletUserDTO = walletUserService.findOne(walletUserId);
-        log.debug("Sending notification to Customer: {}", walletUserId);
+        WalletUserDTO walletUserDTO = walletUserService
+            .findOne(walletUserId)
+            .orElseThrow(() -> new RuntimeException("Wallet User not found"));
+        String firebaseId = userService
+            .getUserWithAuthoritiesById(walletUserDTO.getUser().getId())
+            .orElseThrow(() -> new RuntimeException("User not found"))
+            .getFirebaseId();
 
-        if (walletUserDTO.isPresent()) {
-            String firebaseId = userService
-                .getUserWithAuthoritiesById(walletUserDTO.get().getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"))
-                .getFirebaseId();
+        try {
+            JSONObject jsonInput = new JSONObject();
+            jsonInput.put("to", firebaseId);
 
-            log.debug("Firebase ID: {}", firebaseId);
+            JSONObject notification = new JSONObject();
+            notification.put("title", title);
+            notification.put("body", message);
+            jsonInput.put("notification", notification);
 
-            try {
-                JSONObject jsonInput = new JSONObject();
-                jsonInput.put("to", firebaseId);
+            HttpResponse<String> response = Unirest
+                .post("https://fcm.googleapis.com/fcm/send")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "key=" + FIREBASE_API_KEY)
+                .body(jsonInput.toString())
+                .asString();
 
-                JSONObject notification = new JSONObject();
-                notification.put("title", title);
-                notification.put("body", message);
-                jsonInput.put("notification", notification);
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setTitle(title);
+            notificationDTO.setDescription(message);
+            notificationDTO.setUserId(walletUserId);
 
-                HttpResponse<String> response = Unirest
-                    .post("https://fcm.googleapis.com/fcm/send")
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", "key=" + FIREBASE_API_KEY)
-                    .body(jsonInput.toString())
-                    .asString();
+            save(notificationDTO);
 
-                NotificationDTO notificationDTO = new NotificationDTO();
-                notificationDTO.setTitle(title);
-                notificationDTO.setDescription(message);
-                notificationDTO.setUserId(walletUserId);
-
-                save(notificationDTO);
-
-                log.debug("Firebase response: {}", response.getBody());
-            } catch (Exception ex) {
-                log.error("Error sending Firebase notification", ex);
-                throw new BadRequestAlertException("Failed to send notification", ex.toString(), "idnotfound");
-            }
-        } else {
-            log.warn("Wallet User not found: {}", walletUserId);
-            throw new BadRequestAlertException("Wallet User not found", "USER_NOT_FOUND", "idnotfound");
+            log.debug("Firebase response: {}", response.getBody());
+        } catch (Exception ex) {
+            log.error("Error sending Firebase notification", ex);
+            throw new BadRequestAlertException("Failed to send notification", ex.toString(), "idnotfound");
         }
     }
 }

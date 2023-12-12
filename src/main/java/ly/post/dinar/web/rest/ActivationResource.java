@@ -259,4 +259,14 @@ public class ActivationResource {
             activationService.sendEmailOTP(currentUser.getEmail());
         }
     }
+
+    @PostMapping(path = "/public/activation/check-email-otp")
+    public void checkEmailOTP(@RequestParam String email, @RequestParam String otp) {
+        activationService.checkCodeWithEmail(email, otp);
+    }
+
+    @PostMapping(path = "/public/activation/check-sms-otp")
+    public void sendSmsOTP(@RequestParam String mobileNo, @RequestParam String otp) {
+        activationService.checkCodeWithMobileNo(mobileNo, otp);
+    }
 }

@@ -7,7 +7,7 @@ definePageMeta({
   middleware: 'auth',
   breadcrumb: [
     { title: 'navigation.vouchers' },
-    { title: 'navigation.companies' },
+    { title: 'navigation.voucherCompanies' },
   ],
 })
 </script>

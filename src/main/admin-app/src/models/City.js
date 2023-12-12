@@ -7,8 +7,8 @@ class City extends Model {
 
   static tableHeaders = [
     { text: '#', value: 'id' },
-    { text: 'attributes.nameAr', value: 'data.nameAr' },
-    { text: 'attributes.nameEn', value: 'data.nameEn' },
+    { text: 'attributes.city.nameAr', value: 'data.nameAr' },
+    { text: 'attributes.city.nameEn', value: 'data.nameEn' },
     { text: 'attributes.country', value: 'data.country.nameAr' },
     { text: 'attributes.created_at', value: 'createdAt' },
   ]

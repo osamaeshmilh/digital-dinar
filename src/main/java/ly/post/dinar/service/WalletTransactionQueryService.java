@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import ly.post.dinar.domain.*; // for static metamodels
 import ly.post.dinar.domain.WalletTransaction;
+import ly.post.dinar.domain.enumeration.WalletAction;
 import ly.post.dinar.repository.WalletTransactionRepository;
 import ly.post.dinar.service.criteria.WalletTransactionCriteria;
 import ly.post.dinar.service.dto.WalletTransactionDTO;
@@ -163,5 +164,21 @@ public class WalletTransactionQueryService extends QueryService<WalletTransactio
             }
         }
         return specification;
+    }
+
+    @Transactional(readOnly = true)
+    public Float sumTotalByCriteria(WalletTransactionCriteria criteria) {
+        log.debug("sum by criteria : {}", criteria);
+        final Specification<WalletTransaction> specification = createSpecification(criteria);
+        List<WalletTransaction> walletTransactions = walletTransactionRepository.findAll(specification);
+        Float total = 0.0F;
+        for (WalletTransaction walletTransaction : walletTransactions) {
+            if (walletTransaction.getWalletAction() == WalletAction.DEPOSIT) {
+                total += walletTransaction.getAmount();
+            } else if (walletTransaction.getWalletAction() == WalletAction.WITHDRAW) {
+                total -= walletTransaction.getAmount();
+            }
+        }
+        return total;
     }
 }

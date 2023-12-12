@@ -7,9 +7,10 @@ class BankBranch extends Model {
 
   static tableHeaders = [
     { text: '#', value: 'id' },
-    { text: 'attributes.nameAr', value: 'data.nameAr' },
-    { text: 'attributes.nameEn', value: 'data.nameEn' },
-    { text: 'attributes.bank', value: 'data.bank' },
+    { text: 'attributes.bankBranch.nameAr', value: 'data.nameAr' },
+    { text: 'attributes.bankBranch.nameEn', value: 'data.nameEn' },
+    { text: 'attributes.bankBranch.address', value: 'data.address' },
+    { text: 'attributes.bankBranch.bank', value: 'data.bank.nameAr' },
     { text: 'attributes.created_at', value: 'createdAt' },
   ]
 

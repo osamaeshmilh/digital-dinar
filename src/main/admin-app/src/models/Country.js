@@ -7,9 +7,11 @@ class Country extends Model {
 
   static tableHeaders = [
     { text: '#', value: 'id' },
-    { text: 'attributes.nameAr', value: 'data.nameAr' },
-    { text: 'attributes.nameEn', value: 'data.nameEn' },
-    { text: 'attributes.isoNo', value: 'data.isoNo' },
+    { text: 'attributes.country.nameAr', value: 'data.nameAr' },
+    { text: 'attributes.country.nameEn', value: 'data.nameEn' },
+    { text: 'attributes.country.iso2', value: 'data.iso2' },
+    { text: 'attributes.country.iso3', value: 'data.iso3' },
+    { text: 'attributes.country.isoNo', value: 'data.isoNo' },
     { text: 'attributes.created_at', value: 'createdAt' },
   ]
 

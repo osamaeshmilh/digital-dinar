@@ -7,6 +7,34 @@ class WalletUser extends Model {
 
   static tableHeaders = [
     { text: '#', value: 'id' },
+    {
+      text: 'attributes.walletUser.arabicFirstName',
+      value: 'data.arabicFirstName',
+    },
+    {
+      text: 'attributes.walletUser.arabicLastName',
+      value: 'data.arabicLastName',
+    },
+    {
+      text: 'attributes.walletUser.englishFirstName',
+      value: 'data.englishFirstName',
+    },
+    {
+      text: 'attributes.walletUser.englishLastName',
+      value: 'data.englishLastName',
+    },
+    {
+      text: 'attributes.walletUser.commercialRegistryNo',
+      value: 'data.commercialRegistryNo',
+    },
+    {
+      text: 'attributes.walletUser.commercialLicenceNo',
+      value: 'data.commercialLicenceNo',
+    },
+    {
+      text: 'attributes.walletUser.commercialName',
+      value: 'data.commercialName',
+    },
     { text: 'attributes.created_at', value: 'createdAt' },
   ]
 

@@ -7,9 +7,9 @@ class Bank extends Model {
 
   static tableHeaders = [
     { text: '#', value: 'id' },
-    { text: 'attributes.nameAr', value: 'data.nameAr' },
-    { text: 'attributes.nameEn', value: 'data.nameEn' },
-    { text: 'attributes.swiftCode', value: 'data.swiftCode' },
+    { text: 'attributes.bank.nameAr', value: 'data.nameAr' },
+    { text: 'attributes.bank.nameEn', value: 'data.nameEn' },
+    { text: 'attributes.bank.swiftCode', value: 'data.swiftCode' },
     { text: 'attributes.created_at', value: 'createdAt' },
   ]
 

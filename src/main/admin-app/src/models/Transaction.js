@@ -9,6 +9,7 @@ class Transaction extends Model {
     { text: '#', value: 'id' },
     { text: 'attributes.notes', value: 'data.paymentType' },
     { text: 'attributes.total', value: 'data.total' },
+
     { text: 'attributes.created_at', value: 'createdAt' },
   ]
 

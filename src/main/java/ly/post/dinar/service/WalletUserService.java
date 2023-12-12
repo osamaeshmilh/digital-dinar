@@ -213,4 +213,8 @@ public class WalletUserService {
         walletUserDTO.setIsKYCVerified(true);
         save(walletUserDTO);
     }
+
+    public Optional<WalletUserDTO> findOneByWalletPublicKey(String walletPublicKey) {
+        return walletUserRepository.findTopByWalletPublicKey(walletPublicKey).map(walletUserMapper::toDto);
+    }
 }

@@ -5,7 +5,10 @@
 <script setup>
 definePageMeta({
   middleware: 'auth',
-  breadcrumb: [{ title: 'navigation.banks' }, { title: 'navigation.branches' }],
+  breadcrumb: [
+    { title: 'navigation.banks' },
+    { title: 'navigation.bankBranches' },
+  ],
 })
 </script>
 

@@ -7,9 +7,9 @@ class Category extends Model {
 
   static tableHeaders = [
     { text: '#', value: 'id' },
-    { text: 'attributes.nameAr', value: 'data.nameAr' },
-    { text: 'attributes.nameEn', value: 'data.nameEn' },
-    { text: 'attributes.code', value: 'data.code' },
+    { text: 'attributes.category.nameAr', value: 'data.nameAr' },
+    { text: 'attributes.category.nameEn', value: 'data.nameEn' },
+    { text: 'attributes.category.code', value: 'data.code' },
     { text: 'attributes.created_at', value: 'createdAt' },
   ]
 

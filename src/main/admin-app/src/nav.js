@@ -53,11 +53,11 @@ export default [
         to: '/wallet/transactions',
       },
       {
-        title: 'navigation.users',
+        title: 'navigation.walletUsers',
         to: '/wallet/users',
       },
       {
-        title: 'navigation.profiles',
+        title: 'navigation.walletProfiles',
         to: '/wallet/profiles',
       },
     ],
@@ -71,7 +71,7 @@ export default [
         to: '/banks/all',
       },
       {
-        title: 'navigation.branches',
+        title: 'navigation.bankBranches',
         to: '/banks/branches',
       },
     ],
@@ -85,24 +85,19 @@ export default [
         to: '/vouchers/all',
       },
       {
-        title: 'navigation.companies',
+        title: 'navigation.voucherCompanies',
         to: '/vouchers/companies',
       },
       {
-        title: 'navigation.types',
+        title: 'navigation.voucherTypes',
         to: '/vouchers/types',
       },
     ],
   },
   {
-    icon: 'mdi-bell',
-    title: 'navigation.notifications',
-    to: '/notifications',
-  },
-  {
-    icon: 'mdi-play-box',
-    title: 'navigation.sliders',
-    to: '/sliders',
+    icon: 'mdi-account-multiple',
+    title: 'navigation.users',
+    to: '/settings/users',
   },
   {
     icon: 'mdi-cog',
@@ -121,8 +116,14 @@ export default [
         to: '/settings/categories',
       },
       {
-        title: 'navigation.users',
-        to: '/settings/users',
+        // icon: 'mdi-bell',
+        title: 'navigation.notifications',
+        to: '/notifications',
+      },
+      {
+        // icon: 'mdi-play-box',
+        title: 'navigation.sliders',
+        to: '/sliders',
       },
     ],
   },

@@ -152,7 +152,8 @@ public class ActivationService {
 
     public void sendSMSAndEmailOTP(String mobileNo, String email) {
         // Generate a common OTP code for both SMS and Email
-        String commonCode = RandomStringUtils.randomNumeric(4);
+        //        String commonCode = RandomStringUtils.randomNumeric(4);
+        String commonCode = "1111";
 
         // Create or Update Email Activation
         Activation emailActivation = activationRepository.findByEmail(email).orElseGet(() -> createNewActivationForEmail(email));
@@ -186,7 +187,9 @@ public class ActivationService {
     }
 
     private void generateAndSaveActivationCode(Activation activation) {
-        String code = RandomStringUtils.randomNumeric(4);
+        //        String code = RandomStringUtils.randomNumeric(4);
+        String code = "1111";
+
         activation.setCode(code);
         activation.setIsUsed(false);
         activation.setValidUntil(Instant.now().plus(1, ChronoUnit.HOURS));

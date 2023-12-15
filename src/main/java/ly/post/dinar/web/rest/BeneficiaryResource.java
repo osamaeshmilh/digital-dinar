@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import ly.post.dinar.repository.BeneficiaryRepository;
+import ly.post.dinar.security.AuthoritiesConstants;
+import ly.post.dinar.security.SecurityUtils;
 import ly.post.dinar.service.BeneficiaryQueryService;
 import ly.post.dinar.service.BeneficiaryService;
+import ly.post.dinar.service.WalletUserService;
 import ly.post.dinar.service.criteria.BeneficiaryCriteria;
 import ly.post.dinar.service.dto.BeneficiaryDTO;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
@@ -20,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -44,14 +48,18 @@ public class BeneficiaryResource {
 
     private final BeneficiaryQueryService beneficiaryQueryService;
 
+    private final WalletUserService walletUserService;
+
     public BeneficiaryResource(
         BeneficiaryService beneficiaryService,
         BeneficiaryRepository beneficiaryRepository,
-        BeneficiaryQueryService beneficiaryQueryService
+        BeneficiaryQueryService beneficiaryQueryService,
+        WalletUserService walletUserService
     ) {
         this.beneficiaryService = beneficiaryService;
         this.beneficiaryRepository = beneficiaryRepository;
         this.beneficiaryQueryService = beneficiaryQueryService;
+        this.walletUserService = walletUserService;
     }
 
     /**
@@ -158,7 +166,22 @@ public class BeneficiaryResource {
     ) {
         log.debug("REST request to get Beneficiaries by criteria: {}", criteria);
 
-        Page<BeneficiaryDTO> page = beneficiaryQueryService.findByCriteria(criteria, pageable);
+        Page<BeneficiaryDTO> page;
+
+        LongFilter longFilter = new LongFilter();
+        if (
+            SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER) ||
+            SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.MERCHANT)
+        ) {
+            longFilter.setEquals(walletUserService.findOneByUser().getId());
+            criteria.setWalletUserId(longFilter);
+            page = beneficiaryQueryService.findByCriteria(criteria, pageable);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            page = beneficiaryQueryService.findByCriteria(criteria, pageable);
+        } else {
+            page = Page.empty();
+        }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

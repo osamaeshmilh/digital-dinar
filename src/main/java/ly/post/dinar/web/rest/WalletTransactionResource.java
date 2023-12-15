@@ -176,7 +176,21 @@ public class WalletTransactionResource {
     ) {
         log.debug("REST request to get WalletTransactions by criteria: {}", criteria);
 
-        Page<WalletTransactionDTO> page = walletTransactionQueryService.findByCriteria(criteria, pageable);
+        Page<WalletTransactionDTO> page;
+        LongFilter longFilter = new LongFilter();
+        if (
+            SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER) ||
+            SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.MERCHANT)
+        ) {
+            longFilter.setEquals(walletUserService.findOneByUser().getId());
+            criteria.setWalletUserId(longFilter);
+            page = walletTransactionQueryService.findByCriteria(criteria, pageable);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            page = walletTransactionQueryService.findByCriteria(criteria, pageable);
+        } else {
+            page = Page.empty();
+        }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

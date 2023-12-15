@@ -84,7 +84,7 @@ public class CheckResource {
         //            throw new BadRequestAlertException("خطأ بخدمة التحقق من رقم الهاتف بشركة المدار !", "", "nidError2");
         //        }
 
-        return ResponseEntity.ok().body("true");
+        return ResponseEntity.ok().body("{ status: true, }");
     }
 
     @GetMapping(path = "/public/check/post-code/")

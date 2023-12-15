@@ -266,7 +266,7 @@ public class ActivationResource {
     }
 
     @PostMapping(path = "/public/activation/check-sms-otp")
-    public void sendSmsOTP(@RequestParam String mobileNo, @RequestParam String otp) {
+    public void checkSmsOTP(@RequestParam String mobileNo, @RequestParam String otp) {
         activationService.checkCodeWithMobileNo(mobileNo, otp);
     }
 }

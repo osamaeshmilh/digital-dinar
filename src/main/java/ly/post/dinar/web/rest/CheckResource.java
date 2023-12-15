@@ -51,7 +51,7 @@ public class CheckResource {
         if (!nationalNo.equals("123456789012")) {
             throw new BadRequestAlertException("بيانات خاطئة من منظومة الرقم الوطني !", "", "nidError2");
         }
-        return ResponseEntity.ok().body("{" + "\"firstName\": 'محمد'," + "\"lastName\": 'علي'" + "}");
+        return ResponseEntity.ok().body("{" + "firstName: \"محمد\"," + "lastName: \"علي\"" + "}");
     }
 
     @GetMapping(path = "/public/check/nid-mobile/")

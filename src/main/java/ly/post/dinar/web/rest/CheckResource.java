@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import jakarta.servlet.http.HttpServletRequest;
 import ly.post.dinar.service.RecaptchaService;
+import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,9 @@ public class CheckResource {
         //            throw new BadRequestAlertException("خطأ بخدمة الرقم الوطني !", "", "nidError2");
         //        }
 
+        if (!nationalNo.equals("123456789012")) {
+            throw new BadRequestAlertException("بيانات خاطئة من منظومة الرقم الوطني !", "", "nidError2");
+        }
         return ResponseEntity.ok().body("محمد علي");
     }
 
@@ -85,20 +89,20 @@ public class CheckResource {
 
     @GetMapping(path = "/public/check/post-code/")
     public ResponseEntity<String> checkPostCode(String postCode, String recapchaToken, HttpServletRequest request) {
-        //        try {
-        //            HttpResponse<JsonNode> response = Unirest.get("https://npa.ly/map/search/ajax")
-        //                .queryString("txtSearch", postCode) // Adjust this based on your requirements
-        //                .header("Accept", "application/json")
-        //                .asJson();
-        //
-        //            // Process the response as needed
-        //            String responseBody = response.getBody().toString();
-        //            return ResponseEntity.ok(responseBody);
-        //        } catch (Exception e) {
-        //            // Handle exceptions appropriately
-        //            return ResponseEntity.status(500).body("Error occurred: " + e.getMessage());
-        //        }
+        try {
+            HttpResponse<JsonNode> response = Unirest
+                .get("https://npa.ly/map/search/ajax")
+                .queryString("txtSearch", postCode) // Adjust this based on your requirements
+                .header("Accept", "application/json")
+                .asJson();
 
-        return ResponseEntity.ok().body("{" + "postCode: 10.10.100," + "lat: 32.222222," + "lng: 12.222222," + "}");
+            // Process the response as needed
+            String responseBody = response.getBody().toString();
+            return ResponseEntity.ok(responseBody);
+        } catch (Exception e) {
+            // Handle exceptions appropriately
+            return ResponseEntity.status(500).body("Error occurred: " + e.getMessage());
+        }
+        //        return ResponseEntity.ok().body("{" + "postCode: 10.10.100," + "lat: 32.222222," + "lng: 12.222222," + "}");
     }
 }

@@ -11,6 +11,7 @@ import ly.post.dinar.security.AuthoritiesConstants;
 import ly.post.dinar.service.dto.WalletUserDTO;
 import ly.post.dinar.service.mapper.WalletUserMapper;
 import ly.post.dinar.service.utils.FileTools;
+import ly.post.dinar.service.utils.WalletKeyTools;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import ly.post.dinar.web.rest.vm.ManagedUserVM;
 import org.slf4j.Logger;
@@ -141,8 +142,10 @@ public class WalletUserService {
     public WalletUserDTO create(WalletUserDTO walletUserDTO) {
         String role = walletUserDTO.getWalletType() == WalletType.CONSUMER ? AuthoritiesConstants.CONSUMER : AuthoritiesConstants.MERCHANT;
         ManagedUserVM managedUserVM = new ManagedUserVM();
-        managedUserVM.setFirstName(walletUserDTO.getArabicFirstName());
-        managedUserVM.setFirstName(walletUserDTO.getArabicLastName());
+        managedUserVM.setFirstName("test");
+        managedUserVM.setLastName("test2");
+        // managedUserVM.setFirstName(walletUserDTO.getArabicFirstName());
+        // managedUserVM.setFirstName(walletUserDTO.getArabicLastName());
         managedUserVM.setEmail(walletUserDTO.getEmail());
         managedUserVM.setLogin(walletUserDTO.getEmail());
         managedUserVM.setMobileNo(walletUserDTO.getMobileNo());
@@ -151,15 +154,15 @@ public class WalletUserService {
 
         WalletUser walletUser = walletUserMapper.toEntity(walletUserDTO);
         walletUser.setUser(user);
-        walletUser.setWalletPublicKey(UUID.randomUUID().toString());
+        walletUser.setWalletPublicKey(WalletKeyTools.generateRandomString());
         walletUser.setIsKYCVerified(false);
 
-        if (walletUserDTO.getImageFile() != null) {
-            String filePath = FileTools.upload(walletUser.getImageFile(), walletUser.getImageFileContentType(), "walletUser");
-            walletUser.setImageFile(null);
-            walletUser.setImageFileContentType(walletUserDTO.getImageFileContentType());
-            walletUser.setImageUrlFile(filePath);
-        }
+        //        if (walletUserDTO.getImageFile() != null) {
+        //            String filePath = FileTools.upload(walletUser.getImageFile(), walletUser.getImageFileContentType(), "walletUser");
+        //            walletUser.setImageFile(null);
+        //            walletUser.setImageFileContentType(walletUserDTO.getImageFileContentType());
+        //            walletUser.setImageUrlFile(filePath);
+        //        }
 
         walletUser = walletUserRepository.save(walletUser);
 

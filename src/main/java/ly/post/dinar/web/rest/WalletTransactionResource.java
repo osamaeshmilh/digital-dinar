@@ -320,19 +320,19 @@ public class WalletTransactionResource {
         WalletTransactionDTO result = null;
         if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER)) {
             WalletUserDTO fromCustomer = walletUserService.findOneDTOByUser();
-            if (fromCustomer.getVerifiedByMobileOtp()) activationService.checkCodeWithMobileNo(fromCustomer.getMobileNo(), otp); else if (
-                fromCustomer.getVerifiedByEmailOtp()
-            ) activationService.checkCodeWithEmail(fromCustomer.getEmail(), otp); else throw new BadRequestAlertException(
-                "No Verification Way !",
-                "",
-                "NO_VERIFICATION_WAY"
-            );
+            //            if (fromCustomer.getVerifiedByMobileOtp()) activationService.checkCodeWithMobileNo(fromCustomer.getMobileNo(), otp); else if (
+            //                fromCustomer.getVerifiedByEmailOtp()
+            //            ) activationService.checkCodeWithEmail(fromCustomer.getEmail(), otp); else throw new BadRequestAlertException(
+            //                "No Verification Way !",
+            //                "",
+            //                "NO_VERIFICATION_WAY"
+            //            );
+            //
+            //            if (!fromCustomer.getIsKYCVerified()) {
+            //                throw new BadRequestAlertException("Customer Not Verified !", "", "CUSTOMER_NOT_VERIFIED");
+            //            }
 
-            if (!fromCustomer.getIsKYCVerified()) {
-                throw new BadRequestAlertException("Customer Not Verified !", "", "CUSTOMER_NOT_VERIFIED");
-            }
-
-            if (!walletUserService.findOneByMobileNo(mobileNo).isPresent()) throw new BadRequestAlertException(
+            if (walletUserService.findOneByMobileNo(mobileNo).isEmpty()) throw new BadRequestAlertException(
                 "Mobile not found!",
                 ENTITY_NAME,
                 "CUSTOMER_NOT_FOUND"
@@ -342,7 +342,7 @@ public class WalletTransactionResource {
                 .findOneByMobileNo(mobileNo)
                 .orElseThrow(() -> new BadRequestAlertException("Not found !", "", "NOT_FOUND"));
 
-            if (fromCustomer.getId() == toCustomer.getId()) throw new BadRequestAlertException(
+            if (fromCustomer.getId().equals(toCustomer.getId())) throw new BadRequestAlertException(
                 "Can not transfer to yourself!",
                 ENTITY_NAME,
                 "TRANSFER_NOT_ALLOWED_TO_SAME_CUSTOMER"

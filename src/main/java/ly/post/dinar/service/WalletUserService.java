@@ -147,7 +147,7 @@ public class WalletUserService {
         // managedUserVM.setFirstName(walletUserDTO.getArabicFirstName());
         // managedUserVM.setFirstName(walletUserDTO.getArabicLastName());
         managedUserVM.setEmail(walletUserDTO.getEmail());
-        managedUserVM.setLogin(walletUserDTO.getEmail());
+        managedUserVM.setLogin(walletUserDTO.getMobileNo());
         managedUserVM.setMobileNo(walletUserDTO.getMobileNo());
 
         User user = userService.createAndAssignUserWithPassword(managedUserVM, role, walletUserDTO.getNewPassword());

@@ -230,13 +230,13 @@ public class WalletUserResource {
             walletUserDTO.setVerifiedByMobileOtp(false);
         }
 
-        if (walletUserDTO.getVerifiedByEmailOtp()) {
-            activationService.checkCodeWithEmail(walletUserDTO.getEmail(), walletUserDTO.getOtp());
-        } else if (walletUserDTO.getVerifiedByMobileOtp()) {
-            activationService.checkCodeWithMobileNo(walletUserDTO.getMobileNo(), walletUserDTO.getOtp());
-        } else {
-            throw new BadRequestAlertException("No Verification!", ENTITY_NAME, "NO_VERIFICATION");
-        }
+        //        if (walletUserDTO.getVerifiedByEmailOtp()) {
+        //            activationService.checkCodeWithEmail(walletUserDTO.getEmail(), walletUserDTO.getOtp());
+        //        } else if (walletUserDTO.getVerifiedByMobileOtp()) {
+        //            activationService.checkCodeWithMobileNo(walletUserDTO.getMobileNo(), walletUserDTO.getOtp());
+        //        } else {
+        //            throw new BadRequestAlertException("No Verification!", ENTITY_NAME, "NO_VERIFICATION");
+        //        }
 
         WalletUserDTO result = walletUserService.create(walletUserDTO);
         return ResponseEntity

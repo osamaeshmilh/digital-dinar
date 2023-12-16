@@ -131,6 +131,7 @@
             <column name="wallet_public_key" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -143,6 +144,7 @@
             <column name="last_modified_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
+
             <column name="user_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_wallet_user__user_id" />
             </column>

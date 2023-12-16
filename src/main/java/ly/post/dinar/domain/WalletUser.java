@@ -152,18 +152,6 @@ public class WalletUser extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "wallet_public_key")
     private String walletPublicKey;
 
-    @Column(name = "created_by")
-    private String createdBy;
-
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Column(name = "last_modified_by")
-    private String lastModifiedBy;
-
-    @Column(name = "last_modified_date")
-    private Instant lastModifiedDate;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private User user;

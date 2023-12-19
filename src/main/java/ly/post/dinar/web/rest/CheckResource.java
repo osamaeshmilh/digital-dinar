@@ -6,6 +6,8 @@ import com.mashape.unirest.http.Unirest;
 import jakarta.servlet.http.HttpServletRequest;
 import ly.post.dinar.service.RecaptchaService;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +53,15 @@ public class CheckResource {
         if (!nationalNo.equals("123456789012")) {
             throw new BadRequestAlertException("بيانات خاطئة من منظومة الرقم الوطني !", "", "nidError2");
         }
-        return ResponseEntity.ok().body("{" + "firstName: \"محمد\"," + "lastName: \"علي\"" + "}");
+
+        // Return hardcoded JSON as a string
+        String json = "{\"firstName\": \"محمد\", \"lastName\": \"علي\"}";
+
+        // Set the Content-Type header to application/json
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return ResponseEntity.ok().headers(headers).body(json);
     }
 
     @GetMapping(path = "/public/check/nid-mobile/")

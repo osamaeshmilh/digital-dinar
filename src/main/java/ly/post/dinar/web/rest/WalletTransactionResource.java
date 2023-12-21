@@ -17,6 +17,7 @@ import ly.post.dinar.service.WalletUserService;
 import ly.post.dinar.service.criteria.WalletTransactionCriteria;
 import ly.post.dinar.service.dto.WalletTransactionDTO;
 import ly.post.dinar.service.dto.WalletUserDTO;
+import ly.post.dinar.service.dto.requests.WalletTransferRequest;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -250,32 +251,27 @@ public class WalletTransactionResource {
     }
 
     @PostMapping("/wallet-transactions/wallet-transfer")
-    public ResponseEntity<WalletTransactionDTO> WalletToWalletTransfer(
-        @RequestParam String toCustomerPublicKey,
-        @RequestParam Float amount,
-        @RequestParam String otp
-    ) throws URISyntaxException {
-        System.out.println(walletUserService.findOneUser().getResetKey() + " " + otp);
+    public ResponseEntity<WalletTransactionDTO> WalletToWalletTransfer(WalletTransferRequest walletTransferRequest)
+        throws URISyntaxException {
+        System.out.println(walletUserService.findOneUser().getResetKey() + " " + walletTransferRequest.getOtp());
 
         WalletTransactionDTO result = null;
         if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER)) {} else {}
-        if (!walletUserService.findOneByWalletPublicKey(toCustomerPublicKey).isPresent()) throw new BadRequestAlertException(
-            "Wallet Key not found!",
-            ENTITY_NAME,
-            "CUSTOMER_NOT_FOUND"
-        );
+        if (
+            !walletUserService.findOneByWalletPublicKey(walletTransferRequest.getWalletPublicKey()).isPresent()
+        ) throw new BadRequestAlertException("Wallet Key not found!", ENTITY_NAME, "CUSTOMER_NOT_FOUND");
 
         WalletUserDTO fromCustomer = walletUserService.findOneDTOByUser();
         WalletUserDTO toCustomer = walletUserService
-            .findOneByWalletPublicKey(toCustomerPublicKey)
+            .findOneByWalletPublicKey(walletTransferRequest.getWalletPublicKey())
             .orElseThrow(() -> new BadRequestAlertException("Not found !", "", "NOT_FOUND"));
-        if (fromCustomer.getVerifiedByMobileOtp()) activationService.checkCodeWithMobileNo(fromCustomer.getMobileNo(), otp); else if (
-            fromCustomer.getVerifiedByEmailOtp()
-        ) activationService.checkCodeWithEmail(fromCustomer.getEmail(), otp); else throw new BadRequestAlertException(
-            "No Verification Way !",
-            "",
-            "NO_VERIFICATION_WAY"
-        );
+        if (fromCustomer.getVerifiedByMobileOtp()) activationService.checkCodeWithMobileNo(
+            fromCustomer.getMobileNo(),
+            walletTransferRequest.getOtp()
+        ); else if (fromCustomer.getVerifiedByEmailOtp()) activationService.checkCodeWithEmail(
+            fromCustomer.getEmail(),
+            walletTransferRequest.getOtp()
+        ); else throw new BadRequestAlertException("No Verification Way !", "", "NO_VERIFICATION_WAY");
 
         if (fromCustomer.getWalletStatus() == WalletStatus.SUSPENDED) {
             throw new BadRequestAlertException("Wallet Suspended !", "", "CUSTOMER_BANNED");
@@ -290,7 +286,7 @@ public class WalletTransactionResource {
             "TRANSFER_NOT_ALLOWED_TO_SAME_CUSTOMER"
         );
 
-        result = walletTransactionService.walletTransfer(fromCustomer, toCustomer, amount);
+        result = walletTransactionService.walletTransfer(fromCustomer, toCustomer, walletTransferRequest.getAmount());
 
         return ResponseEntity
             .created(new URI("/api/customer-wallets/" + result.getId()))
@@ -306,16 +302,14 @@ public class WalletTransactionResource {
     //    }
 
     @PostMapping("/wallet-transactions/transfer-mobile")
-    public ResponseEntity<WalletTransactionDTO> customerWalletTransferMobile(
-        @RequestParam String mobileNo,
-        @RequestParam Float amount,
-        @RequestParam String otp
-    ) throws URISyntaxException {
+    public ResponseEntity<WalletTransactionDTO> customerWalletTransferMobile(WalletTransferRequest walletTransferRequest)
+        throws URISyntaxException {
+        String mobileNo = walletTransferRequest.getWalletMobileNo();
         mobileNo = mobileNo.trim();
         mobileNo = mobileNo.replace("+", "");
         mobileNo = mobileNo.replace(" ", "");
 
-        System.out.println(walletUserService.findOneUser().getResetKey() + " " + otp + " " + mobileNo);
+        System.out.println(walletUserService.findOneUser().getResetKey() + " " + walletTransferRequest.getOtp() + " " + mobileNo);
 
         WalletTransactionDTO result = null;
         if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER)) {
@@ -347,7 +341,7 @@ public class WalletTransactionResource {
                 ENTITY_NAME,
                 "TRANSFER_NOT_ALLOWED_TO_SAME_CUSTOMER"
             );
-            result = walletTransactionService.walletTransfer(fromCustomer, toCustomer, amount);
+            result = walletTransactionService.walletTransfer(fromCustomer, toCustomer, walletTransferRequest.getAmount());
         }
         return ResponseEntity
             .created(new URI("/api/customer-wallets/" + result.getId()))

@@ -32,7 +32,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link ly.post.dinar.domain.Transaction}.
  */
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/api")
 public class TransactionResource {
 
     private final Logger log = LoggerFactory.getLogger(TransactionResource.class);
@@ -69,7 +69,7 @@ public class TransactionResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new transactionDTO, or with status {@code 400 (Bad Request)} if the transaction has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/transactions")
     public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO transactionDTO) throws URISyntaxException {
         log.debug("REST request to save Transaction : {}", transactionDTO);
         if (transactionDTO.getId() != null) {
@@ -92,7 +92,7 @@ public class TransactionResource {
      * or with status {@code 500 (Internal Server Error)} if the transactionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/transactions/{id}")
     public ResponseEntity<TransactionDTO> updateTransaction(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody TransactionDTO transactionDTO
@@ -127,7 +127,7 @@ public class TransactionResource {
      * or with status {@code 500 (Internal Server Error)} if the transactionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/transactions/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<TransactionDTO> partialUpdateTransaction(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody TransactionDTO transactionDTO
@@ -159,7 +159,7 @@ public class TransactionResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transactions in body.
      */
-    @GetMapping("")
+    @GetMapping("/transactions")
     public ResponseEntity<List<TransactionDTO>> getAllTransactions(
         TransactionCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -193,7 +193,7 @@ public class TransactionResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/transactions/count")
     public ResponseEntity<Long> countTransactions(TransactionCriteria criteria) {
         log.debug("REST request to count Transactions by criteria: {}", criteria);
         return ResponseEntity.ok().body(transactionQueryService.countByCriteria(criteria));
@@ -205,7 +205,7 @@ public class TransactionResource {
      * @param id the id of the transactionDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the transactionDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/transactions/{id}")
     public ResponseEntity<TransactionDTO> getTransaction(@PathVariable Long id) {
         log.debug("REST request to get Transaction : {}", id);
         Optional<TransactionDTO> transactionDTO = transactionService.findOne(id);
@@ -218,7 +218,7 @@ public class TransactionResource {
      * @param id the id of the transactionDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/transactions/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
         log.debug("REST request to delete Transaction : {}", id);
         transactionService.delete(id);
@@ -226,5 +226,18 @@ public class TransactionResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/transactions/new-cash-transfer")
+    public ResponseEntity<TransactionDTO> newCashTransferTransaction(@RequestBody TransactionDTO transactionDTO) throws URISyntaxException {
+        log.debug("REST request to save Transaction : {}", transactionDTO);
+        if (transactionDTO.getId() != null) {
+            throw new BadRequestAlertException("A new transaction cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        TransactionDTO result = transactionService.save(transactionDTO);
+        return ResponseEntity
+            .created(new URI("/api/transactions/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 }

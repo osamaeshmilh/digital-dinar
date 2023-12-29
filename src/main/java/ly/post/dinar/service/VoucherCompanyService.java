@@ -65,6 +65,18 @@ public class VoucherCompanyService {
     public VoucherCompanyDTO update(VoucherCompanyDTO voucherCompanyDTO) {
         log.debug("Request to update VoucherCompany : {}", voucherCompanyDTO);
         VoucherCompany voucherCompany = voucherCompanyMapper.toEntity(voucherCompanyDTO);
+
+        if (voucherCompanyDTO.getImageFile() != null) {
+            String filePath = FileTools.upload(
+                voucherCompany.getImageFile(),
+                voucherCompany.getImageFileContentType(),
+                "voucherCompany" + "_"
+            );
+            voucherCompany.setImageFile(null);
+            voucherCompany.setImageFileContentType(voucherCompanyDTO.getImageFileContentType());
+            voucherCompany.setImageUrlFile(filePath);
+        }
+
         voucherCompany = voucherCompanyRepository.save(voucherCompany);
         return voucherCompanyMapper.toDto(voucherCompany);
     }

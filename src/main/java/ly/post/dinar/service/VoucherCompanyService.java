@@ -5,6 +5,7 @@ import ly.post.dinar.domain.VoucherCompany;
 import ly.post.dinar.repository.VoucherCompanyRepository;
 import ly.post.dinar.service.dto.VoucherCompanyDTO;
 import ly.post.dinar.service.mapper.VoucherCompanyMapper;
+import ly.post.dinar.service.utils.FileTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,18 @@ public class VoucherCompanyService {
     public VoucherCompanyDTO save(VoucherCompanyDTO voucherCompanyDTO) {
         log.debug("Request to save VoucherCompany : {}", voucherCompanyDTO);
         VoucherCompany voucherCompany = voucherCompanyMapper.toEntity(voucherCompanyDTO);
+
+        if (voucherCompanyDTO.getImageFile() != null) {
+            String filePath = FileTools.upload(
+                voucherCompany.getImageFile(),
+                voucherCompany.getImageFileContentType(),
+                "voucherCompany" + "_"
+            );
+            voucherCompany.setImageFile(null);
+            voucherCompany.setImageFileContentType(voucherCompanyDTO.getImageFileContentType());
+            voucherCompany.setImageUrlFile(filePath);
+        }
+
         voucherCompany = voucherCompanyRepository.save(voucherCompany);
         return voucherCompanyMapper.toDto(voucherCompany);
     }

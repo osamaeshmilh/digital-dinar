@@ -1,0 +1,292 @@
+
+enum AttachmentType {
+    COMMERCIAL_LICENCE, COMMERCIAL_REGISTRY, DRIVING_LICENCE, FACE, FACE_WITH_ID, ID, PASSPORT
+}
+enum Gender {
+    FEMALE, MALE
+}
+enum IdType {
+    DRIVING_LICENCE, ID, PASSPORT
+}
+enum PaymentType {
+    ADFALI, CASH, CHEQUE, EMIZA, MOAMALAT, MOBICASH, SADAD, TADAWUL, WALLET
+}
+enum ReferenceType {
+    CONSUMER, MERCHANT, TRANSACTION
+}
+enum TransactionStatus {
+    CANCELLED, ERROR, PENDING_PAYMENT, PENDING_VERIFICATION, PAYED
+}
+enum TransactionType {
+    CONSUMER_BUY_VOUCHERS, CONSUMER_WALLET_TO_BANK, CONSUMER_WALLET_TO_CONSUMER,
+    CONSUMER_WALLET_TO_CONSUMER_WALLET, CONSUMER_WALLET_TO_MERCHANT_WALLET, CONSUMER_WALLET_CASHOUT,
+    MERCHANT_BUY_VOUCHERS, MERCHANT_WALLET_TO_BANK, MERCHANT_WALLET_TO_CONSUMER,
+    MERCHANT_WALLET_TO_CONSUMER_WALLET, MERCHANT_WALLET_TO_MERCHANT_WALLET,
+    MERCHANT_WALLET_CASHOUT
+}
+enum WalletAction {
+    DEPOSIT, WITHDRAW
+}
+enum WalletStatus {
+    ACTIVE, DEACTIVATED, PENDING_KYC, STOLEN, SUSPENDED
+}
+enum WalletType {
+    CONSUMER, MERCHANT, POST_OFFICE
+}
+
+entity Activation {
+    mobileNo String
+    email String
+    code String
+    sentOn Instant
+    validUntil Instant
+    isUsed Boolean
+}
+entity Attachment {
+    name String
+    details String
+    notes String
+    attachmentType AttachmentType
+    file AnyBlob
+    fileUrl String
+    referenceType ReferenceType
+    referenceId Long
+}
+entity WalletUser {
+    arabicFirstName String,
+    arabicMiddleName String,
+    arabicLastName String,
+    englishFirstName String,
+    englishMiddleName String,
+    englishLastName String,
+    commercialRegistryNo String,
+    commercialLicenceNo String,
+    commercialName String,
+    birthDate LocalDate,
+    birthPlace String,
+    nationalNo String,
+    registerNo String,
+    gender Gender,
+    idType IdType,
+    idNo String,
+    mobileNo String,
+    verifiedByEmailOtp Boolean,
+    verifiedByMobileOtp Boolean,
+    email String,
+    nidStatus String,
+    isForeign Boolean,
+    isMobileConnectedWithNid Boolean,
+    isKYCVerified Boolean,
+    walletType WalletType,
+    walletStatus WalletStatus,
+    imageFile ImageBlob,
+    imageUrlFile String,
+    postCode String,
+    address String,
+    lat Float,
+    lng Float,
+    notes String
+    bankAccountName String,
+    bankAccountNumber String,
+    bankAccountIBAN String,
+    bankAccountSWIFT String,
+    //bankBranch.
+    //WalletProfile
+    //city
+    //Category
+}
+entity WalletTransaction {
+	transactionNo String
+	amount Float
+    walletAction WalletAction
+    userPreviousTransactionNo String
+    totalBeforeAction Float
+  	totalAfterAction Float
+    paymentType PaymentType,
+    paymentReference String,
+    notes String
+    walletOwnerType WalletType,
+    //transaction
+    //walletUser.
+}
+entity Beneficiary{
+	arabicFirstName String,
+    arabicLastName String,
+    englishFirstName String,
+    englishLastName String,
+    bankAccountName String
+    bankAccountNumber String
+    idType IdType,
+    idNo String,
+    mobileNo String,
+    email String,
+    notes String
+    isVerified Boolean
+    hasTransferred Boolean
+    //bankBranch.
+    //walletUser.
+}
+entity WalletProfile {
+	nameAr String
+    nameEn String
+    hasTransferAmountLimitPerTransaction Boolean,
+    transferAmountLimitPerTransaction Float,
+    hasDailyTransferAmountLimit Boolean,
+    dailyTransferAmountLimit Float,
+	canTransferToConsumerWallet Boolean,
+    canTransferToMerchantWallet Boolean,
+    canTransferToConsumer Boolean,
+    canTransferToBank Boolean,
+    canBuyVouchers Boolean,
+  	transferToConsumerWalletFees Boolean,
+    transferToMerchantWalletFees Boolean,
+    transferToConsumerFees Boolean,
+    transferToBankFees Boolean,
+    buyVouchersFees Boolean,
+}
+entity PaymentMethod {
+	name String
+    nameAr String
+	nameEn String
+    menuOrder Integer
+    imageFileUrl String
+    imageFile ImageBlob
+    details String
+    feePercentage Float
+    paymentType PaymentType
+    notes String
+}
+entity Notification {
+    title String
+    description String
+    userId Long
+}
+entity ViewLog {
+    entityName String
+    entityId Long
+}
+entity Setting {
+	key String
+	value String
+}
+entity Slider {
+	details String
+    menuOrder Integer
+    imageFileUrl String
+    imageFile ImageBlob
+    url String
+}
+entity Country {
+    nameAr String
+	nameEn String
+    iso2 String
+    iso3 String
+    isoNo Integer
+}
+entity City {
+    nameAr String
+	nameEn String
+    //Country
+}
+entity Category {
+	nameAr String
+    nameEn String
+    code String
+}
+entity Transaction {
+    transactionReference String,
+    transactionSecret String,
+    transactionOtp String,
+    paymentType PaymentType,
+    transactionStatus TransactionStatus,
+    transactionType TransactionType,
+    vendorReference String,
+    vendorMessage String,
+    amount Float,
+    fees Float,
+    total Float,
+    notes String
+    senderMobileNo String
+    senderName String
+    senderIdNo String
+    //senderId Long
+    receiverName String
+    receiverMobileNo String
+    receiverIdNo String
+    //receiverId Long
+    //WalletUser..
+    //WalletUser..
+}
+entity VoucherCompany {
+	nameAr String,
+    nameEn String,
+    mobileNo String,
+    email String,
+    imageFile AnyBlob
+    imageUrlFile String
+    postCode String
+    address String
+    notes String
+}
+entity VoucherType {
+    nameAr String
+    nameEn String
+    slug String
+    amount Float
+    menuOrder Integer
+    //company
+}
+entity Voucher {
+    code String
+    amount Float
+    serialNumber String
+    isSold Boolean
+    sellTransactionId Long
+    //type
+    //company
+}
+entity Bank {
+    nameAr String
+    namEn String
+    swiftCode String
+}
+entity BankBranch {
+    nameAr String
+    namEn String
+    address String
+}
+
+relationship ManyToOne {
+    BankBranch{Bank(nameAr)} to Bank
+
+    Voucher{VoucherType(nameAr)} to VoucherType
+    Voucher{VoucherCompany(nameAr)} to VoucherCompany
+    
+    VoucherType{VoucherCompany(nameAr)} to VoucherCompany
+    
+    City{Country(nameAr)} to Country
+    
+    WalletUser{Category(nameAr)} to Category
+    WalletUser{City(nameAr)} to City
+    WalletUser{WalletProfile(nameAr)} to WalletProfile
+    WalletUser{BankBranch(nameAr)} to BankBranch
+
+	WalletTransaction to Transaction
+    WalletTransaction to WalletUser
+    
+    Transaction{sender} to WalletUser
+    Transaction{receiver} to WalletUser
+
+    Beneficiary{BankBranch(nameAr)} to BankBranch
+    Beneficiary to WalletUser
+}
+
+relationship OneToOne{
+    VoucherCompany to User with builtInEntity
+    WalletUser to User with builtInEntity
+}
+
+paginate * with pagination
+filter *
+service * with serviceClass
+dto * with mapstruct

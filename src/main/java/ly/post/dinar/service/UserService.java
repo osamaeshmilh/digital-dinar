@@ -82,9 +82,9 @@ public class UserService {
             });
     }
 
-    public Optional<User> requestPasswordReset(String mail) {
+    public Optional<User> requestPasswordReset(String mobileNo) {
         return userRepository
-            .findOneByEmailIgnoreCase(mail)
+            .findOneByMobileNo(mobileNo)
             .filter(User::isActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
@@ -93,6 +93,18 @@ public class UserService {
                 return user;
             });
     }
+
+    //    public Optional<User> requestPasswordReset(String mail) {
+    //        return userRepository
+    //            .findOneByEmailIgnoreCase(mail)
+    //            .filter(User::isActivated)
+    //            .map(user -> {
+    //                user.setResetKey(RandomUtil.generateResetKey());
+    //                user.setResetDate(Instant.now());
+    //                this.clearUserCaches(user);
+    //                return user;
+    //            });
+    //    }
 
     public User registerUser(AdminUserDTO userDTO, String password) {
         userRepository

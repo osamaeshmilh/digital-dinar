@@ -6,6 +6,7 @@ import ly.post.dinar.domain.User;
 import ly.post.dinar.repository.UserRepository;
 import ly.post.dinar.security.SecurityUtils;
 import ly.post.dinar.service.MailService;
+import ly.post.dinar.service.SMSService;
 import ly.post.dinar.service.UserService;
 import ly.post.dinar.service.dto.AdminUserDTO;
 import ly.post.dinar.service.dto.PasswordChangeDTO;
@@ -40,10 +41,13 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    private final SMSService smsService;
+
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, SMSService smsService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.smsService = smsService;
     }
 
     /**
@@ -141,14 +145,17 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
-        Optional<User> user = userService.requestPasswordReset(mail);
+    public void requestPasswordReset(@RequestBody String mobileNo) {
+        //        Optional<User> user = userService.requestPasswordReset(mail);
+        Optional<User> user = userService.requestPasswordReset(mobileNo);
         if (user.isPresent()) {
-            mailService.sendPasswordResetMail(user.orElseThrow());
+            //            mailService.sendPasswordResetMail(user.orElseThrow());
+            User user1 = user.orElseThrow();
+            smsService.sendSMS(user1.getMobileNo(), user1.getResetKey());
         } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
-            log.warn("Password reset requested for non existing mail");
+            log.warn("Password reset requested for non existing mobileNo");
         }
     }
 

@@ -21,6 +21,7 @@ export default {
     cities: 'Cities',
     countries: 'Countries',
     categories: 'Categories',
+    consumers: 'Consumers',
   },
   attributes: {
     username: 'Username',

@@ -16,14 +16,19 @@ export default [
     // childIconAttrs: {},
   },
   {
-    icon: 'mdi-file-arrow-left-right',
-    title: 'navigation.transactions',
-    to: '/transactions',
-  },
-  {
     icon: 'mdi-chart-bar',
     title: 'navigation.reports',
     to: '/reports',
+  },
+  {
+    icon: 'mdi-help',
+    title: 'navigation.financialOperations',
+    to: '/financial-operations',
+  },
+  {
+    icon: 'mdi-file-arrow-left-right',
+    title: 'navigation.transactions',
+    to: '/transactions',
   },
   {
     title: 'navigation.management',
@@ -33,6 +38,11 @@ export default [
     icon: 'mdi-store',
     title: 'navigation.merchants',
     to: '/merchants',
+  },
+  {
+    icon: 'mdi-account-arrow-down',
+    title: 'navigation.consumers',
+    to: '/consumers',
   },
   {
     icon: 'mdi-account-multiple',

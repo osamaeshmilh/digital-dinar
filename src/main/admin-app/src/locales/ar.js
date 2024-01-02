@@ -21,9 +21,10 @@ export default {
     cities: 'المدن',
     countries: 'الدول',
     categories: 'التصنيفات',
-    id: 'ر.ت',
+    consumers: 'المستهلكون',
   },
   attributes: {
+    id: 'ر.ت',
     username: 'اسم المستخدم',
     password: 'كلمة المرور',
 

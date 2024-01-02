@@ -1,5 +1,5 @@
 <template>
-  <div>WIP</div>
+  <BpModelIndexPage entity="merchants" filter></BpModelIndexPage>
 </template>
 
 <script setup>

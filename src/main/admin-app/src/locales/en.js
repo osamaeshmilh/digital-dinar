@@ -22,6 +22,7 @@ export default {
     countries: 'Countries',
     categories: 'Categories',
     consumers: 'Consumers',
+    financialOperations: 'Financial Operations',
   },
   attributes: {
     username: 'Username',

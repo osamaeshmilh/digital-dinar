@@ -22,6 +22,7 @@ export default {
     countries: 'الدول',
     categories: 'التصنيفات',
     consumers: 'المستهلكون',
+    financialOperations: 'العمليات المالية',
   },
   attributes: {
     id: 'ر.ت',

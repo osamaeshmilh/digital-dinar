@@ -1,13 +1,12 @@
 package ly.post.dinar.service.dto.requests;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 public class WalletTransferRequest {
 
     private String walletPublicKey;
     private String walletMobileNo;
     private Float amount;
     private String otp;
+    private String notes;
     private Long beneficiaryId;
 
     public String getWalletPublicKey() {
@@ -48,5 +47,13 @@ public class WalletTransferRequest {
 
     public void setBeneficiaryId(Long beneficiaryId) {
         this.beneficiaryId = beneficiaryId;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

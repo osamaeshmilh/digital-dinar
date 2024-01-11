@@ -6,7 +6,6 @@ class Slider extends Model {
   static entity = 'sliders'
 
   static tableHeaders = [
-    { text: '#', value: 'id' },
     { text: 'attributes.id', value: 'data.id' },
     { text: 'attributes.details', value: 'data.details' },
     { text: 'attributes.created_at', value: 'createdAt' },

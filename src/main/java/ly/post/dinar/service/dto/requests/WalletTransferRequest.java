@@ -56,4 +56,28 @@ public class WalletTransferRequest {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        return (
+            "WalletTransferRequest{" +
+            "walletPublicKey='" +
+            walletPublicKey +
+            '\'' +
+            ", walletMobileNo='" +
+            walletMobileNo +
+            '\'' +
+            ", amount=" +
+            amount +
+            ", otp='" +
+            otp +
+            '\'' +
+            ", notes='" +
+            notes +
+            '\'' +
+            ", beneficiaryId=" +
+            beneficiaryId +
+            '}'
+        );
+    }
 }

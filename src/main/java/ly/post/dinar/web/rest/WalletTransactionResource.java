@@ -264,6 +264,9 @@ public class WalletTransactionResource {
         String mobileNo = walletTransferRequest.getWalletMobileNo();
         String walletPublicKey = walletTransferRequest.getWalletPublicKey();
 
+        System.out.println(mobileNo);
+        System.out.println(walletPublicKey);
+
         if (mobileNo != null && !mobileNo.isEmpty()) {
             toCustomer =
                 walletUserService

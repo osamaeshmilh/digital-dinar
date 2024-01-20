@@ -257,9 +257,6 @@ public class WalletTransactionResource {
 
         WalletTransactionDTO result = null;
         if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER)) {} else {}
-        if (
-            !walletUserService.findOneByWalletPublicKey(walletTransferRequest.getWalletPublicKey()).isPresent()
-        ) throw new BadRequestAlertException("Wallet Key not found!", ENTITY_NAME, "CUSTOMER_NOT_FOUND");
 
         WalletUserDTO fromCustomer = walletUserService.findOneDTOByUser();
         WalletUserDTO toCustomer;

@@ -262,9 +262,22 @@ public class WalletTransactionResource {
         ) throw new BadRequestAlertException("Wallet Key not found!", ENTITY_NAME, "CUSTOMER_NOT_FOUND");
 
         WalletUserDTO fromCustomer = walletUserService.findOneDTOByUser();
-        WalletUserDTO toCustomer = walletUserService
-            .findOneByWalletPublicKey(walletTransferRequest.getWalletPublicKey())
-            .orElseThrow(() -> new BadRequestAlertException("Not found !", "", "NOT_FOUND"));
+        WalletUserDTO toCustomer;
+
+        String mobileNo = walletTransferRequest.getWalletMobileNo();
+        String walletPublicKey = walletTransferRequest.getWalletPublicKey();
+
+        if (mobileNo != null && !mobileNo.isEmpty()) {
+            toCustomer =
+                walletUserService
+                    .findOneByMobileNo(mobileNo)
+                    .orElseThrow(() -> new BadRequestAlertException("Customer not found with mobile number", "", "MOBILE_NOT_FOUND"));
+        } else {
+            toCustomer =
+                walletUserService
+                    .findOneByWalletPublicKey(walletPublicKey)
+                    .orElseThrow(() -> new BadRequestAlertException("Customer not found with wallet public key", "", "WALLET_NOT_FOUND"));
+        }
         if (fromCustomer.getVerifiedByMobileOtp()) activationService.checkCodeWithMobileNo(
             fromCustomer.getMobileNo(),
             walletTransferRequest.getOtp()

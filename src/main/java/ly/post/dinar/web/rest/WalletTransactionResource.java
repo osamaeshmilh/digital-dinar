@@ -278,14 +278,7 @@ public class WalletTransactionResource {
                     .findOneByWalletPublicKey(walletPublicKey)
                     .orElseThrow(() -> new BadRequestAlertException("Customer not found with wallet public key", "", "WALLET_NOT_FOUND"));
         }
-        if (fromCustomer.getVerifiedByMobileOtp()) activationService.checkCodeWithMobileNo(
-            fromCustomer.getMobileNo(),
-            walletTransferRequest.getOtp()
-        ); else if (fromCustomer.getVerifiedByEmailOtp()) activationService.checkCodeWithEmail(
-            fromCustomer.getEmail(),
-            walletTransferRequest.getOtp()
-        ); else throw new BadRequestAlertException("No Verification Way !", "", "NO_VERIFICATION_WAY");
-
+        activationService.checkCodeWithMobileNo(fromCustomer.getMobileNo(), walletTransferRequest.getOtp());
         if (fromCustomer.getWalletStatus() == WalletStatus.SUSPENDED) {
             throw new BadRequestAlertException("Wallet Suspended !", "", "CUSTOMER_BANNED");
         }

@@ -251,7 +251,7 @@ public class WalletTransactionResource {
     }
 
     @PostMapping("/wallet-transactions/wallet-transfer")
-    public ResponseEntity<WalletTransactionDTO> WalletToWalletTransfer(WalletTransferRequest walletTransferRequest)
+    public ResponseEntity<WalletTransactionDTO> WalletToWalletTransfer(@RequestBody WalletTransferRequest walletTransferRequest)
         throws URISyntaxException {
         System.out.println(walletUserService.findOneUser().getResetKey() + " " + walletTransferRequest.getOtp());
 

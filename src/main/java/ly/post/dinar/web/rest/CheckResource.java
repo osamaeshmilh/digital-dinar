@@ -3,6 +3,7 @@ package ly.post.dinar.web.rest;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.servlet.http.HttpServletRequest;
 import ly.post.dinar.service.RecaptchaService;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,78 +25,47 @@ public class CheckResource {
         this.recaptchaService = recaptchaService;
     }
 
-    @GetMapping(path = "/public/check/nid/")
-    public ResponseEntity<String> checkNID(String nationalNo, String registerNo, String recapchaToken, HttpServletRequest request) {
-        ////        if (!recaptchaService.verifyRecaptcha(request.getRemoteAddr(), recapchaToken)) {
-        ////            throw new InvalidRecapchaException();
-        ////        }
-        //        NIDInfo nidInfo = APIsIntegration.getNIDInfo(nationalNo, registerNo);
-        //        if (nidInfo == null) {
-        //            throw new BadRequestAlertException(" خدمة الرقم الوطني متوقفة حاليا !", "", "nidError2");
-        //        }
-        //        System.out.println("nid " + nidInfo.getStatus() + " " + nationalNo + " " + registerNo);
-        //        switch (nidInfo.getStatus()) {
-        //            case 1:
-        //                throw new BadRequestAlertException("خدمة الرقم الوطني تحت الصيانة !", "", "nidError2");
-        //            case 2:
-        //                throw new BadRequestAlertException("بيانات خاطئة من منظومة الرقم الوطني !", "", "nidError2");
-        //            case 3:
-        //                throw new BadRequestAlertException("مواطن موقوف من منظومة الرقم الوطني !", "", "nidError2");
-        ////            case 4:
-        ////                throw new BadRequestAlertException("مواطن متوفي من منظومة الرقم الوطني !", "", "nidError2");
-        //            default:
-        //                break;
-        //        }
-        //
-        //        if (nidInfo.getStatus() != 0) {
-        //            throw new BadRequestAlertException("خطأ بخدمة الرقم الوطني !", "", "nidError2");
-        //        }
+    @GetMapping(path = "/public/check/nid/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String checkNID(@RequestParam String nationalNo, @RequestParam String mobileNo, @RequestParam String recapchaToken) {
+        // 1. Get token
+        try {
+            HttpResponse<JsonNode> tokenResponse = Unirest
+                .post("https://sso.ndb.gov.ly/connect/token")
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .field("grant_type", "client_credentials")
+                .field("client_id", "libyaPost")
+                .field("client_secret", "#wM8Yu1%J7nLXnhVkMBs95!!CxLN%PBWmzBRWw4b")
+                .field("scope", "nid phone")
+                .asJson();
 
-        if (!nationalNo.equals("123456789012")) {
-            throw new BadRequestAlertException("بيانات خاطئة من منظومة الرقم الوطني !", "", "nidError2");
+            String token = tokenResponse.getBody().getObject().getString("access_token");
+
+            // 2. Use token to check NID
+            HttpResponse<JsonNode> nidResponse = Unirest
+                .post("https://nid.ndb.gov.ly/search/byNid")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .body(new JsonNode(String.format("{\"nationalNo\":\"%s\", \"recapchaToken\":\"%s\"}", nationalNo, recapchaToken)))
+                .asJson();
+
+            // 3. Use token to check phone match
+            HttpResponse<JsonNode> phoneResponse = Unirest
+                .post("https://phone.ndb.gov.ly/ismatching")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .body(new JsonNode(String.format("{\"mobileNo\":\"%s\", \"recapchaToken\":\"%s\"}", mobileNo, recapchaToken)))
+                .asJson();
+
+            // Assuming you want to log the responses or perform some checks here
+            System.out.println("NID Search Response: " + nidResponse.getBody().toString());
+            System.out.println("Phone IsMatching Response: " + phoneResponse.getBody().toString());
+
+            // 4. Return NID search info
+
+            return nidResponse.getBody().toString();
+        } catch (UnirestException e) {
+            throw new RuntimeException(e);
         }
-
-        // Return hardcoded JSON as a string
-        String json = "{\"firstName\": \"محمد\", \"lastName\": \"علي\"}";
-
-        // Set the Content-Type header to application/json
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        return ResponseEntity.ok().headers(headers).body(json);
-    }
-
-    @GetMapping(path = "/public/check/nid-mobile/")
-    public ResponseEntity<String> checkNIDWithMobile(String nationalNo, String mobileNo, String recapchaToken, HttpServletRequest request) {
-        //        if (!recaptchaService.verifyRecaptcha(request.getRemoteAddr(), recapchaToken)) {
-        //            throw new InvalidRecapchaException();
-        //        }
-        //        AlmadarNIDStatus almadarNIDStatus = APIsIntegration.checkNIDWithAlmadar(nationalNo, mobileNo);
-        //        if (almadarNIDStatus == null) {
-        //            throw new BadRequestAlertException("خطأ بخدمة التحقق من ربط الهاتف بالرقم الوطني !", "", "nidError2");
-        //        }
-        //        System.out.println("almadar " + almadarNIDStatus.getStatusCode() + " " + nationalNo + " " + mobileNo);
-        //        switch (almadarNIDStatus.getStatusCode()) {
-        //            case 2:
-        //                throw new BadRequestAlertException("رقم وطني ورقم هاتف غير متطابقان !", "", "nidError2");
-        //            case 404:
-        //                throw new BadRequestAlertException("لم يتم العثور على هذا الرقم الوطني ، تحقق من مراكز شركة المدار للتسجيل !", "", "nidError2");
-        //            case 407:
-        //                throw new BadRequestAlertException("رقم وطني غير صحيح من منظومة شركة المدار", "", "nidError2");
-        //            case 408:
-        //                throw new BadRequestAlertException("رقم وطني غير صحيح من منظومة شركة المدار!", "", "nidError2");
-        //            case 410:
-        //                throw new BadRequestAlertException("رقم هاتف غير صحيح من منظومة شركة المدار", "", "nidError2");
-        //            case 50:
-        //                throw new BadRequestAlertException("خطأ بمنظومة شركة المدار!", "", "nidError2");
-        //            default:
-        //                break;
-        //        }
-        //        if (almadarNIDStatus.getStatusCode() != 1) {
-        //            throw new BadRequestAlertException("خطأ بخدمة التحقق من رقم الهاتف بشركة المدار !", "", "nidError2");
-        //        }
-
-        return ResponseEntity.ok().body("{ status: true, }");
     }
 
     @GetMapping(path = "/public/check/post-code/")

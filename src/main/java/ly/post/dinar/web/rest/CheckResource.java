@@ -29,18 +29,18 @@ public class CheckResource {
     public String checkNID(@RequestParam String nationalNo, @RequestParam String mobileNo, @RequestParam String recapchaToken) {
         // 1. Get token
         try {
-            HttpResponse<JsonNode> tokenResponse = Unirest
+            HttpResponse<String> tokenResponse = Unirest
                 .post("https://sso.ndb.gov.ly/connect/token")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "client_credentials")
                 .field("client_id", "libyaPost")
                 .field("client_secret", "#wM8Yu1%J7nLXnhVkMBs95!!CxLN%PBWmzBRWw4b")
                 .field("scope", "nid phone")
-                .asJson();
+                .asString();
 
-            System.out.println("Raw Token Response: " + tokenResponse.getRawBody().toString());
+            System.out.println("Raw Token Response: " + tokenResponse.getBody());
 
-            String token = tokenResponse.getBody().getObject().getString("access_token");
+            String token = "tokenResponse.getBody().getObject().getString(access_token)";
 
             // 2. Use token to check NID
             HttpResponse<JsonNode> nidResponse = Unirest
@@ -61,7 +61,7 @@ public class CheckResource {
                 .asJson();
 
             // Assuming you want to log the responses or perform some checks here
-            System.out.println("Phone  Response: " + nidResponse.getRawBody().toString());
+            System.out.println("Phone  Response: " + phoneResponse.getRawBody().toString());
 
             // 4. Return NID search info
 

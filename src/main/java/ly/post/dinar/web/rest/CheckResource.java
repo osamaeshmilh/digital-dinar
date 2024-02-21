@@ -7,6 +7,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.servlet.http.HttpServletRequest;
 import ly.post.dinar.service.RecaptchaService;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
+import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +39,10 @@ public class CheckResource {
                 .field("scope", "nid phone")
                 .asString();
 
-            System.out.println("Raw Token Response: " + tokenResponse.getBody());
-
-            String token = "tokenResponse.getBody().getObject().getString(access_token)";
+            // Parse the response body to JSON
+            JSONObject jsonResponse = new JSONObject(tokenResponse.getBody());
+            // Extract the access token
+            String token = jsonResponse.getString("access_token");
 
             // 2. Use token to check NID
             HttpResponse<JsonNode> nidResponse = Unirest

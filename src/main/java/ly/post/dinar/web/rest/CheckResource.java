@@ -38,6 +38,8 @@ public class CheckResource {
                 .field("scope", "nid phone")
                 .asJson();
 
+            System.out.println("Raw Token Response: " + tokenResponse.getRawBody().toString());
+
             String token = tokenResponse.getBody().getObject().getString("access_token");
 
             // 2. Use token to check NID
@@ -48,6 +50,8 @@ public class CheckResource {
                 .body(new JsonNode(String.format("{\"nationalNo\":\"%s\", \"recapchaToken\":\"%s\"}", nationalNo, recapchaToken)))
                 .asJson();
 
+            System.out.println("Raw NID Response: " + nidResponse.getRawBody().toString());
+
             // 3. Use token to check phone match
             HttpResponse<JsonNode> phoneResponse = Unirest
                 .post("https://phone.ndb.gov.ly/ismatching")
@@ -57,13 +61,13 @@ public class CheckResource {
                 .asJson();
 
             // Assuming you want to log the responses or perform some checks here
-            System.out.println("NID Search Response: " + nidResponse.getBody().toString());
-            System.out.println("Phone IsMatching Response: " + phoneResponse.getBody().toString());
+            System.out.println("Phone  Response: " + nidResponse.getRawBody().toString());
 
             // 4. Return NID search info
 
             return nidResponse.getBody().toString();
-        } catch (UnirestException e) {
+        } catch (Exception e) {
+            System.err.println(" error: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

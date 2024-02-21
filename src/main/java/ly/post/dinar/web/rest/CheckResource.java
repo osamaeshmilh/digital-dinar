@@ -39,35 +39,38 @@ public class CheckResource {
                 .field("scope", "nid phone")
                 .asString();
 
+            System.out.println(tokenResponse.getBody());
+
             // Parse the response body to JSON
             JSONObject jsonResponse = new JSONObject(tokenResponse.getBody());
             // Extract the access token
             String token = jsonResponse.getString("access_token");
 
             // 2. Use token to check NID
-            HttpResponse<JsonNode> nidResponse = Unirest
-                .post("https://nid.ndb.gov.ly/search/byNid")
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + token)
-                .body(new JsonNode(String.format("{\"nationalNo\":\"%s\", \"recapchaToken\":\"%s\"}", nationalNo, recapchaToken)))
-                .asJson();
-
-            System.out.println("Raw NID Response: " + nidResponse.getRawBody().toString());
-
-            // 3. Use token to check phone match
-            HttpResponse<JsonNode> phoneResponse = Unirest
-                .post("https://phone.ndb.gov.ly/ismatching")
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + token)
-                .body(new JsonNode(String.format("{\"mobileNo\":\"%s\", \"recapchaToken\":\"%s\"}", mobileNo, recapchaToken)))
-                .asJson();
-
-            // Assuming you want to log the responses or perform some checks here
-            System.out.println("Phone  Response: " + phoneResponse.getRawBody().toString());
-
-            // 4. Return NID search info
-
-            return nidResponse.getBody().toString();
+            //            HttpResponse<JsonNode> nidResponse = Unirest
+            //                .post("https://nid.ndb.gov.ly/search/byNid")
+            //                .header("Content-Type", "application/json")
+            //                .header("Authorization", "Bearer " + token)
+            //                .body(new JsonNode(String.format("{\"nationalNo\":\"%s\", \"recapchaToken\":\"%s\"}", nationalNo, recapchaToken)))
+            //                .asJson();
+            //
+            //            System.out.println("Raw NID Response: " + nidResponse.getRawBody().toString());
+            //
+            //            // 3. Use token to check phone match
+            //            HttpResponse<JsonNode> phoneResponse = Unirest
+            //                .post("https://phone.ndb.gov.ly/ismatching")
+            //                .header("Content-Type", "application/json")
+            //                .header("Authorization", "Bearer " + token)
+            //                .body(new JsonNode(String.format("{\"mobileNo\":\"%s\", \"recapchaToken\":\"%s\"}", mobileNo, recapchaToken)))
+            //                .asJson();
+            //
+            //            // Assuming you want to log the responses or perform some checks here
+            //            System.out.println("Phone  Response: " + phoneResponse.getRawBody().toString());
+            //
+            //            // 4. Return NID search info
+            //
+            //            return nidResponse.getBody().toString();
+            return token;
         } catch (Exception e) {
             System.err.println(" error: " + e.getMessage());
             throw new RuntimeException(e);

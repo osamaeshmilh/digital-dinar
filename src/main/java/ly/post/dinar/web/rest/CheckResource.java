@@ -4,8 +4,12 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.nimbusds.jose.shaded.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import ly.post.dinar.service.RecaptchaService;
+import ly.post.dinar.service.dto.external.NID;
+import ly.post.dinar.service.dto.external.NIDPhone;
+import ly.post.dinar.service.dto.external.NIDToken;
 import ly.post.dinar.web.rest.errors.BadRequestAlertException;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
@@ -27,9 +31,11 @@ public class CheckResource {
     }
 
     @GetMapping(path = "/public/check/nid/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String checkNID(@RequestParam String nationalNo, @RequestParam String mobileNo, @RequestParam String recapchaToken) {
+    public NID checkNID(@RequestParam String nationalNo, @RequestParam String mobileNo, @RequestParam String recapchaToken) {
         // 1. Get token
         try {
+            Gson gson = new Gson();
+
             HttpResponse<String> tokenResponse = Unirest
                 .post("https://sso.ndb.gov.ly/connect/token")
                 .header("Content-Type", "application/x-www-form-urlencoded")
@@ -40,37 +46,34 @@ public class CheckResource {
                 .asString();
 
             System.out.println(tokenResponse.getBody());
+            NIDToken nidToken = gson.fromJson(tokenResponse.getBody(), NIDToken.class);
 
-            // Parse the response body to JSON
-            JSONObject jsonResponse = new JSONObject(tokenResponse.getBody());
-            // Extract the access token
-            String token = jsonResponse.getString("access_token");
+            //2. Use token to check NID
+            HttpResponse<String> nidResponse = Unirest
+                .post("https://nid.ndb.gov.ly/search/byNid")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + nidToken.getAccess_token())
+                .body(new JsonNode(String.format("{\"nationalNo\":\"%s\", \"recapchaToken\":\"%s\"}", nationalNo, recapchaToken)))
+                .asString();
 
-            // 2. Use token to check NID
-            //            HttpResponse<JsonNode> nidResponse = Unirest
-            //                .post("https://nid.ndb.gov.ly/search/byNid")
-            //                .header("Content-Type", "application/json")
-            //                .header("Authorization", "Bearer " + token)
-            //                .body(new JsonNode(String.format("{\"nationalNo\":\"%s\", \"recapchaToken\":\"%s\"}", nationalNo, recapchaToken)))
-            //                .asJson();
-            //
-            //            System.out.println("Raw NID Response: " + nidResponse.getRawBody().toString());
-            //
-            //            // 3. Use token to check phone match
-            //            HttpResponse<JsonNode> phoneResponse = Unirest
-            //                .post("https://phone.ndb.gov.ly/ismatching")
-            //                .header("Content-Type", "application/json")
-            //                .header("Authorization", "Bearer " + token)
-            //                .body(new JsonNode(String.format("{\"mobileNo\":\"%s\", \"recapchaToken\":\"%s\"}", mobileNo, recapchaToken)))
-            //                .asJson();
-            //
-            //            // Assuming you want to log the responses or perform some checks here
-            //            System.out.println("Phone  Response: " + phoneResponse.getRawBody().toString());
-            //
-            //            // 4. Return NID search info
-            //
-            //            return nidResponse.getBody().toString();
-            return token;
+            System.out.println("Raw NID Response: " + nidResponse.getBody());
+            NID nid = gson.fromJson(nidResponse.getBody(), NID.class);
+
+            // 3. Use token to check phone match
+            HttpResponse<String> phoneResponse = Unirest
+                .post("https://phone.ndb.gov.ly/ismatching")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + nidToken.getAccess_token())
+                .body(new JsonNode(String.format("{\"mobileNo\":\"%s\", \"recapchaToken\":\"%s\"}", mobileNo, recapchaToken)))
+                .asString();
+
+            // Assuming you want to log the responses or perform some checks here
+            System.out.println("Phone  Response: " + phoneResponse.getRawBody().toString());
+            NIDPhone nidPhone = gson.fromJson(phoneResponse.getBody(), NIDPhone.class);
+
+            if (!nidPhone.isMatching()) throw new RuntimeException("phone not match");
+
+            return nid;
         } catch (Exception e) {
             System.err.println(" error: " + e.getMessage());
             throw new RuntimeException(e);
